@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "27768207438",
+    "firebase_url": "https://horizonguide-312df.firebaseio.com",
+    "project_id": "horizonguide-312df",
+    "storage_bucket": "horizonguide-312df.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:27768207438:android:18a2fcd9e9acd7697b2b1f",
+        "android_client_info": {
+          "package_name": "br.com.horizon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "27768207438-rkv9nc1h52bh2t9bu32t5k8g711cgv4q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.horizon",
+            "certificate_hash": "46a91134a471e7d7438bb28c9affd9bf7de13086"
+          }
+        },
+        {
+          "client_id": "27768207438-oioqngq5uqeer6hhrh865qapri1jt45r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.horizon",
+            "certificate_hash": "39df8c7d46b728066e70204d71127a80e14d7db1"
+          }
+        },
+        {
+          "client_id": "27768207438-777st0p038juasr1onaevuao3h1pb7vg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaQAm8GJLukNNyqDdycH8YXoFdhsBnvMM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "27768207438-777st0p038juasr1onaevuao3h1pb7vg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
