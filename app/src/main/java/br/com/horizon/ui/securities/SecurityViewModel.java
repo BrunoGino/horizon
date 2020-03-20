@@ -1,6 +1,5 @@
 package br.com.horizon.ui.securities;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 

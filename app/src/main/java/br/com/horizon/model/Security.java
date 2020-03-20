@@ -14,6 +14,7 @@ public class Security {
     private String interestType;
     private String emitter;
     private Date endingDate;
+    private Boolean fgc;
     private Boolean ir;
     private Integer liquidity;
     private String publisher;
@@ -21,6 +22,4 @@ public class Security {
     private Double titleValue;
     private Integer totalTime;
     private String url;
-
-
 }
