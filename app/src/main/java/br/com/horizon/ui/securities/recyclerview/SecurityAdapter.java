@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,22 +46,35 @@ public class SecurityAdapter extends RecyclerView.Adapter<SecurityAdapter.ViewHo
         return securities.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView titleName;
-        private final TextView interest;
-        Security security;
+    class ViewHolder extends RecyclerView.ViewHolder {
+        private TextView titleName;
+        private TextView interest;
+        private TextView endingDate;
+        private TextView description;
 
-        public ViewHolder(@NonNull View itemView) {
+        private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+        private Security security;
+
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
-            titleName = itemView.findViewById(R.id.title_name);
-            interest = itemView.findViewById(R.id.net_income_value);
+            bindViewObjects(itemView);
             configuratesOnItemClick(itemView);
+        }
+
+        private void bindViewObjects(View view) {
+            this.description = view.findViewById(R.id.security_description_value);
+            this.titleName = view.findViewById(R.id.security_name_value);
+            this.interest = view.findViewById(R.id.net_income_value);
+            this.endingDate = view.findViewById(R.id.ending_date_value);
+
         }
 
         public void vinculateWithModel(Security security) {
             this.security = security;
-            this.titleName.setText(String.valueOf(security.getTitleName()));
+            this.titleName.setText(security.getTitleName());
+            this.endingDate.setText(dateFormat.format(security.getEndingDate()));
             this.interest.setText(String.valueOf(security.getInterest()));
+            this.description.setText(security.getEmitter());
         }
 
         //On item click and stuff here

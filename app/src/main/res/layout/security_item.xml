@@ -13,23 +13,23 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/title_name"
-            android:layout_width="wrap_content"
+            android:id="@+id/security_name_value"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:fontFamily="sans-serif"
             android:maxLines="2"
             android:textColor="@color/moccasin"
-            android:textSize="25sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Título" />
 
         <TextView
-            android:id="@+id/security_description"
-            android:layout_width="169dp"
-            android:layout_height="17dp"
+            android:id="@+id/security_description_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:fontFamily="sans-serif"
@@ -39,26 +39,22 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/security_date"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/security_title"
-            app:layout_constraintTop_toBottomOf="@id/security_title"
+            app:layout_constraintStart_toStartOf="@id/security_name_value"
+            app:layout_constraintTop_toBottomOf="@id/security_name_value"
             tools:text="Descrição" />
 
         <TextView
             android:id="@+id/security_net_income"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="10dp"
             android:fontFamily="sans-serif"
-            android:text="TextView"
             android:textColor="@color/moccasin"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/security_title"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Rend. Líquido \nAcum." />
+            android:text="@string/title_net_income" />
 
         <TextView
             android:id="@+id/security_date"
@@ -68,48 +64,44 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="10dp"
             android:fontFamily="sans-serif"
-            android:text="TextView"
+            android:text="@string/title_expiry_date"
             android:textColor="@color/moccasin"
             android:textSize="15sp"
             app:layout_constraintEnd_toStartOf="@+id/security_net_income"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/security_title"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Data \nvencimento" />
+            app:layout_constraintStart_toEndOf="@+id/security_name_value"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/net_income_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="115dp"
             android:layout_marginTop="4dp"
-            android:layout_marginEnd="40dp"
             android:fontFamily="sans-serif"
             android:text="30%"
             android:textColor="@color/lifoGreen"
             android:textSize="15sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/security_net_income"
             app:layout_constraintHorizontal_bias="0.972"
-            app:layout_constraintStart_toEndOf="@+id/security_description"
-            app:layout_constraintTop_toBottomOf="@+id/security_net_income"
-            tools:text="30%" />
+            app:layout_constraintStart_toEndOf="@+id/ending_date_value"
+            app:layout_constraintTop_toBottomOf="@+id/security_net_income" />
 
         <TextView
-            android:id="@+id/expiry_date"
+            android:id="@+id/ending_date_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:layout_marginEnd="10dp"
             android:fontFamily="sans-serif"
-            android:text="30%"
+            android:text="20/03/2020"
             android:textColor="@color/lifoGreen"
             android:textSize="15sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/net_income_value"
-            app:layout_constraintHorizontal_bias="0.402"
-            app:layout_constraintStart_toEndOf="@+id/security_description"
-            app:layout_constraintTop_toBottomOf="@+id/security_date"
-            tools:text="12/2025" />
+            app:layout_constraintEnd_toEndOf="@+id/security_date"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/security_date"
+            app:layout_constraintTop_toBottomOf="@+id/security_date" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

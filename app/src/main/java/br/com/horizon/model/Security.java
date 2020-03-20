@@ -1,6 +1,6 @@
 package br.com.horizon.model;
 
-import com.google.firebase.Timestamp;
+import java.util.Date;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +13,7 @@ public class Security {
     private Double interest;
     private String interestType;
     private String emitter;
-    private Timestamp endingDate;
+    private Date endingDate;
     private Boolean ir;
     private Integer liquidity;
     private String publisher;

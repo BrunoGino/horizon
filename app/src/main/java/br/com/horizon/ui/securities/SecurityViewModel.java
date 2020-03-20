@@ -16,20 +16,15 @@ public class SecurityViewModel extends ViewModel {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference securities = db.collection("securities");
     private Query query = securities;
-    private MutableLiveData<String> mText;
     private MutableLiveData<List<Security>> securitiesLiveData;
 
 
     public SecurityViewModel() {
-        mText = new MutableLiveData<>();
         securitiesLiveData = new MutableLiveData<>();
 
         query.addSnapshotListener((queryDocumentSnapshots, e)
                 -> securitiesLiveData.postValue(queryDocumentSnapshots.toObjects(Security.class)));
 
-    }
-    public LiveData<String> getText() {
-        return mText;
     }
 
     public MutableLiveData<List<Security>> getSecuritiesLiveData() {
