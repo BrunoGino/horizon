@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -51,33 +52,46 @@ public class SecurityFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         securityViewModel = ViewModelProviders.of(this).get(SecurityViewModel.class);
+
         root = inflater.inflate(R.layout.fragment_securities, container, false);
         setupRecyclerView(root);
 
+        createDialog();
+
+        pullSecurities();
+
+        return root;
+    }
+
+    private void createDialog() {
         itemDialog = new Dialog(root.getContext());
         itemDialog.setContentView(R.layout.dialog_title);
 
         Objects.requireNonNull(itemDialog.getWindow())
                 .setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    }
 
-
-        securityViewModel.getSecuritiesLiveData().observe(getViewLifecycleOwner(),
-                securities -> securityAdapter.addAll(securities));
-
-        return root;
+    private void pullSecurities() {
+        securityViewModel.fetchAll().observe(this, listResource -> {
+            if (listResource.getData() != null) {
+                securityAdapter.addAll(listResource.getData());
+            } else {
+                Snackbar.make(root, listResource.getError(), 3000).show();
+            }
+        });
     }
 
     private void setupRecyclerView(View root) {
         RecyclerView recyclerView = root.findViewById(R.id.securities_recycler);
         securityAdapter = new SecurityAdapter(root.getContext(), (position, security)
                 -> {
-            setupDialog(security);
+            fillUpDialog(security);
             itemDialog.show();
         });
         recyclerView.setAdapter(securityAdapter);
     }
 
-    private void setupDialog(Security security) {
+    private void fillUpDialog(Security security) {
         initializeDialogViews();
         dName.setText(security.getTitleName());
         dPublisher.setText(security.getPublisher());
@@ -88,7 +102,7 @@ public class SecurityFragment extends Fragment {
         dMinValue.setText(String.valueOf(security.getTitleValue()));
         dLiquidity.setText(String.valueOf(security.getLiquidity()));
 
-        Toast.makeText(root.getContext(),security.getUrl(),Toast.LENGTH_LONG).show();
+        Toast.makeText(root.getContext(), security.getUrl(), Toast.LENGTH_LONG).show();
 
         dGoToUrl.setOnClickListener(v -> {
             Uri webpage = Uri.parse(security.getUrl());

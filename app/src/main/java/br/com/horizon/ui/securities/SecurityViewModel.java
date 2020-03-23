@@ -1,32 +1,25 @@
 package br.com.horizon.ui.securities;
 
-import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
-
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 
 import java.util.List;
 
 import br.com.horizon.model.Security;
+import br.com.horizon.repository.SecurityRepository;
+import br.com.horizon.repository.resource.Resource;
 
 public class SecurityViewModel extends ViewModel {
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference securities = db.collection("securities");
-    private Query query = securities;
-    private MutableLiveData<List<Security>> securitiesLiveData;
 
+    private SecurityRepository securityRepository;
 
     public SecurityViewModel() {
-        securitiesLiveData = new MutableLiveData<>();
-
-        query.addSnapshotListener((queryDocumentSnapshots, e)
-                -> securitiesLiveData.postValue(queryDocumentSnapshots.toObjects(Security.class)));
-
+        this.securityRepository = new SecurityRepository();
     }
 
-    public MutableLiveData<List<Security>> getSecuritiesLiveData() {
-        return securitiesLiveData;
+    public LiveData<Resource<List<Security>>> fetchAll() {
+        return securityRepository.fetchAll();
     }
+
+
 }
