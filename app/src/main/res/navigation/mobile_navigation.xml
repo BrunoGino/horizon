@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_main_list">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="br.com.horizon.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/navigation_favorites"
+        android:name="br.com.horizon.ui.home.FavoritesFragment"
+        android:label="@string/title_favorites"
+        tools:layout="@layout/fragment_favorites" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_main_list"
         android:name="br.com.horizon.ui.securities.SecurityFragment"
-        android:label="@string/title_dashboard"
+        android:label="@string/title_main_list"
         tools:layout="@layout/fragment_securities" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="br.com.horizon.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_wallet"
+        android:name="br.com.horizon.ui.notifications.WalletFragment"
+        android:label="@string/title_wallet"
+        tools:layout="@layout/fragment_wallet" />
 </navigation>

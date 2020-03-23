@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
     <color name="darkPuce">#483D3F</color>
     <color name="deepTaupe">#77685D</color>
     <color name="grullo">#A39A92</color>
     <color name="moccasin">#F4EBD9</color>
-    <color name="richEletricBlue">#058ED9</color>
+    <color name="colorSecondary">#0091EA</color>
+    <color name="colorSecondaryLight">#64c1ff</color>
+    <color name="colorSecondaryDark">#0064b7</color>
+    <color name="colorPrimary">#263238</color>
+    <color name="colorPrimaryLight">#4f5b62</color>
+    <color name="colorPrimaryDark">#000a12</color>
+    <color name="white">#f5f5f5</color>
+    <color name="whiteLight">#ffffff</color>
+    <color name="whiteDark">#c2c2c2</color>
     <color name="richBlack">#02111B</color>
     <color name="arsenic">#3F4045</color>
     <color name="charlestonGreen">#30292F</color>
     <color name="lifoGreen">#23CE6B</color>
-    <color name="blackOlive">#3A3E3B</color>
+
 </resources>

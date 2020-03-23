@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">horizon</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Títulos</string>
-    <string name="title_notifications">Carteira</string>
+    <string name="app_name">Horizon</string>
+    <string name="title_favorites">Favoritos</string>
+    <string name="title_main_list">Títulos</string>
+    <string name="title_wallet">Carteira</string>
     <string name="title_expiry_date">Vencimento</string>
     <string name="title_net_income">Rend. Líquido (a.a)</string>
 
