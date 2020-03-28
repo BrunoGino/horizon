@@ -1,5 +1,6 @@
 package br.com.horizon.ui.securities;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,9 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,70 +30,126 @@ import java.util.Objects;
 import br.com.horizon.R;
 import br.com.horizon.model.Security;
 import br.com.horizon.ui.securities.recyclerview.SecurityAdapter;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class SecurityFragment extends Fragment {
+
+    //View components
+    @BindView(R.id.dialog_title_name)
+    TextView dName;
+    @BindView(R.id.dialog_title_publisher)
+    TextView dPublisher;
+    @BindView(R.id.dialog_title_emitter)
+    TextView dEmitter;
+    @BindView(R.id.dialog_title_interest)
+    TextView dInterest;
+    @BindView(R.id.dialog_title_ending_date)
+    TextView dEndingDate;
+    @BindView(R.id.dialog_title_fgc)
+    TextView dFgc;
+    @BindView(R.id.dialog_title_min_value)
+    TextView dMinValue;
+    @BindView(R.id.dialog_title_liquidity)
+    TextView dLiquidity;
+    @BindView(R.id.dialog_title_goto_url)
+    MaterialButton dGoToUrl;
 
     private SecurityViewModel securityViewModel;
     private SecurityAdapter securityAdapter;
     private Dialog itemDialog;
-    private TextView dName;
-    private TextView dPublisher;
-    private TextView dEmitter;
-    private TextView dInterest;
-    private TextView dEndingDate;
-    private TextView dFgc;
-    private TextView dMinValue;
-    private TextView dLiquidity;
-    private MaterialButton dGoToUrl;
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
-    private View root;
+    private SimpleDateFormat dateFormat;
+
+    @SuppressLint("SimpleDateFormat")
+    public SecurityFragment() {
+        dateFormat = new SimpleDateFormat("dd/MM/yy");
+    }
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
+        return inflater.inflate(R.layout.fragment_securities, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         securityViewModel = ViewModelProviders.of(this).get(SecurityViewModel.class);
-
-        root = inflater.inflate(R.layout.fragment_securities, container, false);
-        setupRecyclerView(root);
-
-        createDialog();
-
-        pullSecurities();
-
-        return root;
+        Dialog dialog = createDialog(view);
+        ButterKnife.bind(this, dialog);
+        setupRecyclerView(view, dialog);
+        pullSecurities(view);
     }
 
-    private void createDialog() {
-        itemDialog = new Dialog(root.getContext());
-        itemDialog.setContentView(R.layout.dialog_title);
+    /**
+     * Instantiates the pop-up dialog and sets its layout.
+     *
+     * @param view The host view.
+     * @return The created dialog.
+     */
+    private Dialog createDialog(View view) {
+        Dialog dialog = new Dialog(view.getContext());
+        this.itemDialog = dialog;
+        this.itemDialog.setContentView(R.layout.dialog_title);
 
-        Objects.requireNonNull(itemDialog.getWindow())
+        Objects.requireNonNull(this.itemDialog.getWindow())
                 .setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        return dialog;
     }
 
-    private void pullSecurities() {
+    /**
+     * Fetches the securities list from ViewModel and add its content to the adapter.
+     *
+     * @param view A view instance to show a Snackbar containing the error message if the fetch goes
+     *             wrong.
+     */
+    private void pullSecurities(View view) {
         securityViewModel.fetchAll().observe(this, listResource -> {
             if (listResource.getData() != null) {
                 securityAdapter.addAll(listResource.getData());
             } else {
-                Snackbar.make(root, listResource.getError(), 3000).show();
+                Snackbar.make(view, Objects.requireNonNull(listResource.getError()), 3000).show();
             }
         });
     }
 
-    private void setupRecyclerView(View root) {
-        RecyclerView recyclerView = root.findViewById(R.id.securities_recycler);
-        securityAdapter = new SecurityAdapter(root.getContext(), (position, security)
-                -> {
-            fillUpDialog(security);
-            itemDialog.show();
-        });
+    /**
+     * Sets up the securities recycler view.
+     *
+     * @param view       The view instance to host the recycler view component.
+     * @param dialogView A dialog instance to get its content filled up by the
+     *                   onRecyclerItemClickListener(Dialog dialogView) method.
+     */
+    private void setupRecyclerView(View view, Dialog dialogView) {
+        RecyclerView recyclerView = view.findViewById(R.id.securities_recycler);
+        securityAdapter = new SecurityAdapter(view.getContext(), onRecyclerItemClickListener(dialogView));
         recyclerView.setAdapter(securityAdapter);
     }
 
-    private void fillUpDialog(Security security) {
-        initializeDialogViews();
+    /**
+     * Fills up dialog components with the selected security object from the main list by sending
+     * the selected object to fillUpDialog method.
+     *
+     * @param dialogView The dialog view to receive the current object.
+     * @return An OnItemClickListener to be attached to the list.
+     */
+    private SecurityAdapter.OnItemClickListener onRecyclerItemClickListener(Dialog dialogView) {
+        return (position, security)
+                -> {
+            fillUpDialog(security, dialogView);
+            itemDialog.show();
+        };
+    }
+
+    /**
+     * Sets up the dialog's components with the content of the received object.
+     *
+     * @param security The security object to get its content fetched.
+     * @param dialog   The dialog to get its components filled.
+     */
+    private void fillUpDialog(Security security, Dialog dialog) {
         dName.setText(security.getTitleName());
         dPublisher.setText(security.getPublisher());
         dEmitter.setText(security.getEmitter());
@@ -102,34 +159,30 @@ public class SecurityFragment extends Fragment {
         dMinValue.setText(String.valueOf(security.getTitleValue()));
         dLiquidity.setText(String.valueOf(security.getLiquidity()));
 
-        Toast.makeText(root.getContext(), security.getUrl(), Toast.LENGTH_LONG).show();
-
         dGoToUrl.setOnClickListener(v -> {
-            Uri webpage = Uri.parse(security.getUrl());
-            Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
+            Uri webPage = Uri.parse(security.getUrl());
+            Intent webIntent = new Intent(Intent.ACTION_VIEW, webPage);
 
-            if (validateUrl(webIntent)) {
+            if (validateDialogUrl(webIntent, dialog)) {
                 startActivity(webIntent);
             }
         });
     }
 
-    private boolean validateUrl(Intent webIntent) {
-        PackageManager packageManager = root.getContext().getPackageManager();
+    /**
+     * Validates Security's URL. If the URL is valid, the user can get redirected to the publisher
+     * web page. (Method used inside of fillUpDialog(Security security, Dialog, dialog), when setting
+     * up MaterialButton's listener).
+     *
+     * @param webIntent The Intent object to get the user redirected.
+     * @param dialog    The Dialog view to get a context reference to instantiate a packageManager object.
+     * @return A boolean that indicates if the URL can be opened by any of the user's mobile
+     * applications.
+     */
+    private boolean validateDialogUrl(Intent webIntent, Dialog dialog) {
+        PackageManager packageManager = dialog.getContext().getPackageManager();
         List<ResolveInfo> activities = packageManager.queryIntentActivities(webIntent, 0);
         return activities.size() > 0;
-    }
-
-    private void initializeDialogViews() {
-        dName = itemDialog.findViewById(R.id.dialog_title_name);
-        dPublisher = itemDialog.findViewById(R.id.dialog_title_publisher);
-        dEmitter = itemDialog.findViewById(R.id.dialog_title_emitter);
-        dInterest = itemDialog.findViewById(R.id.dialog_title_interest);
-        dEndingDate = itemDialog.findViewById(R.id.dialog_title_ending_date);
-        dFgc = itemDialog.findViewById(R.id.dialog_title_fgc);
-        dMinValue = itemDialog.findViewById(R.id.dialog_title_min_value);
-        dLiquidity = itemDialog.findViewById(R.id.dialog_title_liquidity);
-        dGoToUrl = itemDialog.findViewById(R.id.dialog_title_goto_url);
     }
 
 }
