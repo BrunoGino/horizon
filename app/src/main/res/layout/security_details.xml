@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="security"
+            type="br.com.horizon.model.Security" />
+
+        <variable
+            name="urlClick"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/richBlack">
+
+        <TextView
+            android:id="@+id/dialog_income_total_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="30%"
+            android:textColor="@color/moccasin"
+            android:textSize="@dimen/dialog_sub_subtitle"
+            app:layout_constraintBottom_toBottomOf="@+id/dialog_income_total"
+            app:layout_constraintStart_toEndOf="@+id/dialog_income_total" />
+
+        <TextView
+            android:id="@+id/dialog_income_anually_liquid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Anually (Liquid)"
+            android:textSize="@dimen/dialog_sub_subtitle"
+            app:layout_constraintBottom_toBottomOf="@+id/dialog_income_annually_gross"
+            app:layout_constraintStart_toStartOf="@+id/dialog_expiry_sub" />
+
+        <TextView
+            android:id="@+id/dialog_title_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Tesouro IPCA+ 2024"
+            android:textColor="@color/moccasin"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/dialog_publisher_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Tesouro Direto"
+            android:textColor="@color/moccasin"
+            android:textSize="@dimen/dialog_text"
+            app:layout_constraintStart_toStartOf="@id/dialog_title_name"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_publisher_sub" />
+
+        <TextView
+            android:id="@+id/dialog_emitter_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Tesouro Direto"
+            android:textColor="@color/moccasin"
+            android:textSize="@dimen/dialog_text"
+            app:layout_constraintStart_toStartOf="@id/dialog_publisher_value"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_emitter_sub" />
+
+        <TextView
+            android:id="@+id/dialog_income_annually_gross_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="8%"
+            android:textColor="@color/moccasin"
+            android:textSize="@dimen/dialog_text"
+            app:layout_constraintBottom_toBottomOf="@+id/dialog_income_annually_gross"
+            app:layout_constraintStart_toEndOf="@+id/dialog_income_annually_gross" />
+
+        <TextView
+            android:id="@+id/dialog_income_annually_liquid_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="7,26%"
+            android:textColor="@color/moccasin"
+            android:textSize="@dimen/dialog_text"
+            app:layout_constraintBottom_toBottomOf="@+id/dialog_income_anually_liquid"
+            app:layout_constraintStart_toEndOf="@+id/dialog_income_anually_liquid" />
+
+        <TextView
+            android:id="@+id/dialog_expiry_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="20/08/2020"
+            android:textColor="@color/moccasin"
+            android:textSize="@dimen/dialog_text"
+            app:layout_constraintStart_toStartOf="@+id/dialog_expiry_sub"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_expiry_sub" />
+
+        <CheckedTextView
+            android:id="@+id/dialog_fgc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="80dp"
+            android:checkMark="@drawable/ic_check_box_black_24dp"
+            android:checkMarkTint="@color/lifoGreen"
+            android:text="Garantido pelo FGC"
+            android:textColor="@color/moccasin"
+            android:textSize="@dimen/dialog_text"
+            app:layout_constraintBottom_toBottomOf="@+id/dialog_publisher_value"
+            app:layout_constraintStart_toEndOf="@+id/dialog_publisher_value" />
+
+        <TextView
+            android:id="@+id/dialog_expiry_total_days"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="1734 dias"
+            android:textColor="@color/moccasin"
+            android:textSize="@dimen/dialog_text"
+            app:layout_constraintStart_toEndOf="@+id/dialog_expiry_date"
+            app:layout_constraintTop_toTopOf="@+id/dialog_expiry_date" />
+
+        <TextView
+            android:id="@+id/dialog_income_tax_value"
+            android:layout_width="66dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:text="15%"
+            android:textColor="@color/moccasin"
+            android:textSize="@dimen/dialog_text"
+            app:layout_constraintBottom_toBottomOf="@+id/dialog_income_tax"
+            app:layout_constraintStart_toEndOf="@+id/dialog_income_tax" />
+
+        <TextView
+            android:id="@+id/dialog_liquidity_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="D+1"
+            android:textColor="@color/moccasin"
+            android:textSize="@dimen/dialog_text"
+            app:layout_constraintStart_toStartOf="@+id/dialog_liquidity_sub"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_liquidity_sub" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/dialog_title_goto_url"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:backgroundTint="@color/lifoGreen"
+            android:onClick="@{urlClick::onClick}"
+            android:text="COMPRAR"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/dialog_liquidity_value" />
+
+        <TextView
+            android:id="@+id/dialog_publisher_sub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:text="Publisher"
+            android:textSize="@dimen/dialog_subtitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_title_name" />
+
+        <TextView
+            android:id="@+id/dialog_emitter_sub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:text="Emitter"
+            android:textSize="@dimen/dialog_subtitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_publisher_value" />
+
+        <TextView
+            android:id="@+id/dialog_liquidity_sub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:text="Liquidity"
+            android:textSize="@dimen/dialog_subtitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_emitter_value" />
+
+        <TextView
+            android:id="@+id/dialog_income_tax"
+            android:layout_width="wrap_content"
+            android:layout_height="27dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:text="Income Tax"
+            android:textSize="@dimen/dialog_subtitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_liquidity_value" />
+
+        <TextView
+            android:id="@+id/dialog_income_sub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:text="Income"
+            android:textSize="@dimen/dialog_subtitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_income_tax" />
+
+        <TextView
+            android:id="@+id/dialog_simulate_sub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:text="Simulate"
+            android:textSize="@dimen/dialog_subtitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_income_total" />
+
+        <TextView
+            android:id="@+id/dialog_income_annually_gross"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Anually (Gross)"
+            android:textSize="@dimen/dialog_sub_subtitle"
+            app:layout_constraintStart_toStartOf="@+id/dialog_income_sub"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_income_sub" />
+
+        <TextView
+            android:id="@+id/dialog_simulate_return"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Return"
+            android:textSize="@dimen/dialog_sub_subtitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_simulate_value" />
+
+        <TextView
+            android:id="@+id/dialog_income_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="R$1000,00"
+            android:textSize="@dimen/dialog_sub_subtitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_simulate_return" />
+
+        <TextView
+            android:id="@+id/dialog_income_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Total"
+            android:textSize="@dimen/dialog_sub_subtitle"
+            app:layout_constraintStart_toStartOf="@+id/dialog_income_annually_gross"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_income_annually_gross" />
+
+        <TextView
+            android:id="@+id/dialog_expiry_sub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Exipry Date"
+            android:textSize="@dimen/dialog_subtitle"
+            app:layout_constraintStart_toStartOf="@+id/dialog_fgc"
+            app:layout_constraintTop_toTopOf="@+id/dialog_liquidity_sub" />
+
+        <EditText
+            android:id="@+id/dialog_simulate_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:inputType="numberSigned"
+            android:tooltipText="Insert a value"
+            app:layout_constraintStart_toStartOf="@+id/dialog_simulate_sub"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_simulate_sub" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

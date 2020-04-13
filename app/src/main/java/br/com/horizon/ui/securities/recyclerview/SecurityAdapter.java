@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.horizon.R;
+import br.com.horizon.databinding.SecurityItemBinding;
 import br.com.horizon.model.Security;
 
 public class SecurityAdapter extends RecyclerView.Adapter<SecurityAdapter.ViewHolder> {
@@ -21,6 +20,7 @@ public class SecurityAdapter extends RecyclerView.Adapter<SecurityAdapter.ViewHo
     private final OnItemClickListener onItemClickListener;
     private final Context context;
     private final List<Security> securities = new ArrayList<>();
+    private SecurityItemBinding binder;
 
     public SecurityAdapter(Context context, OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
@@ -30,62 +30,55 @@ public class SecurityAdapter extends RecyclerView.Adapter<SecurityAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View createdView = LayoutInflater.from(context).inflate(R.layout.security_item, parent, false);
-        return new ViewHolder(createdView);
+        this.binder = SecurityItemBinding.inflate(LayoutInflater.from(context), parent, false);
+
+        return new ViewHolder(binder);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Security security = securities.get(position);
-        holder.bindWithModel(security);
+        holder.vinculate(security);
     }
+
+    @Override
+    public void onViewAttachedToWindow(@NonNull ViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        //Set holder as Active
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(@NonNull ViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+        //Set holder as inactive
+    }
+
 
     @Override
     public int getItemCount() {
         return securities.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView titleName;
-        private TextView interest;
-        private TextView endingDate;
-        private TextView description;
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
-
-
         private Security security;
 
-        ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            bindViewObjects(itemView);
-            configuratesOnItemClick(itemView);
+        ViewHolder(SecurityItemBinding binding) {
+            super(binding.getRoot());
+            binder.setItemClick(this);
         }
 
-        private void bindViewObjects(View view) {
-            this.description = view.findViewById(R.id.security_description_value);
-            this.titleName = view.findViewById(R.id.security_name_value);
-            this.interest = view.findViewById(R.id.net_income_value);
-            this.endingDate = view.findViewById(R.id.ending_date_value);
-
+        @Override
+        public void onClick(View v) {
+            onItemClickListener.onItemClick(security);
         }
 
-        public void bindWithModel(Security security) {
+        void vinculate(Security security) {
             this.security = security;
-            this.titleName.setText(security.getTitleName());
-            this.endingDate.setText(dateFormat.format(security.getEndingDate()));
-            this.interest.setText(String.valueOf(security.getInterest()));
-            this.description.setText(security.getEmitter());
+            binder.setSecurity(security);//Needs to be SecurityData
+            binder.setDateFormat(dateFormat);
         }
 
-        //On item click and stuff here
-        private void configuratesOnItemClick(@NonNull View itemView) {
-            itemView.setOnClickListener(v -> onItemClickListener
-                    .onItemClick(getAdapterPosition(), security));
-        }
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(Integer position, Security security);
     }
 
     public void addAll(List<Security> securities) {
@@ -93,6 +86,11 @@ public class SecurityAdapter extends RecyclerView.Adapter<SecurityAdapter.ViewHo
         this.securities.clear();
         this.securities.addAll(securities);
         this.notifyItemRangeInserted(0, this.securities.size());
+    }
+
+
+    public interface OnItemClickListener {
+        void onItemClick(Security security);
     }
 
 }

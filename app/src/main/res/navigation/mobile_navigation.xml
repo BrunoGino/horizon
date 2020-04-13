@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@id/securitiesListFragment">
 
     <fragment
         android:id="@+id/navigation_home"
@@ -12,14 +12,35 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="br.com.horizon.ui.securities.SecurityFragment"
+        android:id="@+id/securitiesListFragment"
+        android:name="br.com.horizon.ui.securities.SecurityListFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_securities" />
+        tools:layout="@layout/security_list">
+        <action
+            android:id="@+id/action_securityList_to_securityDetailsFragment"
+            app:destination="@id/securityDetailsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
 
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/walletFragment"
         android:name="br.com.horizon.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/securityDetailsFragment"
+        android:name="br.com.horizon.ui.securities.SecurityDetailsFragment"
+        android:label="dialog_title"
+        tools:layout="@layout/security_details">
+        <argument
+            android:name="securityId"
+            app:argType="string" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_securityListFragment"
+        app:destination="@id/securitiesListFragment" />
+
 </navigation>

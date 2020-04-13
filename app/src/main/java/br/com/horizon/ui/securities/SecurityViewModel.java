@@ -21,5 +21,9 @@ public class SecurityViewModel extends ViewModel {
         return securityRepository.fetchAll();
     }
 
+    public LiveData<Resource<Security>> fetchById(String id) {
+        return securityRepository.fetchById(id);
+    }
+
 
 }
