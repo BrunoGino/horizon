@@ -4,6 +4,11 @@
     <string name="title_dashboard">Títulos</string>
     <string name="title_notifications">Carteira</string>
     <string name="title_expiry_date">Vencimento</string>
-    <string name="title_net_income">Rend. Líquido (a.a)</string>
+    <string name="title_net_income">Rend. Líq. (a.a)</string>
+    <string name="publisher">Corretora</string>
+    <string name="liquidity">Resgate</string>
+    <string name="ir">I.R.</string>
+    <string name="ir_regressive">Regressivo</string>
+    <string name="minimum_investment">Inv. Mínimo</string>
 
 </resources>

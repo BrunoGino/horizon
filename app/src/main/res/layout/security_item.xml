@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -16,120 +18,249 @@
             type="java.text.SimpleDateFormat" />
     </data>
 
-    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:onClick="@{itemClick::onClick}"
-        app:cardBackgroundColor="@color/richBlack">
+        android:layout_margin="10dp"
+        android:onClick="@{itemClick::onClick}">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.cardview.widget.CardView
+            android:id="@+id/item_list_card_body"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/colorPrimaryLight"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_list_card_header">
 
-            <TextView
-                android:id="@+id/security_name_value"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:fontFamily="sans-serif"
-                android:maxLines="2"
-                android:textColor="@color/moccasin"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="@{security.titleName}" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/security_description_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="sans-serif"
-                android:maxLines="6"
-                android:textColor="@color/moccasin"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/security_date"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@id/security_name_value"
-                app:layout_constraintTop_toBottomOf="@id/security_name_value"
-                tools:text="@{security.titleType}" />
+                <TextView
+                    android:id="@+id/item_list_net_income"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="sans-serif"
+                    android:text="@string/title_net_income"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"
+                    android:textStyle="normal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/security_net_income"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="10dp"
-                android:fontFamily="sans-serif"
-                android:text="@string/title_net_income"
-                android:textColor="@color/moccasin"
-                android:textSize="15sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/item_list_liquidity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="sans-serif"
+                    android:text="@string/liquidity"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"
+                    android:textStyle="normal"
+                    app:layout_constraintStart_toEndOf="@+id/item_list_min_investment"
+                    app:layout_constraintTop_toTopOf="@+id/item_list_net_income" />
 
-            <TextView
-                android:id="@+id/security_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="100dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="10dp"
-                android:fontFamily="sans-serif"
-                android:text="@string/title_expiry_date"
-                android:textColor="@color/moccasin"
-                android:textSize="15sp"
-                app:layout_constraintEnd_toStartOf="@+id/security_net_income"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/security_name_value"
-                app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/item_list_min_investment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="sans-serif"
+                    android:text="@string/minimum_investment"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"
+                    android:textStyle="normal"
+                    app:layout_constraintStart_toEndOf="@+id/item_list_net_income"
+                    app:layout_constraintTop_toTopOf="@+id/item_list_net_income" />
 
-            <TextView
-                android:id="@+id/net_income_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="115dp"
-                android:layout_marginTop="4dp"
-                android:fontFamily="sans-serif"
-                android:text="@{String.valueOf(security.interest)}"
-                android:textColor="@color/lifoGreen"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/security_net_income"
-                app:layout_constraintHorizontal_bias="0.972"
-                app:layout_constraintStart_toEndOf="@+id/ending_date_value"
-                app:layout_constraintTop_toBottomOf="@+id/security_net_income" />
+                <TextView
+                    android:id="@+id/item_list_ir"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="sans-serif"
+                    android:text="@string/ir"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"
+                    android:textStyle="normal"
+                    app:layout_constraintStart_toEndOf="@+id/item_list_liquidity"
+                    app:layout_constraintTop_toTopOf="@+id/item_list_net_income" />
 
-            <TextView
-                android:id="@+id/ending_date_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:fontFamily="sans-serif"
-                android:text="@{dateFormat.format(security.endingDate)}"
-                android:textColor="@color/lifoGreen"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/security_date"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="@+id/security_date"
-                app:layout_constraintTop_toBottomOf="@+id/security_date" />
+                <TextView
+                    android:id="@+id/item_list_favorite_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:text="100"
+                    android:textColor="@color/favourite"
+                    android:textSize="12sp"
+                    android:textStyle="normal"
+                    app:layout_constraintEnd_toEndOf="@+id/item_list_favorite"
+                    app:layout_constraintStart_toStartOf="@id/item_list_favorite"
+                    app:layout_constraintTop_toBottomOf="@+id/item_list_favorite" />
 
-            <TextView
-                android:id="@+id/security_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="@{security.id}"
-                android:textColor="@color/richEletricBlue"
-                app:layout_constraintStart_toStartOf="@+id/security_net_income"
-                app:layout_constraintTop_toBottomOf="@+id/security_net_income" />
+                <TextView
+                    android:id="@+id/item_list_net_income_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="sans-serif"
+                    android:text="@{String.valueOf(security.interest)}"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/item_list_net_income"
+                    app:layout_constraintTop_toBottomOf="@id/item_list_net_income"
+                    tools:text="5%" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/item_list_liquidity_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="sans-serif"
+                    android:text="@{String.valueOf(security.liquidity)}"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/item_list_liquidity"
+                    app:layout_constraintTop_toBottomOf="@+id/item_list_liquidity"
+                    tools:text="D+1" />
+
+                <TextView
+                    android:id="@+id/item_list_min_investment_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="sans-serif"
+                    android:text="@{String.valueOf(security.titleValue)}"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/item_list_min_investment"
+                    app:layout_constraintTop_toBottomOf="@+id/item_list_min_investment"
+                    tools:text="R$1000,00" />
+
+                <TextView
+                    android:id="@+id/item_list_ir_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="sans-serif"
+                    android:text="@string/ir_regressive"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/item_list_ir"
+                    app:layout_constraintTop_toBottomOf="@+id/item_list_ir" />
+
+                <ImageView
+                    android:id="@+id/item_list_favorite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/item_list_ir_value"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_stars_black_24dp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/item_list_card_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            app:cardBackgroundColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/item_list_security_name"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="sans-serif"
+                    android:maxLines="2"
+                    android:text="@{security.titleName}"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Tesouro Selic" />
+
+                <TextView
+                    android:id="@+id/item_list_security_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="sans-serif"
+                    android:maxLines="6"
+                    android:text="@{security.titleType}"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="13sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/item_list_security_name"
+                    app:layout_constraintTop_toBottomOf="@id/item_list_security_name"
+                    tools:text="TD" />
+
+                <TextView
+                    android:id="@+id/item_list_publisher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="89dp"
+                    android:fontFamily="sans-serif"
+                    android:text="@string/publisher"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="13sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/item_list_security_name" />
+
+                <TextView
+                    android:id="@+id/item_list_publisher_value"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="sans-serif"
+                    android:maxLines="2"
+                    android:text="@{security.publisher}"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/item_list_publisher"
+                    app:layout_constraintTop_toBottomOf="@+id/item_list_publisher"
+                    tools:text="Banco Modal" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
