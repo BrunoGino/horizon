@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -17,279 +18,434 @@
         android:id="@+id/dialog_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/richBlack">
+        android:background="@color/colorPrimary">
 
-        <TextView
-            android:id="@+id/dialog_income_total_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="30%"
-            android:textColor="@color/moccasin"
-            android:textSize="@dimen/dialog_sub_subtitle"
-            app:layout_constraintBottom_toBottomOf="@+id/dialog_income_total"
-            app:layout_constraintStart_toEndOf="@+id/dialog_income_total" />
-
-        <TextView
-            android:id="@+id/dialog_income_anually_liquid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Anually (Liquid)"
-            android:textSize="@dimen/dialog_sub_subtitle"
-            app:layout_constraintBottom_toBottomOf="@+id/dialog_income_annually_gross"
-            app:layout_constraintStart_toStartOf="@+id/dialog_expiry_sub" />
-
-        <TextView
-            android:id="@+id/dialog_title_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:text="Tesouro IPCA+ 2024"
-            android:textColor="@color/moccasin"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/dialog_publisher_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Tesouro Direto"
-            android:textColor="@color/moccasin"
-            android:textSize="@dimen/dialog_text"
-            app:layout_constraintStart_toStartOf="@id/dialog_title_name"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_publisher_sub" />
-
-        <TextView
-            android:id="@+id/dialog_emitter_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Tesouro Direto"
-            android:textColor="@color/moccasin"
-            android:textSize="@dimen/dialog_text"
-            app:layout_constraintStart_toStartOf="@id/dialog_publisher_value"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_emitter_sub" />
-
-        <TextView
-            android:id="@+id/dialog_income_annually_gross_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="8%"
-            android:textColor="@color/moccasin"
-            android:textSize="@dimen/dialog_text"
-            app:layout_constraintBottom_toBottomOf="@+id/dialog_income_annually_gross"
-            app:layout_constraintStart_toEndOf="@+id/dialog_income_annually_gross" />
-
-        <TextView
-            android:id="@+id/dialog_income_annually_liquid_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="7,26%"
-            android:textColor="@color/moccasin"
-            android:textSize="@dimen/dialog_text"
-            app:layout_constraintBottom_toBottomOf="@+id/dialog_income_anually_liquid"
-            app:layout_constraintStart_toEndOf="@+id/dialog_income_anually_liquid" />
-
-        <TextView
-            android:id="@+id/dialog_expiry_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="20/08/2020"
-            android:textColor="@color/moccasin"
-            android:textSize="@dimen/dialog_text"
-            app:layout_constraintStart_toStartOf="@+id/dialog_expiry_sub"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_expiry_sub" />
-
-        <CheckedTextView
-            android:id="@+id/dialog_fgc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
-            android:checkMark="@drawable/ic_check_box_black_24dp"
-            android:checkMarkTint="@color/lifoGreen"
-            android:text="Garantido pelo FGC"
-            android:textColor="@color/moccasin"
-            android:textSize="@dimen/dialog_text"
-            app:layout_constraintBottom_toBottomOf="@+id/dialog_publisher_value"
-            app:layout_constraintStart_toEndOf="@+id/dialog_publisher_value" />
-
-        <TextView
-            android:id="@+id/dialog_expiry_total_days"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="1734 dias"
-            android:textColor="@color/moccasin"
-            android:textSize="@dimen/dialog_text"
-            app:layout_constraintStart_toEndOf="@+id/dialog_expiry_date"
-            app:layout_constraintTop_toTopOf="@+id/dialog_expiry_date" />
-
-        <TextView
-            android:id="@+id/dialog_income_tax_value"
-            android:layout_width="66dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="10dp"
-            android:text="15%"
-            android:textColor="@color/moccasin"
-            android:textSize="@dimen/dialog_text"
-            app:layout_constraintBottom_toBottomOf="@+id/dialog_income_tax"
-            app:layout_constraintStart_toEndOf="@+id/dialog_income_tax" />
-
-        <TextView
-            android:id="@+id/dialog_liquidity_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="D+1"
-            android:textColor="@color/moccasin"
-            android:textSize="@dimen/dialog_text"
-            app:layout_constraintStart_toStartOf="@+id/dialog_liquidity_sub"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_liquidity_sub" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/dialog_title_goto_url"
+        <ScrollView
+            android:id="@+id/security_details_scrollview"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:backgroundTint="@color/lifoGreen"
-            android:onClick="@{urlClick::onClick}"
-            android:text="COMPRAR"
+            android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/dialog_liquidity_value" />
-
-        <TextView
-            android:id="@+id/dialog_publisher_sub"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="30dp"
-            android:text="Publisher"
-            android:textSize="@dimen/dialog_subtitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_title_name" />
-
-        <TextView
-            android:id="@+id/dialog_emitter_sub"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
-            android:text="Emitter"
-            android:textSize="@dimen/dialog_subtitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_publisher_value" />
-
-        <TextView
-            android:id="@+id/dialog_liquidity_sub"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
-            android:text="Liquidity"
-            android:textSize="@dimen/dialog_subtitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_emitter_value" />
-
-        <TextView
-            android:id="@+id/dialog_income_tax"
-            android:layout_width="wrap_content"
-            android:layout_height="27dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
-            android:text="Income Tax"
-            android:textSize="@dimen/dialog_subtitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_liquidity_value" />
-
-        <TextView
-            android:id="@+id/dialog_income_sub"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
-            android:text="Income"
-            android:textSize="@dimen/dialog_subtitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_income_tax" />
-
-        <TextView
-            android:id="@+id/dialog_simulate_sub"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="30dp"
-            android:text="Simulate"
-            android:textSize="@dimen/dialog_subtitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_income_total" />
-
-        <TextView
-            android:id="@+id/dialog_income_annually_gross"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Anually (Gross)"
-            android:textSize="@dimen/dialog_sub_subtitle"
-            app:layout_constraintStart_toStartOf="@+id/dialog_income_sub"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_income_sub" />
-
-        <TextView
-            android:id="@+id/dialog_simulate_return"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:text="Return"
-            android:textSize="@dimen/dialog_sub_subtitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_simulate_value" />
-
-        <TextView
-            android:id="@+id/dialog_income_result"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="R$1000,00"
-            android:textSize="@dimen/dialog_sub_subtitle"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_simulate_return" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
 
-        <TextView
-            android:id="@+id/dialog_income_total"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="Total"
-            android:textSize="@dimen/dialog_sub_subtitle"
-            app:layout_constraintStart_toStartOf="@+id/dialog_income_annually_gross"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_income_annually_gross" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/dialog_expiry_sub"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Exipry Date"
-            android:textSize="@dimen/dialog_subtitle"
-            app:layout_constraintStart_toStartOf="@+id/dialog_fgc"
-            app:layout_constraintTop_toTopOf="@+id/dialog_liquidity_sub" />
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_simulate_value"
+                    app:srcCompat="@drawable/sample_graph_background" />
 
-        <EditText
-            android:id="@+id/dialog_simulate_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:ems="10"
-            android:inputType="numberSigned"
-            android:tooltipText="Insert a value"
-            app:layout_constraintStart_toStartOf="@+id/dialog_simulate_sub"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_simulate_sub" />
+                <TextView
+                    android:id="@+id/security_detail_min_inv_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{String.valueOf(security.titleValue)}"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="@+id/security_detail_min_inv"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_min_inv"
+                    tools:text="R$10000,00" />
 
+                <TextView
+                    android:id="@+id/security_details_name"
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:maxLines="3"
+                    android:text="@{security.titleName}"
+                    android:textAllCaps="true"
+                    android:textColor="@color/moccasin"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Tesouro IPCA+ 2024" />
+
+                <TextView
+                    android:id="@+id/dialog_publisher_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{security.publisher}"
+                    android:textColor="@color/moccasin"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="@+id/security_detail_publisher"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_publisher"
+                    tools:text="Easyinvest" />
+
+                <TextView
+                    android:id="@+id/security_detail_emitter_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{security.emitter}"
+                    android:textColor="@color/moccasin"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="@+id/security_detail_emitter"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_emitter"
+                    tools:text="Modal Mais" />
+
+                <TextView
+                    android:id="@+id/security_detail_tax_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{String.valueOf(security.ir)}"
+                    android:textColor="@color/moccasin"
+                    android:textSize="22sp"
+                    app:layout_constraintEnd_toEndOf="@+id/security_detail_tax"
+                    app:layout_constraintStart_toStartOf="@+id/security_detail_tax"
+                    app:layout_constraintTop_toBottomOf="@id/security_detail_tax"
+                    tools:text="22,5%" />
+
+                <TextView
+                    android:id="@+id/security_detail_liquidity_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:text="@{String.valueOf(security.liquidity)}"
+                    android:textColor="@color/moccasin"
+                    android:textSize="22sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/security_detail_liquidity"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_liquidity"
+                    tools:text="No vencimento" />
+
+                <CheckedTextView
+                    android:id="@+id/security_detail_fgc_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkMark="@drawable/ic_check_box_black_24dp"
+                    android:checkMarkTint="@color/colorSecondary"
+                    android:text="@string/guaranteed"
+                    android:textColor="@color/moccasin"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="@+id/security_detail_fgc"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_fgc" />
+
+                <TextView
+                    android:id="@+id/security_detail_expiry_date_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{String.valueOf(security.endingDate)}"
+                    android:textColor="@color/moccasin"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="@+id/security_detail_expiry_date"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_expiry_date"
+                    tools:text="22/01/2026" />
+
+                <TextView
+                    android:id="@+id/security_detail_income_tax_yearly_gross_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="5dp"
+                    android:text="@{String.valueOf(security.interest)}"
+                    android:textColor="@color/moccasin"
+                    android:textSize="22sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/security_detail_income_tax_yearly_gross"
+                    app:layout_constraintStart_toEndOf="@+id/security_detail_income_tax_yearly_gross"
+                    tools:text="15%" />
+
+                <TextView
+                    android:id="@+id/security_detail_income_tax_yearly_liquid_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="5dp"
+                    android:text="@{String.valueOf(security.interest)}"
+                    android:textColor="@color/moccasin"
+                    android:textSize="22sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/security_detail_income_tax_yearly_liquid"
+                    app:layout_constraintStart_toEndOf="@+id/security_detail_income_tax_yearly_liquid"
+                    tools:text="15%" />
+
+                <TextView
+                    android:id="@+id/security_detail_interest_type_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:text="@{security.interestType}"
+                    android:textColor="@color/moccasin"
+                    android:textSize="22sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/security_detail_income_tax_yearly_liquid_value"
+                    app:layout_constraintStart_toStartOf="@+id/security_income_type"
+                    app:layout_constraintTop_toBottomOf="@+id/security_income_type"
+                    tools:text="Prefixado" />
+
+                <TextView
+                    android:id="@+id/security_detail_rescue_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="D+1"
+                    android:textColor="@color/moccasin"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="@+id/security_detail_rescue"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_rescue" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/dialog_title_goto_url"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:backgroundTint="@color/colorSecondary"
+                    android:onClick="@{urlClick::onClick}"
+                    android:text="@string/visit"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+                <TextView
+                    android:id="@+id/security_detail_publisher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/publisher"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@+id/security_income_type"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_head_divider" />
+
+                <TextView
+                    android:id="@+id/security_detail_emitter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/emitter"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_head_divider" />
+
+                <TextView
+                    android:id="@+id/security_detail_rescue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rescue"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@+id/security_income_type"
+                    app:layout_constraintTop_toTopOf="@+id/security_detail_expiry_date" />
+
+                <TextView
+                    android:id="@+id/security_detail_income_tax_yearly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="27dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/income_tax_yearly"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_emitter_publisher_divider" />
+
+                <TextView
+                    android:id="@+id/security_income_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="27dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="@string/income_type"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/security_detail_income_tax_yearly"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/security_detail_income_tax_yearly_gross"
+                    android:layout_width="wrap_content"
+                    android:layout_height="27dp"
+                    android:text="@string/gross"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="@+id/security_detail_income_tax_yearly"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_income_tax_yearly" />
+
+                <TextView
+                    android:id="@+id/security_detail_income_tax_yearly_liquid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="27dp"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/liquid"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/security_detail_income_tax_yearly_gross_value"
+                    app:layout_constraintStart_toEndOf="@+id/security_detail_income_tax_yearly_gross_value" />
+
+                <TextView
+                    android:id="@+id/security_detail_tax"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/tax_on_income"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_tax_fgc_divider" />
+
+                <TextView
+                    android:id="@+id/security_detail_liquidity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/liquidity"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@+id/security_detail_rescue"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_tax_fgc_divider" />
+
+                <TextView
+                    android:id="@+id/security_detail_fgc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fgc"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@+id/security_detail_rescue"
+                    app:layout_constraintTop_toTopOf="@+id/security_detail_min_inv" />
+
+                <TextView
+                    android:id="@+id/security_detail_simulate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/simulate"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_min_inv_divider" />
+
+                <TextView
+                    android:id="@+id/security_detail_min_inv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/minimum_investment"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_expiry_date_divider" />
+
+                <TextView
+                    android:id="@+id/security_detail_expiry_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/expiry_date"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_income_tax_divider" />
+
+                <EditText
+                    android:id="@+id/security_detail_simulate_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:ems="10"
+                    android:inputType="numberSigned"
+                    android:tooltipText="@string/insert_inv_amount"
+                    android:text="@string/insert_inv_amount"
+                    app:layout_constraintStart_toStartOf="@+id/security_detail_simulate"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_simulate"
+                    android:autofillHints="" />
+
+                <ImageButton
+                    android:id="@+id/security_detail_favorite"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/ic_star_favourite"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/security_details_name"
+                    app:layout_constraintTop_toTopOf="@+id/security_details_name" />
+
+                <TextView
+                    android:id="@+id/security_detail_favorite_qty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="600"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="@+id/security_detail_favorite"
+                    app:layout_constraintStart_toStartOf="@+id/security_detail_favorite"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_favorite" />
+
+                <View
+                    android:id="@+id/security_detail_head_divider"
+                    android:layout_width="409dp"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/colorPrimaryLight"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_favorite_qty" />
+
+                <View
+                    android:id="@+id/security_detail_emitter_publisher_divider"
+                    android:layout_width="409dp"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/colorPrimaryLight"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/dialog_publisher_value" />
+
+                <View
+                    android:id="@+id/security_detail_income_tax_divider"
+                    android:layout_width="409dp"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/colorPrimaryLight"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_tax_value" />
+
+                <View
+                    android:id="@+id/security_detail_expiry_date_divider"
+                    android:layout_width="409dp"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/colorPrimaryLight"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_rescue_value" />
+
+                <View
+                    android:id="@+id/security_detail_min_inv_divider"
+                    android:layout_width="409dp"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/colorPrimaryLight"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_min_inv_value" />
+
+                <View
+                    android:id="@+id/security_detail_tax_fgc_divider"
+                    android:layout_width="409dp"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/colorPrimaryLight"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_interest_type_value" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

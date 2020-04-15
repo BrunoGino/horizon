@@ -1,14 +1,28 @@
 <resources>
     <string name="app_name">horizon</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Títulos</string>
+    <string name="security_list">Lista de Títulos</string>
     <string name="title_notifications">Carteira</string>
     <string name="title_expiry_date">Vencimento</string>
     <string name="title_net_income">Rend. Líq. (a.a)</string>
     <string name="publisher">Corretora</string>
-    <string name="liquidity">Resgate</string>
+    <string name="rescue">Resgate</string>
     <string name="ir">I.R.</string>
     <string name="ir_regressive">Regressivo</string>
     <string name="minimum_investment">Inv. Mínimo</string>
+    <string name="security_details">Detalhes do Título</string>
+    <string name="emitter">Emissor</string>
+    <string name="income_tax_yearly">Retorno (a.a)</string>
+    <string name="liquidity">Liquidez</string>
+    <string name="gross">Bruto</string>
+    <string name="liquid">Líquido</string>
+    <string name="tax_on_income">I.R. sobre rendimento</string>
+    <string name="expiry_date">Vencimento</string>
+    <string name="income_type">Tipo de Rendimento</string>
+    <string name="fgc">FGC</string>
+    <string name="guaranteed">Garantido</string>
+    <string name="simulate">Simule</string>
+    <string name="insert_inv_amount">Insira o valor investido</string>
+    <string name="visit">Visitar</string>
 
 </resources>

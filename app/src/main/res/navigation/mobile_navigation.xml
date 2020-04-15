@@ -14,7 +14,7 @@
     <fragment
         android:id="@+id/securitiesListFragment"
         android:name="br.com.horizon.ui.securities.SecurityListFragment"
-        android:label="@string/title_dashboard"
+        android:label="@string/security_list"
         tools:layout="@layout/security_list">
         <action
             android:id="@+id/action_securityList_to_securityDetailsFragment"
@@ -33,7 +33,7 @@
     <fragment
         android:id="@+id/securityDetailsFragment"
         android:name="br.com.horizon.ui.securities.SecurityDetailsFragment"
-        android:label="dialog_title"
+        android:label="@string/security_details"
         tools:layout="@layout/security_details">
         <argument
             android:name="securityId"
