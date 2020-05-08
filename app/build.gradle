@@ -25,10 +25,14 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    dataBinding{
+    dataBinding {
         enabled = true
     }
 }
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
 
 dependencies {
 
@@ -56,16 +60,23 @@ dependencies {
     //noinspection GradleDependency
     implementation "androidx.lifecycle:lifecycle-runtime:$lifecycle_version"
 
-    // alternately - if using Java8, use the following instead of lifecycle-compiler
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 
     //Firebase
     implementation 'com.google.firebase:firebase-firestore:21.4.1'
 
+    //Test
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    //Lombok
+
+    //Androidplo
+    implementation 'com.androidplot:androidplot-core:1.5.7'
+
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    //Lombo
     compileOnly 'org.projectlombok:lombok:1.18.12'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
+
 }

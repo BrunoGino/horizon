@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LifecycleRegistry;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
@@ -14,9 +17,9 @@ import java.util.List;
 
 import br.com.horizon.databinding.SecurityItemBinding;
 import br.com.horizon.model.Security;
+import br.com.horizon.ui.databinding.ObservableSecurity;
 
 public class SecurityAdapter extends RecyclerView.Adapter<SecurityAdapter.ViewHolder> {
-
     private final OnItemClickListener onItemClickListener;
     private final Context context;
     private final List<Security> securities = new ArrayList<>();
@@ -30,13 +33,13 @@ public class SecurityAdapter extends RecyclerView.Adapter<SecurityAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        this.binder = SecurityItemBinding.inflate(LayoutInflater.from(context), parent, false);
-
+        binder = SecurityItemBinding.inflate(LayoutInflater.from(context), parent, false);
         return new ViewHolder(binder);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        binder.setLifecycleOwner(holder);
         Security security = securities.get(position);
         holder.vinculate(security);
     }
@@ -44,28 +47,38 @@ public class SecurityAdapter extends RecyclerView.Adapter<SecurityAdapter.ViewHo
     @Override
     public void onViewAttachedToWindow(@NonNull ViewHolder holder) {
         super.onViewAttachedToWindow(holder);
-        //Set holder as Active
+        holder.markAsActive();
     }
 
     @Override
     public void onViewDetachedFromWindow(@NonNull ViewHolder holder) {
         super.onViewDetachedFromWindow(holder);
-        //Set holder as inactive
+        holder.markAsDestroyed();
     }
-
 
     @Override
     public int getItemCount() {
         return securities.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, LifecycleOwner {
         private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
         private Security security;
+        private final LifecycleRegistry registry = new LifecycleRegistry(this);
 
         ViewHolder(SecurityItemBinding binding) {
             super(binding.getRoot());
+            registry.setCurrentState(Lifecycle.State.INITIALIZED);
             binder.setItemClick(this);
+        }
+
+        private void markAsActive() {
+            registry.setCurrentState(Lifecycle.State.STARTED);
+        }
+
+        private void markAsDestroyed() {
+            registry.setCurrentState(Lifecycle.State.DESTROYED);
         }
 
         @Override
@@ -75,10 +88,17 @@ public class SecurityAdapter extends RecyclerView.Adapter<SecurityAdapter.ViewHo
 
         void vinculate(Security security) {
             this.security = security;
-            binder.setSecurity(security);//Needs to be SecurityData
+            ObservableSecurity observableSecurity = new ObservableSecurity();
+            observableSecurity.update(this.security);
+            binder.setSecurity(observableSecurity);//Needs to be SecurityData
             binder.setDateFormat(dateFormat);
         }
 
+        @NonNull
+        @Override
+        public Lifecycle getLifecycle() {
+            return registry;
+        }
     }
 
     public void addAll(List<Security> securities) {
@@ -87,7 +107,6 @@ public class SecurityAdapter extends RecyclerView.Adapter<SecurityAdapter.ViewHo
         this.securities.addAll(securities);
         this.notifyItemRangeInserted(0, this.securities.size());
     }
-
 
     public interface OnItemClickListener {
         void onItemClick(Security security);

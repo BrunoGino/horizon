@@ -23,7 +23,7 @@ import br.com.horizon.ui.VisualComponents;
 import br.com.horizon.ui.securities.recyclerview.SecurityAdapter;
 
 public class SecurityListFragment extends Fragment {
-    private SecurityViewModel securityViewModel;
+    private SecurityListViewModel securityListViewModel;
     private SecurityAdapter securityAdapter;
     private SecurityAdapter.OnItemClickListener onRecyclerItemClickListener;
     private NavController controller;
@@ -40,7 +40,7 @@ public class SecurityListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        securityViewModel = ViewModelProviders.of(this).get(SecurityViewModel.class);
+        securityListViewModel = ViewModelProviders.of(this).get(SecurityListViewModel.class);
         setupRecyclerView(view);
         pullSecurities(view);
         this.controller = Navigation.findNavController(view);
@@ -53,7 +53,7 @@ public class SecurityListFragment extends Fragment {
      *             wrong.
      */
     private void pullSecurities(View view) {
-        securityViewModel.fetchAll().observe(this, listResource -> {
+        securityListViewModel.fetchAll().observe(this, listResource -> {
             if (listResource.getData() != null) {
                 securityAdapter.addAll(listResource.getData());
             } else {

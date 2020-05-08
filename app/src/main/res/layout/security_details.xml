@@ -5,9 +5,11 @@
 
     <data>
 
+        <import type="br.com.horizon.ui.converter.Converter" />
+
         <variable
             name="security"
-            type="br.com.horizon.model.Security" />
+            type="br.com.horizon.ui.databinding.ObservableSecurity" />
 
         <variable
             name="urlClick"
@@ -35,23 +37,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/imageView"
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/simulation_plot"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_height="400dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="5dp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_simulate_value"
-                    app:srcCompat="@drawable/sample_graph_background" />
+                    />
 
                 <TextView
                     android:id="@+id/security_detail_min_inv_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{String.valueOf(security.titleValue)}"
+                    android:text="@={Converter.convertDoubleToString(security.titleValue)}"
                     android:textSize="22sp"
                     app:layout_constraintStart_toStartOf="@+id/security_detail_min_inv"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_min_inv"
@@ -64,7 +67,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:maxLines="3"
-                    android:text="@{security.titleName}"
+                    android:text="@={security.titleName}"
                     android:textAllCaps="true"
                     android:textColor="@color/moccasin"
                     android:textSize="26sp"
@@ -77,7 +80,7 @@
                     android:id="@+id/dialog_publisher_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{security.publisher}"
+                    android:text="@={security.publisher}"
                     android:textColor="@color/moccasin"
                     android:textSize="22sp"
                     app:layout_constraintStart_toStartOf="@+id/security_detail_publisher"
@@ -88,7 +91,7 @@
                     android:id="@+id/security_detail_emitter_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{security.emitter}"
+                    android:text="@={security.emitter}"
                     android:textColor="@color/moccasin"
                     android:textSize="22sp"
                     app:layout_constraintStart_toStartOf="@+id/security_detail_emitter"
@@ -99,7 +102,7 @@
                     android:id="@+id/security_detail_tax_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{String.valueOf(security.ir)}"
+                    android:text="@={Converter.convertBooleanToString(security.ir)}"
                     android:textColor="@color/moccasin"
                     android:textSize="22sp"
                     app:layout_constraintEnd_toEndOf="@+id/security_detail_tax"
@@ -112,7 +115,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:text="@{String.valueOf(security.liquidity)}"
+                    android:text="@={Converter.convertIntegerToString(security.liquidity)}"
                     android:textColor="@color/moccasin"
                     android:textSize="22sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -136,7 +139,7 @@
                     android:id="@+id/security_detail_expiry_date_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{String.valueOf(security.endingDate)}"
+                    android:text="@={Converter.convertDateToString(security.endingDate)}"
                     android:textColor="@color/moccasin"
                     android:textSize="22sp"
                     app:layout_constraintStart_toStartOf="@+id/security_detail_expiry_date"
@@ -148,7 +151,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_marginStart="5dp"
-                    android:text="@{String.valueOf(security.interest)}"
+                    android:text="@={Converter.convertDoubleToString(security.interest)}"
                     android:textColor="@color/moccasin"
                     android:textSize="22sp"
                     app:layout_constraintBottom_toBottomOf="@+id/security_detail_income_tax_yearly_gross"
@@ -160,7 +163,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_marginStart="5dp"
-                    android:text="@{String.valueOf(security.interest)}"
+                    android:text="@={Converter.convertDoubleToString(security.interest)}"
                     android:textColor="@color/moccasin"
                     android:textSize="22sp"
                     app:layout_constraintBottom_toBottomOf="@+id/security_detail_income_tax_yearly_liquid"
@@ -171,7 +174,7 @@
                     android:id="@+id/security_detail_interest_type_value"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
-                    android:text="@{security.interestType}"
+                    android:text="@={security.interestType}"
                     android:textColor="@color/moccasin"
                     android:textSize="22sp"
                     app:layout_constraintBottom_toBottomOf="@+id/security_detail_income_tax_yearly_liquid_value"
@@ -183,23 +186,24 @@
                     android:id="@+id/security_detail_rescue_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="D+1"
                     android:textColor="@color/moccasin"
                     android:textSize="22sp"
                     app:layout_constraintStart_toStartOf="@+id/security_detail_rescue"
-                    app:layout_constraintTop_toBottomOf="@+id/security_detail_rescue" />
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_rescue"
+                    tools:text="D+1" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/dialog_title_goto_url"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="50dp"
                     android:backgroundTint="@color/colorSecondary"
                     android:onClick="@{urlClick::onClick}"
                     android:text="@string/visit"
+                    android:textSize="24sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                    app:layout_constraintTop_toBottomOf="@+id/simulation_plot" />
 
                 <TextView
                     android:id="@+id/security_detail_publisher"
@@ -339,13 +343,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:autofillHints=""
                     android:ems="10"
                     android:inputType="numberSigned"
-                    android:tooltipText="@string/insert_inv_amount"
                     android:text="@string/insert_inv_amount"
+                    android:tooltipText="@string/insert_inv_amount"
                     app:layout_constraintStart_toStartOf="@+id/security_detail_simulate"
-                    app:layout_constraintTop_toBottomOf="@+id/security_detail_simulate"
-                    android:autofillHints="" />
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_simulate" />
 
                 <ImageButton
                     android:id="@+id/security_detail_favorite"
@@ -362,15 +366,15 @@
                     android:id="@+id/security_detail_favorite_qty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="600"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="@+id/security_detail_favorite"
                     app:layout_constraintStart_toStartOf="@+id/security_detail_favorite"
-                    app:layout_constraintTop_toBottomOf="@+id/security_detail_favorite" />
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_favorite"
+                    tools:text="600" />
 
                 <View
                     android:id="@+id/security_detail_head_divider"
-                    android:layout_width="409dp"
+                    android:layout_width="0dp"
                     android:layout_height="2dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
@@ -382,7 +386,7 @@
 
                 <View
                     android:id="@+id/security_detail_emitter_publisher_divider"
-                    android:layout_width="409dp"
+                    android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
@@ -395,7 +399,7 @@
 
                 <View
                     android:id="@+id/security_detail_income_tax_divider"
-                    android:layout_width="409dp"
+                    android:layout_width="0dp"
                     android:layout_height="2dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
@@ -408,7 +412,7 @@
 
                 <View
                     android:id="@+id/security_detail_expiry_date_divider"
-                    android:layout_width="409dp"
+                    android:layout_width="0dp"
                     android:layout_height="2dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
@@ -421,7 +425,7 @@
 
                 <View
                     android:id="@+id/security_detail_min_inv_divider"
-                    android:layout_width="409dp"
+                    android:layout_width="0dp"
                     android:layout_height="2dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
@@ -434,7 +438,7 @@
 
                 <View
                     android:id="@+id/security_detail_tax_fgc_divider"
-                    android:layout_width="409dp"
+                    android:layout_width="0dp"
                     android:layout_height="2dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"

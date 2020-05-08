@@ -8,6 +8,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -16,14 +17,12 @@ import java.util.Objects;
 
 import br.com.horizon.model.Security;
 import br.com.horizon.repository.resource.Resource;
-import lombok.Value;
 
-@Value
 public class SecurityRepository {
     private FirebaseFirestore db;
     private CollectionReference securities;
     private MediatorLiveData<Resource<List<Security>>> mediator;
-    private MutableLiveData<Resource<Security>> securityLiveData;
+    private MutableLiveData<Security> securityLiveData;
 
     public SecurityRepository() {
         this.db = FirebaseFirestore.getInstance();
@@ -35,31 +34,31 @@ public class SecurityRepository {
     public LiveData<Resource<List<Security>>> fetchAll() {
         securities.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                populateLiveDataWithFetchedDocuments();
+                populateMediatorWithAllSecurities();
             } else {
-                addFirebaseFailResource(task);
+                addFirebaseFailResourceForList(task);
             }
         });
         return mediator;
     }
 
-    public LiveData<Resource<Security>> fetchById(String id) {
-        securities.addSnapshotListener((queryDocumentSnapshots, e) -> {
+    public LiveData<Security> fetchById(String id) {
+        Query query = securities.whereEqualTo("id", id);
+        query.addSnapshotListener((queryDocumentSnapshots, e) -> {
             List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
-            documents.forEach(documentSnapshot -> {
-                if (id.equals(documentSnapshot.getId())) {
-                    Security security = documentSnapshot.toObject(Security.class);
-                    securityLiveData.setValue(new Resource<>(security, null));
-                }
-            });
+            documents.forEach(documentSnapshot ->
+                    securityLiveData.setValue(documentSnapshot.toObject(Security.class)));
         });
         return securityLiveData;
     }
 
-    private void populateLiveDataWithFetchedDocuments() {
+    private void populateMediatorWithAllSecurities() {
         securities.addSnapshotListener((queryDocumentSnapshots, e) -> {
-            List<DocumentSnapshot> documents = Objects.requireNonNull(queryDocumentSnapshots).getDocuments();
+
+            List<DocumentSnapshot> documents = Objects
+                    .requireNonNull(queryDocumentSnapshots).getDocuments();
             List<Security> securities = new ArrayList<>();
+
             documents.forEach(documentSnapshot -> {
                 Security newSecurity = documentSnapshot.toObject(Security.class);
                 Objects.requireNonNull(newSecurity).setId(documentSnapshot.getId());
@@ -70,9 +69,8 @@ public class SecurityRepository {
         });
     }
 
-    private void addFirebaseFailResource(Task<QuerySnapshot> task) {
+    private void addFirebaseFailResourceForList(Task<QuerySnapshot> task) {
         MutableLiveData<Resource<List<Security>>> firebaseFails = new MutableLiveData<>();
-
         mediator.addSource(firebaseFails, failResource -> {
             Resource<List<Security>> currentResource = mediator.getValue();
             Resource<List<Security>> newResource = currentResource != null ?
