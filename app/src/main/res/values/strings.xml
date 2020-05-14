@@ -27,5 +27,11 @@
     <string name="interest_type">Tipo de Juros</string>
     <string name="simulate_value">Insira o valor investido</string>
     <string name="currency_symbol">R$</string>
+    <string name="tax">Imposto</string>
+    <string name="graphGrossIncome">Rend. Bruto</string>
+    <string name="graphLiquidIncome">Rend. Líq.</string>
+    <string name="graphLiquidAmount">Montante Líq.</string>
+    <string name="insertCorrectAmountValue">Valor inserido menor do que investimento mínimo!</string>
+    <string name="insertAValueGreaterOrEqualTo">Insira um valor maior ou igual à</string>
 
 </resources>

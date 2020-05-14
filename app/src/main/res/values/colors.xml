@@ -11,6 +11,7 @@
     <color name="graphLiquidIncome">#23CE6B</color>
     <color name="colorSecondaryLight">#5efa81</color>
     <color name="graphBackground">#373737</color>
+    <color name="error">#DF4653</color>
     <color name="white">#ffffff</color>
     <color name="favourite">#ffd600</color>
     <color name="colorAccent">#D81B60</color>

@@ -5,9 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +17,6 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Legend;
@@ -26,6 +25,7 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.model.GradientColor;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,28 +38,25 @@ import br.com.horizon.databinding.SecurityDetailsBinding;
 import br.com.horizon.model.Security;
 import br.com.horizon.ui.VisualComponents;
 import br.com.horizon.ui.databinding.ObservableSecurity;
-import br.com.horizon.ui.securities.viewmodel.SecurityDetailsViewModel;
 
 public class SecurityDetailsFragment extends Fragment {
-    private SecurityDetailsViewModel securityDetailsViewModel;
     private SecurityDetailsBinding dataBinder;
-    private String securityId;
     private ObservableSecurity observableSecurity;
     private MutableLiveData<Double> simulateValue;
     private int graphTextColor;
+    private int taxColor;
+    private int grossIncomeColor;
+    private int liquidIncomeColor;
+    private int liquidAmountColor;
 
 
     @SuppressLint("SimpleDateFormat")
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        securityDetailsViewModel = ViewModelProviders.of(this).get(SecurityDetailsViewModel.class);
         observableSecurity = new ObservableSecurity();
         simulateValue = new MutableLiveData<>();
         simulateValue.setValue(5000.0);
-        securityId = SecurityDetailsFragmentArgs
-                .fromBundle(requireArguments())
-                .getSecurityId();
     }
 
     @Nullable
@@ -77,57 +74,92 @@ public class SecurityDetailsFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        graphTextColor = ContextCompat.getColor(view.getContext(), R.color.moccasin);
 
         MainActivity.getAppStateViewModel()
                 .setComponents(new VisualComponents(true, false));
 
+        instantiateChartColors(view);
+
         Security security = createMockSecurity();
-        BarChart chart = dataBinder.simulationPlot;
 
-        int taxColor = ContextCompat.getColor(view.getContext(), R.color.graphTax);
-        int grossIncomeColor = ContextCompat.getColor(view.getContext(), R.color.graphInterest);
-        int liquidIncomeColor = ContextCompat.getColor(view.getContext(), R.color.graphInterestLiq);
-        int liquidAmountColor = ContextCompat.getColor(view.getContext(), R.color.graphLiquidIncome);
+        BarChart chart = createBarChart(view);
+        setupChartLegend(chart);
 
-        List<GradientColor> gradientColors = new ArrayList<>();
-        gradientColors.add(new GradientColor(taxColor, taxColor));
-        gradientColors.add(new GradientColor(grossIncomeColor, grossIncomeColor));
-        gradientColors.add(new GradientColor(liquidIncomeColor, liquidIncomeColor));
-        gradientColors.add(new GradientColor(liquidAmountColor, liquidAmountColor));
+        simulateValue.observe(getViewLifecycleOwner(), aDouble -> {
+            if (simulateValue.getValue() >= security.getTitleValue()) {
+                updateChartDataSet(security, chart);
+                dataBinder.securityDetailSimulateValue.setErrorEnabled(false);
+            } else {
+                Snackbar.make(view, getString(R.string.insertCorrectAmountValue), Snackbar.LENGTH_LONG).show();
+                dataBinder.securityDetailSimulateValueText.requestFocus();
+                dataBinder.securityDetailSimulateValue.setErrorEnabled(true);
+                dataBinder.securityDetailSimulateValue.setError(getString(R.string.insertAValueGreaterOrEqualTo)
+                        + " " + getString(R.string.currency_symbol) + security.getTitleValue());
+            }
 
-        chart.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.graphBackground));
-        chart.getXAxis().setEnabled(false);
-        chart.getAxisRight().setEnabled(false);
-        chart.getDescription().setEnabled(false);
+        });
+    }
 
-        chart.getAxisLeft().setTextColor(graphTextColor);
+    private void updateChartDataSet(Security security, BarChart chart) {
+        BarDataSet barDataSet = new BarDataSet(addDataValues(security, simulateValue.getValue()), "");
+        barDataSet.setGradientColors(setupBarColors());
+        barDataSet.setValueTextColor(graphTextColor);
+        barDataSet.setValueTextSize(16f);
+
+        BarData barData = new BarData();
+        barData.addDataSet(barDataSet);
+        chart.setData(barData);
+        chart.invalidate();
+    }
+
+    private void instantiateChartColors(@NonNull View view) {
+        graphTextColor = ContextCompat.getColor(view.getContext(), R.color.moccasin);
+        taxColor = ContextCompat.getColor(view.getContext(), R.color.graphTax);
+        grossIncomeColor = ContextCompat.getColor(view.getContext(), R.color.graphInterest);
+        liquidIncomeColor = ContextCompat.getColor(view.getContext(), R.color.graphInterestLiq);
+        liquidAmountColor = ContextCompat.getColor(view.getContext(), R.color.graphLiquidIncome);
+    }
+
+    private void setupChartLegend(BarChart chart) {
         Legend chartLegend = chart.getLegend();
 
         List<LegendEntry> legends = new ArrayList<>();
-        legends.add(new LegendEntry("Imposto", Legend.LegendForm.CIRCLE, 10f, 10f, null, taxColor));
-        legends.add(new LegendEntry("Rend. Bruto", Legend.LegendForm.CIRCLE, 10f, 10f, null, grossIncomeColor));
-        legends.add(new LegendEntry("Rend. Líq.", Legend.LegendForm.CIRCLE, 10f, 10f, null, liquidIncomeColor));
-        legends.add(new LegendEntry("Montante Líq.", Legend.LegendForm.CIRCLE, 10f, 10f, null, liquidAmountColor));
+        legends.add(new LegendEntry(getString(R.string.tax), Legend.LegendForm.CIRCLE,
+                10f, 10f, null, taxColor));
+        legends.add(new LegendEntry(getString(R.string.graphGrossIncome), Legend.LegendForm.CIRCLE,
+                10f, 10f, null, grossIncomeColor));
+        legends.add(new LegendEntry(getString(R.string.graphLiquidIncome), Legend.LegendForm.CIRCLE,
+                10f, 10f, null, liquidIncomeColor));
+        legends.add(new LegendEntry(getString(R.string.graphLiquidAmount), Legend.LegendForm.CIRCLE,
+                10f, 10f, null, liquidAmountColor));
         chartLegend.setCustom(legends);
 
         chartLegend.setTextSize(12f);
         chartLegend.setTextColor(graphTextColor);
         chartLegend.setYEntrySpace(5f);
         chartLegend.setFormToTextSpace(5f);
+    }
 
-        simulateValue.observe(getViewLifecycleOwner(), aDouble -> {
-            BarDataSet barDataSet = new BarDataSet(addDataValues(security, simulateValue.getValue()), "Valor (R$)");
-            barDataSet.setGradientColors(gradientColors);
-            barDataSet.setValueTextColor(ContextCompat.getColor(view.getContext(), R.color.moccasin));
-            barDataSet.setValueTextSize(16f);
-            BarData barData = new BarData();
-            barData.setValueTextColor(ContextCompat.getColor(view.getContext(), R.color.white));
-            barData.addDataSet(barDataSet);
-            chart.setData(barData);
-            chart.invalidate();
-        });
+    private BarChart createBarChart(@NonNull View view) {
+        BarChart chart = dataBinder.simulationPlot;
+        chart.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.graphBackground));
+        chart.getXAxis().setEnabled(false);
+        chart.getAxisRight().setEnabled(false);
+        chart.getDescription().setEnabled(false);
 
+        chart.getAxisLeft().setTextColor(graphTextColor);
+
+        return chart;
+    }
+
+    private List<GradientColor> setupBarColors() {
+        List<GradientColor> gradientColors = new ArrayList<>();
+        gradientColors.add(new GradientColor(taxColor, taxColor));
+        gradientColors.add(new GradientColor(grossIncomeColor, grossIncomeColor));
+        gradientColors.add(new GradientColor(liquidIncomeColor, liquidIncomeColor));
+        gradientColors.add(new GradientColor(liquidAmountColor, liquidAmountColor));
+
+        return gradientColors;
     }
 
     private List<BarEntry> addDataValues(Security security, Double investedAmount) {
@@ -164,14 +196,6 @@ public class SecurityDetailsFragment extends Fragment {
         if (validateUrl(webIntent)) {
             startActivity(webIntent);
         }
-    }
-
-    private void setupSecurity(ObservableSecurity observableSecurity) {
-        securityDetailsViewModel.fetchById(securityId)
-                .observe(this, security -> {
-                    Log.d("VIEWMODELSEC", "setupSecurity: " + security.toString());
-                    observableSecurity.update(security);
-                });
     }
 
     private boolean validateUrl(Intent webIntent) {
