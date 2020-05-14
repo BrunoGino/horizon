@@ -38,12 +38,10 @@ import br.com.horizon.databinding.SecurityDetailsBinding;
 import br.com.horizon.model.Security;
 import br.com.horizon.ui.VisualComponents;
 import br.com.horizon.ui.databinding.ObservableSecurity;
-import br.com.horizon.ui.securities.viewmodel.BarDataViewModel;
 import br.com.horizon.ui.securities.viewmodel.SecurityDetailsViewModel;
 
 public class SecurityDetailsFragment extends Fragment {
     private SecurityDetailsViewModel securityDetailsViewModel;
-    private BarDataViewModel chartDataSetViewModel;
     private SecurityDetailsBinding dataBinder;
     private String securityId;
     private ObservableSecurity observableSecurity;
@@ -56,7 +54,6 @@ public class SecurityDetailsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         securityDetailsViewModel = ViewModelProviders.of(this).get(SecurityDetailsViewModel.class);
-        chartDataSetViewModel = ViewModelProviders.of(this).get(BarDataViewModel.class);
         observableSecurity = new ObservableSecurity();
         simulateValue = new MutableLiveData<>();
         simulateValue.setValue(5000.0);
