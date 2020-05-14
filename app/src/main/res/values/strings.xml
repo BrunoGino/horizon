@@ -24,5 +24,8 @@
     <string name="simulate">Simule</string>
     <string name="insert_inv_amount">Insira o valor investido</string>
     <string name="visit">Visitar</string>
+    <string name="interest_type">Tipo de Juros</string>
+    <string name="simulate_value">Insira o valor investido</string>
+    <string name="currency_symbol">R$</string>
 
 </resources>

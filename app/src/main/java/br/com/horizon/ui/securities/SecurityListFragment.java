@@ -21,6 +21,7 @@ import br.com.horizon.MainActivity;
 import br.com.horizon.R;
 import br.com.horizon.ui.VisualComponents;
 import br.com.horizon.ui.securities.recyclerview.SecurityAdapter;
+import br.com.horizon.ui.securities.viewmodel.SecurityListViewModel;
 
 public class SecurityListFragment extends Fragment {
     private SecurityListViewModel securityListViewModel;

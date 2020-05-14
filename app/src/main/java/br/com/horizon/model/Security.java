@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode
 @Builder
-@AllArgsConstructor
 public class Security {
     private String id;
     private String titleName;

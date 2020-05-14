@@ -14,6 +14,10 @@
         <variable
             name="urlClick"
             type="android.view.View.OnClickListener" />
+
+        <variable
+            name="simulateValue"
+            type="androidx.lifecycle.MutableLiveData&lt;Double>" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,10 +32,10 @@
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintVertical_bias="1.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -42,36 +46,50 @@
                     android:layout_width="match_parent"
                     android:layout_height="400dp"
                     android:layout_marginStart="5dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginEnd="5dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/security_detail_simulate_value"
-                    />
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_simulate_value" />
 
                 <TextView
                     android:id="@+id/security_detail_min_inv_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@={Converter.convertDoubleToString(security.titleValue)}"
-                    android:textSize="22sp"
+                    android:textColor="@color/moccasin"
+                    android:textSize="@dimen/detail_screen_subtitle_value"
                     app:layout_constraintStart_toStartOf="@+id/security_detail_min_inv"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_min_inv"
                     tools:text="R$10000,00" />
 
                 <TextView
+                    android:id="@+id/security_detail_income_type_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@={Converter.convertDoubleToString(security.titleValue)}"
+                    android:textColor="@color/moccasin"
+                    android:textSize="@dimen/detail_screen_subtitle_value"
+                    app:layout_constraintStart_toStartOf="@+id/security_income_type"
+                    app:layout_constraintTop_toBottomOf="@+id/security_income_type"
+                    tools:text="Semestral" />
+
+                <TextView
                     android:id="@+id/security_details_name"
-                    android:layout_width="280dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="5dp"
                     android:maxLines="3"
                     android:text="@={security.titleName}"
                     android:textAllCaps="true"
                     android:textColor="@color/moccasin"
-                    android:textSize="26sp"
+                    android:textSize="@dimen/detail_screen_title"
                     android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/security_detail_favorite"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Tesouro IPCA+ 2024" />
@@ -82,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:text="@={security.publisher}"
                     android:textColor="@color/moccasin"
-                    android:textSize="22sp"
+                    android:textSize="@dimen/detail_screen_subtitle_value"
                     app:layout_constraintStart_toStartOf="@+id/security_detail_publisher"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_publisher"
                     tools:text="Easyinvest" />
@@ -93,10 +111,21 @@
                     android:layout_height="wrap_content"
                     android:text="@={security.emitter}"
                     android:textColor="@color/moccasin"
-                    android:textSize="22sp"
+                    android:textSize="@dimen/detail_screen_subtitle_value"
                     app:layout_constraintStart_toStartOf="@+id/security_detail_emitter"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_emitter"
                     tools:text="Modal Mais" />
+
+                <TextView
+                    android:id="@+id/security_detail_sec_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@={security.emitter}"
+                    android:textColor="@android:color/secondary_text_dark"
+                    android:textSize="@dimen/detail_screen_subtitle_value"
+                    app:layout_constraintStart_toStartOf="@+id/security_details_name"
+                    app:layout_constraintTop_toBottomOf="@+id/security_details_name"
+                    tools:text="TD" />
 
                 <TextView
                     android:id="@+id/security_detail_tax_value"
@@ -104,8 +133,7 @@
                     android:layout_height="wrap_content"
                     android:text="@={Converter.convertBooleanToString(security.ir)}"
                     android:textColor="@color/moccasin"
-                    android:textSize="22sp"
-                    app:layout_constraintEnd_toEndOf="@+id/security_detail_tax"
+                    android:textSize="@dimen/detail_screen_subtitle_value"
                     app:layout_constraintStart_toStartOf="@+id/security_detail_tax"
                     app:layout_constraintTop_toBottomOf="@id/security_detail_tax"
                     tools:text="22,5%" />
@@ -114,11 +142,9 @@
                     android:id="@+id/security_detail_liquidity_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
                     android:text="@={Converter.convertIntegerToString(security.liquidity)}"
                     android:textColor="@color/moccasin"
-                    android:textSize="22sp"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textSize="@dimen/detail_screen_subtitle_value"
                     app:layout_constraintStart_toStartOf="@+id/security_detail_liquidity"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_liquidity"
                     tools:text="No vencimento" />
@@ -131,7 +157,7 @@
                     android:checkMarkTint="@color/colorSecondary"
                     android:text="@string/guaranteed"
                     android:textColor="@color/moccasin"
-                    android:textSize="22sp"
+                    android:textSize="@dimen/detail_screen_subtitle_value"
                     app:layout_constraintStart_toStartOf="@+id/security_detail_fgc"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_fgc" />
 
@@ -141,7 +167,7 @@
                     android:layout_height="wrap_content"
                     android:text="@={Converter.convertDateToString(security.endingDate)}"
                     android:textColor="@color/moccasin"
-                    android:textSize="22sp"
+                    android:textSize="@dimen/detail_screen_subtitle_value"
                     app:layout_constraintStart_toStartOf="@+id/security_detail_expiry_date"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_expiry_date"
                     tools:text="22/01/2026" />
@@ -153,7 +179,7 @@
                     android:layout_marginStart="5dp"
                     android:text="@={Converter.convertDoubleToString(security.interest)}"
                     android:textColor="@color/moccasin"
-                    android:textSize="22sp"
+                    android:textSize="@dimen/detail_screen_subtitle_value"
                     app:layout_constraintBottom_toBottomOf="@+id/security_detail_income_tax_yearly_gross"
                     app:layout_constraintStart_toEndOf="@+id/security_detail_income_tax_yearly_gross"
                     tools:text="15%" />
@@ -165,7 +191,7 @@
                     android:layout_marginStart="5dp"
                     android:text="@={Converter.convertDoubleToString(security.interest)}"
                     android:textColor="@color/moccasin"
-                    android:textSize="22sp"
+                    android:textSize="@dimen/detail_screen_subtitle_value"
                     app:layout_constraintBottom_toBottomOf="@+id/security_detail_income_tax_yearly_liquid"
                     app:layout_constraintStart_toEndOf="@+id/security_detail_income_tax_yearly_liquid"
                     tools:text="15%" />
@@ -176,10 +202,9 @@
                     android:layout_height="0dp"
                     android:text="@={security.interestType}"
                     android:textColor="@color/moccasin"
-                    android:textSize="22sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/security_detail_income_tax_yearly_liquid_value"
-                    app:layout_constraintStart_toStartOf="@+id/security_income_type"
-                    app:layout_constraintTop_toBottomOf="@+id/security_income_type"
+                    android:textSize="@dimen/detail_screen_subtitle_value"
+                    app:layout_constraintStart_toStartOf="@+id/security_detail_interest_type"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_interest_type"
                     tools:text="Prefixado" />
 
                 <TextView
@@ -187,7 +212,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/moccasin"
-                    android:textSize="22sp"
+                    android:textSize="@dimen/detail_screen_subtitle_value"
                     app:layout_constraintStart_toStartOf="@+id/security_detail_rescue"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_rescue"
                     tools:text="D+1" />
@@ -211,7 +236,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="@string/publisher"
-                    android:textSize="16sp"
+                    android:textColor="@android:color/secondary_text_dark"
+                    android:textSize="@dimen/detail_screen_subtitle"
                     app:layout_constraintStart_toStartOf="@+id/security_income_type"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_head_divider" />
 
@@ -222,7 +248,8 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:text="@string/emitter"
-                    android:textSize="16sp"
+                    android:textColor="@android:color/secondary_text_dark"
+                    android:textSize="@dimen/detail_screen_subtitle"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_head_divider" />
 
@@ -231,47 +258,53 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/rescue"
-                    android:textSize="16sp"
+                    android:textColor="@android:color/secondary_text_dark"
+                    android:textSize="@dimen/detail_screen_subtitle"
                     app:layout_constraintStart_toStartOf="@+id/security_income_type"
                     app:layout_constraintTop_toTopOf="@+id/security_detail_expiry_date" />
 
                 <TextView
                     android:id="@+id/security_detail_income_tax_yearly"
                     android:layout_width="wrap_content"
-                    android:layout_height="27dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:text="@string/income_tax_yearly"
-                    android:textSize="16sp"
+                    android:textColor="@android:color/secondary_text_dark"
+                    android:textSize="@dimen/detail_screen_subtitle"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_emitter_publisher_divider" />
 
                 <TextView
                     android:id="@+id/security_income_type"
                     android:layout_width="wrap_content"
-                    android:layout_height="27dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:text="@string/income_type"
-                    android:textSize="16sp"
+                    android:textColor="@android:color/secondary_text_dark"
+                    android:textSize="@dimen/detail_screen_subtitle"
                     app:layout_constraintBottom_toBottomOf="@+id/security_detail_income_tax_yearly"
                     app:layout_constraintEnd_toEndOf="parent" />
 
                 <TextView
                     android:id="@+id/security_detail_income_tax_yearly_gross"
                     android:layout_width="wrap_content"
-                    android:layout_height="27dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:text="@string/gross"
-                    android:textSize="18sp"
+                    android:textColor="@android:color/secondary_text_dark"
+                    android:textSize="@dimen/detail_screen_subtitle"
                     app:layout_constraintStart_toStartOf="@+id/security_detail_income_tax_yearly"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_income_tax_yearly" />
 
                 <TextView
                     android:id="@+id/security_detail_income_tax_yearly_liquid"
                     android:layout_width="wrap_content"
-                    android:layout_height="27dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:text="@string/liquid"
-                    android:textSize="18sp"
+                    android:textColor="@android:color/secondary_text_dark"
+                    android:textSize="@dimen/detail_screen_subtitle"
                     app:layout_constraintBottom_toBottomOf="@+id/security_detail_income_tax_yearly_gross_value"
                     app:layout_constraintStart_toEndOf="@+id/security_detail_income_tax_yearly_gross_value" />
 
@@ -282,7 +315,8 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:text="@string/tax_on_income"
-                    android:textSize="16sp"
+                    android:textColor="@android:color/secondary_text_dark"
+                    android:textSize="@dimen/detail_screen_subtitle"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_tax_fgc_divider" />
 
@@ -292,7 +326,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="@string/liquidity"
-                    android:textSize="16sp"
+                    android:textColor="@android:color/secondary_text_dark"
+                    android:textSize="@dimen/detail_screen_subtitle"
                     app:layout_constraintStart_toStartOf="@+id/security_detail_rescue"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_tax_fgc_divider" />
 
@@ -301,7 +336,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/fgc"
-                    android:textSize="16sp"
+                    android:textColor="@android:color/secondary_text_dark"
+                    android:textSize="@dimen/detail_screen_subtitle"
                     app:layout_constraintStart_toStartOf="@+id/security_detail_rescue"
                     app:layout_constraintTop_toTopOf="@+id/security_detail_min_inv" />
 
@@ -310,9 +346,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:text="@string/simulate"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/detail_screen_subtitle"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_min_inv_divider" />
 
@@ -323,9 +359,21 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:text="@string/minimum_investment"
-                    android:textSize="16sp"
+                    android:textColor="@android:color/secondary_text_dark"
+                    android:textSize="@dimen/detail_screen_subtitle"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_expiry_date_divider" />
+
+                <TextView
+                    android:id="@+id/security_detail_interest_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:text="@string/interest_type"
+                    android:textColor="@android:color/secondary_text_dark"
+                    android:textSize="@dimen/detail_screen_subtitle"
+                    app:layout_constraintStart_toEndOf="@+id/security_detail_min_inv_value"
+                    app:layout_constraintTop_toTopOf="@+id/security_detail_min_inv" />
 
                 <TextView
                     android:id="@+id/security_detail_expiry_date"
@@ -334,32 +382,18 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:text="@string/expiry_date"
-                    android:textSize="16sp"
+                    android:textColor="@android:color/secondary_text_dark"
+                    android:textSize="@dimen/detail_screen_subtitle"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_income_tax_divider" />
 
-                <EditText
-                    android:id="@+id/security_detail_simulate_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:autofillHints=""
-                    android:ems="10"
-                    android:inputType="numberSigned"
-                    android:text="@string/insert_inv_amount"
-                    android:tooltipText="@string/insert_inv_amount"
-                    app:layout_constraintStart_toStartOf="@+id/security_detail_simulate"
-                    app:layout_constraintTop_toBottomOf="@+id/security_detail_simulate" />
-
                 <ImageButton
                     android:id="@+id/security_detail_favorite"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="30dp"
                     android:background="@drawable/ic_star_favourite"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/security_details_name"
                     app:layout_constraintTop_toTopOf="@+id/security_details_name" />
 
                 <TextView
@@ -375,7 +409,7 @@
                 <View
                     android:id="@+id/security_detail_head_divider"
                     android:layout_width="0dp"
-                    android:layout_height="2dp"
+                    android:layout_height="@dimen/detail_screen_divisor_height"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="10dp"
@@ -387,9 +421,9 @@
                 <View
                     android:id="@+id/security_detail_emitter_publisher_divider"
                     android:layout_width="match_parent"
-                    android:layout_height="2dp"
+                    android:layout_height="@dimen/detail_screen_divisor_height"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginEnd="10dp"
                     android:background="@color/colorPrimaryLight"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -400,9 +434,9 @@
                 <View
                     android:id="@+id/security_detail_income_tax_divider"
                     android:layout_width="0dp"
-                    android:layout_height="2dp"
+                    android:layout_height="@dimen/detail_screen_divisor_height"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginEnd="10dp"
                     android:background="@color/colorPrimaryLight"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -413,9 +447,9 @@
                 <View
                     android:id="@+id/security_detail_expiry_date_divider"
                     android:layout_width="0dp"
-                    android:layout_height="2dp"
+                    android:layout_height="@dimen/detail_screen_divisor_height"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginEnd="10dp"
                     android:background="@color/colorPrimaryLight"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -426,9 +460,9 @@
                 <View
                     android:id="@+id/security_detail_min_inv_divider"
                     android:layout_width="0dp"
-                    android:layout_height="2dp"
+                    android:layout_height="@dimen/detail_screen_divisor_height"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginEnd="10dp"
                     android:background="@color/colorPrimaryLight"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -439,15 +473,36 @@
                 <View
                     android:id="@+id/security_detail_tax_fgc_divider"
                     android:layout_width="0dp"
-                    android:layout_height="2dp"
+                    android:layout_height="@dimen/detail_screen_divisor_height"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginEnd="10dp"
                     android:background="@color/colorPrimaryLight"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/security_detail_interest_type_value" />
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_income_tax_yearly_liquid_value" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/security_detail_simulate_value"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:hint="@string/simulate_value"
+                    app:hintTextColor="@color/moccasin"
+                    app:layout_constraintStart_toStartOf="@+id/security_detail_simulate"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_simulate"
+                    app:prefixText="@string/currency_symbol">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/security_detail_simulate_value_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:maxLength="11"
+                        android:text="@={Converter.convertDoubleToString(simulateValue)}"
+                        android:textSize="@dimen/detail_screen_subtitle_value" />
+                </com.google.android.material.textfield.TextInputLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 

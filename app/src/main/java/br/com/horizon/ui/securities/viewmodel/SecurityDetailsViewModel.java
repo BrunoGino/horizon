@@ -1,4 +1,4 @@
-package br.com.horizon.ui.securities;
+package br.com.horizon.ui.securities.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
@@ -14,7 +14,6 @@ public class SecurityDetailsViewModel extends ViewModel {
         this.repository = new SecurityRepository();
 
     }
-
     public LiveData<Security> fetchById(String id) {
         return repository.fetchById(id);
     }

@@ -11,7 +11,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import br.com.horizon.ui.AppStateViewModel;
+import br.com.horizon.ui.securities.viewmodel.AppStateViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
