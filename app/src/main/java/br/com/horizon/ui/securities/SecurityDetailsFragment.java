@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -25,11 +24,8 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.model.GradientColor;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import br.com.horizon.MainActivity;
@@ -74,27 +70,28 @@ public class SecurityDetailsFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         MainActivity.getAppStateViewModel()
                 .setComponents(new VisualComponents(true, false));
-
         instantiateChartColors(view);
-
-        Security security = createMockSecurity();
-
         BarChart chart = createBarChart(view);
         setupChartLegend(chart);
 
+        Security security = observableSecurity.toSecurity();
+
+        dataBinder.securityDetailAnnualGrossIncomeValue.setText(
+                String.valueOf(security.getGrossAnnualIncome(simulateValue.getValue())));
+        dataBinder.securityDetailAnnualLiquidIncomeValue.setText(
+                String.valueOf(security.getLiquidAnnualIncome(simulateValue.getValue())));
+
         simulateValue.observe(getViewLifecycleOwner(), aDouble -> {
-            if (simulateValue.getValue() >= security.getTitleValue()) {
-                updateChartDataSet(security, chart);
+            if (simulateValue.getValue() >= observableSecurity.getTitleValue().getValue()) {
+                updateChartDataSet(observableSecurity.toSecurity(), chart);
                 dataBinder.securityDetailSimulateValue.setErrorEnabled(false);
             } else {
-                Snackbar.make(view, getString(R.string.insertCorrectAmountValue), Snackbar.LENGTH_LONG).show();
                 dataBinder.securityDetailSimulateValueText.requestFocus();
                 dataBinder.securityDetailSimulateValue.setErrorEnabled(true);
                 dataBinder.securityDetailSimulateValue.setError(getString(R.string.insertAValueGreaterOrEqualTo)
-                        + " " + getString(R.string.currency_symbol) + security.getTitleValue());
+                        + " " + getString(R.string.currency_symbol) + observableSecurity.getTitleValue().getValue());
             }
 
         });
@@ -169,25 +166,6 @@ public class SecurityDetailsFragment extends Fragment {
         entries.add(new BarEntry(2, security.getLiquidIncome(investedAmount)));
         entries.add(new BarEntry(3, security.getLiquidIncomeAmount(investedAmount)));
         return entries;
-    }
-
-
-    private Security createMockSecurity() {
-        return Security.builder().id("1")
-                .titleName("Tesouro IPCA+ 2024")
-                .titleType("TD")
-                .titleValue(5000.0)
-                .publisher("Easyinvest")
-                .emitter("Tesouro Nacional")
-                .interest(2.24)
-                .interestType("IPCA")
-                .liquidity(1)
-                .totalTime(1734)
-                .endingDate(new GregorianCalendar(2025, Calendar.AUGUST, 15).getTime())
-                .ir(true)
-                .fgc(true)
-                .url("http://tesouro.fazenda.gov.br/tesouro-direto-precos-e-taxas-dos-titulos")
-                .build();
     }
 
     private void redirectsToBrowserIfUrlIsValid() {

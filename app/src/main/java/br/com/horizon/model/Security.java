@@ -30,7 +30,17 @@ public class Security {
     private String url;
 
     public float getTotalTax(double investedAmount) {
-        return getTotalIncome(investedAmount) * 0.15f;
+        return getTotalIncome(investedAmount) * getTaxPercentage();
+    }
+
+    private float getTaxPercentage() {
+        if (totalTime >= 181 && totalTime <= 360) {
+            return 0.20f;
+        } else if (totalTime >= 361 && totalTime <= 720) {
+            return 0.175f;
+        } else {
+            return 0.15f;
+        }
     }
 
     public float getTotalIncome(double investedAmount) {
@@ -47,8 +57,18 @@ public class Security {
                 + getLiquidIncome(investedAmount)));
     }
 
+    public float getLiquidAnnualIncome(double investedAmount) {
+        return (float) getGrossAnnualIncome(investedAmount) - (getTaxPercentage() / getTotalTimeInYears());
+    }
+
+    public float getGrossAnnualIncome(double investedAmount) {
+        return (float) (investedAmount * (interest));
+    }
+
+
     private float getTotalTimeInYears() {
         return totalTime / 365f;
     }
+
 
 }

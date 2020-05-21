@@ -12,11 +12,11 @@
     <string name="minimum_investment">Inv. Mínimo</string>
     <string name="security_details">Detalhes do Título</string>
     <string name="emitter">Emissor</string>
-    <string name="income_tax_yearly">Retorno (a.a)</string>
+    <string name="income_tax_yearly">Rendimento (a.a)</string>
     <string name="liquidity">Liquidez</string>
     <string name="gross">Bruto</string>
     <string name="liquid">Líquido</string>
-    <string name="tax_on_income">I.R. sobre rendimento</string>
+    <string name="tax_on_income">I.R. sobre retorno</string>
     <string name="expiry_date">Vencimento</string>
     <string name="income_type">Tipo de Rendimento</string>
     <string name="fgc">FGC</string>
@@ -33,5 +33,8 @@
     <string name="graphLiquidAmount">Montante Líq.</string>
     <string name="insertCorrectAmountValue">Valor inserido menor do que investimento mínimo!</string>
     <string name="insertAValueGreaterOrEqualTo">Insira um valor maior ou igual à</string>
+    <string name="liquid_income">Líquido</string>
+    <string name="gross_income">Bruto</string>
+    <string name="income_annually">Rendimento (a.a)</string>
 
 </resources>

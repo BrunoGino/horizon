@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_gravity="center">
 
     <data>
 
@@ -348,6 +349,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
                     android:text="@string/simulate"
+                    android:textColor="@android:color/secondary_text_dark"
                     android:textSize="@dimen/detail_screen_subtitle"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_min_inv_divider" />
@@ -393,6 +395,7 @@
                     android:layout_height="40dp"
                     android:layout_marginEnd="30dp"
                     android:background="@drawable/ic_star_favourite"
+                    app:layout_constraintBottom_toBottomOf="@+id/security_details_name"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/security_details_name" />
 
@@ -485,7 +488,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/security_detail_simulate_value"
-                    android:layout_width="300dp"
+                    android:layout_width="210dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:hint="@string/simulate_value"
@@ -506,6 +509,56 @@
                         android:text="@={Converter.convertDoubleToString(simulateValue)}"
                         android:textSize="@dimen/detail_screen_subtitle_value" />
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/security_annual_income"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/income_annually"
+                    app:layout_constraintStart_toStartOf="@+id/security_detail_fgc_value"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_min_inv_divider" />
+
+                <TextView
+                    android:id="@+id/security_detail_annual_liquid_income_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/moccasin"
+                    android:textSize="@dimen/detail_screen_subtitle_value"
+                    app:layout_constraintEnd_toEndOf="@+id/security_annual_income"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_annual_gross_income_value"
+                    tools:text="R$5500,00"/>
+
+                <TextView
+                    android:id="@+id/security_detail_annual_gross_income_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/moccasin"
+                    android:textSize="@dimen/detail_screen_subtitle_value"
+                    app:layout_constraintEnd_toEndOf="@+id/security_annual_income"
+                    app:layout_constraintTop_toBottomOf="@+id/security_annual_income"
+                    tools:text="R$5600,00"/>
+
+                <TextView
+                    android:id="@+id/security_detail_annual_gross_income"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gross_income"
+                    android:textColor="@android:color/secondary_text_dark"
+                    android:textSize="@dimen/detail_screen_subtitle"
+                    app:layout_constraintBottom_toBottomOf="@+id/security_detail_annual_gross_income_value"
+                    app:layout_constraintEnd_toStartOf="@+id/security_detail_annual_gross_income_value" />
+
+                <TextView
+                    android:id="@+id/security_detail_annual_liquid_income"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/liquid_income"
+                    android:textColor="@android:color/secondary_text_dark"
+                    android:textSize="@dimen/detail_screen_subtitle"
+                    app:layout_constraintBottom_toBottomOf="@+id/security_detail_annual_liquid_income_value"
+                    app:layout_constraintEnd_toStartOf="@+id/security_detail_annual_liquid_income_value" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 

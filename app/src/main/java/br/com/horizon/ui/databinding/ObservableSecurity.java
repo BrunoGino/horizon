@@ -35,14 +35,17 @@ public class ObservableSecurity {
     private final MutableLiveData<Integer> totalTime = new MutableLiveData<>();
     @Getter
     private final MutableLiveData<String> url = new MutableLiveData<>();
+    @Getter
+    private final MutableLiveData<Float> taxPercentage = new MutableLiveData<>();
 
     public ObservableSecurity() {
-        this.security =Security.builder().id("1")
+
+        this.security = Security.builder().id("1")
                 .titleName("Tesouro IPCA+ 2024")
                 .titleType("TD")
                 .titleValue(5000.0)
-                .publisher("")
-                .emitter("")
+                .publisher("Tesouro Direto")
+                .emitter("Tesouro Nacional")
                 .interest(2.24)
                 .interestType("IPCA")
                 .liquidity(1)
@@ -52,6 +55,7 @@ public class ObservableSecurity {
                 .fgc(true)
                 .url("http://tesouro.fazenda.gov.br/tesouro-direto-precos-e-taxas-dos-titulos")
                 .build();
+
         this.titleName.setValue(security.getTitleName());
         this.interest.setValue(security.getInterest());
         this.interestType.setValue(security.getInterestType());

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -19,21 +20,19 @@ public class MainActivity extends AppCompatActivity {
     private NavController controller;
     private BottomNavigationView bottomNavigationView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         controller = Navigation.findNavController(this, R.id.nav_host_fragment);
         setupBottomNavigationView();
-        setupVisualComponents();
         setupOnDestinationChangeListener();
+
     }
 
     private void setupOnDestinationChangeListener() {
         controller.addOnDestinationChangedListener((controller1, destination, arguments) -> {
-            setTitle(destination.getLabel());
-
+            getSupportActionBar().setTitle(destination.getLabel());
             appStateViewModel.getComponents().observe(this, visualComponents -> {
                 if (visualComponents.hasAppBar()) {
                     getSupportActionBar().show();
@@ -50,9 +49,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setupVisualComponents() {
-
-    }
 
     private void setupBottomNavigationView() {
         bottomNavigationView = findViewById(R.id.nav_view);
