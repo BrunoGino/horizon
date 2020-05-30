@@ -38,6 +38,12 @@
         <argument
             android:name="securityId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_securityDetailsFragment_to_securitiesListFragment2"
+            app:destination="@id/securitiesListFragment"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/securitiesListFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <action
         android:id="@+id/action_global_securityListFragment"

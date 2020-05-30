@@ -65,6 +65,11 @@ public class SecurityAdapter extends RecyclerView.Adapter<SecurityAdapter.ViewHo
     }
 
     @Override
+    public long getItemId(int position) {
+        return securities.get(position).hashCode();
+    }
+
+    @Override
     public int getItemCount() {
         return securities.size();
     }

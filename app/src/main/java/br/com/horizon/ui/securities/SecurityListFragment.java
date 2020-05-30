@@ -15,12 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import java.text.NumberFormat;
 import java.util.Objects;
 
 import br.com.horizon.MainActivity;
 import br.com.horizon.R;
-import br.com.horizon.databinding.SecurityListBinding;
 import br.com.horizon.ui.VisualComponents;
 import br.com.horizon.ui.securities.recyclerview.SecurityAdapter;
 import br.com.horizon.ui.securities.viewmodel.SecurityListViewModel;
@@ -30,8 +28,6 @@ public class SecurityListFragment extends Fragment {
     private SecurityAdapter securityAdapter;
     private SecurityAdapter.OnItemClickListener onRecyclerItemClickListener;
     private NavController controller;
-    private NumberFormat currencyFormatter;
-    private SecurityListBinding dataBinder;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -51,7 +47,6 @@ public class SecurityListFragment extends Fragment {
         pullSecurities(view);
 
 
-
         this.controller = Navigation.findNavController(view);
     }
 
@@ -62,7 +57,7 @@ public class SecurityListFragment extends Fragment {
      *             wrong.
      */
     private void pullSecurities(View view) {
-        securityListViewModel.fetchAll().observe(this, listResource -> {
+        securityListViewModel.fetchAll().observe(getViewLifecycleOwner(), listResource -> {
             if (listResource.getData() != null) {
                 securityAdapter.addAll(listResource.getData());
             } else {

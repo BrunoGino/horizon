@@ -1,10 +1,11 @@
 package br.com.horizon;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -30,16 +31,27 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private void setupOnDestinationChangeListener() {
         controller.addOnDestinationChangedListener((controller1, destination, arguments) -> {
             getSupportActionBar().setTitle(destination.getLabel());
             appStateViewModel.getComponents().observe(this, visualComponents -> {
                 if (visualComponents.hasAppBar()) {
                     getSupportActionBar().show();
+
                 } else {
                     getSupportActionBar().hide();
                 }
-
                 if (visualComponents.hasBottomNav()) {
                     bottomNavigationView.setVisibility(View.VISIBLE);
                 } else {

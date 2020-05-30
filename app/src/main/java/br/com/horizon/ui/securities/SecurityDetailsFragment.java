@@ -8,14 +8,19 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Legend;
@@ -42,6 +47,7 @@ public class SecurityDetailsFragment extends Fragment {
     private NumberFormat currencyFormatter;
     private NumberFormat percentageFormatter;
     private MutableLiveData<Double> simulateValue;
+    private NavController navController;
     private int graphTextColor;
     private int taxColor;
     private int grossIncomeColor;
@@ -58,28 +64,49 @@ public class SecurityDetailsFragment extends Fragment {
         currencyFormatter = NumberFormat.getCurrencyInstance();
         percentageFormatter = NumberFormat.getPercentInstance();
         percentageFormatter.setMaximumFractionDigits(2);
+
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         dataBinder = SecurityDetailsBinding.inflate(inflater, container, false);
+        setupDataBindingProperties();
+
+        return dataBinder.getRoot();
+    }
+
+
+    private void setupDataBindingProperties() {
         dataBinder.setLifecycleOwner(this);
         dataBinder.setSecurity(observableSecurity);
         dataBinder.setSimulateValue(simulateValue);
         dataBinder.setCurrencyFormatter(currencyFormatter);
         dataBinder.setPercentageFormatter(percentageFormatter);
         dataBinder.setUrlClick(v -> redirectsToBrowserIfUrlIsValid());
-        return dataBinder.getRoot();
     }
 
     @Override
-
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         MainActivity.getAppStateViewModel()
                 .setComponents(new VisualComponents(true, false));
+
+        navController = Navigation.findNavController(view);
+
+
+        OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                navController.popBackStack();
+            }
+        };
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), onBackPressedCallback);
+
         instantiateChartColors(view);
+
         BarChart chart = createBarChart(view);
         setupChartLegend(chart);
 
@@ -114,6 +141,12 @@ public class SecurityDetailsFragment extends Fragment {
                 setErrorEditTextWhenSimulateValueIsLessThan(minInvValue);
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return super.onOptionsItemSelected(item);
+
     }
 
     private String parseLiquidity(Integer liquidity) {
