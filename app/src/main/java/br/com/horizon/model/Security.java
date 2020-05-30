@@ -29,11 +29,14 @@ public class Security {
     private Integer totalTime;
     private String url;
 
-    public float getTotalTax(double investedAmount) {
-        return getTotalIncome(investedAmount) * getTaxPercentage();
+    public float getTotalTax(double simulateValue) {
+        if (ir) {
+            return getGrossAnnualIncome(simulateValue) * getTaxPercentage();
+        }
+        return 0;
     }
 
-    private float getTaxPercentage() {
+    public float getTaxPercentage() {
         if (totalTime >= 181 && totalTime <= 360) {
             return 0.20f;
         } else if (totalTime >= 361 && totalTime <= 720) {
@@ -43,32 +46,38 @@ public class Security {
         }
     }
 
-    public float getTotalIncome(double investedAmount) {
+    public float getTotalGrossIncome(double simulateValue) {
         double totalIncomeTax = getTotalTimeInYears() * (interest / 100);
-        return Float.parseFloat(String.valueOf(totalIncomeTax * investedAmount));
+        return (float) (totalIncomeTax * simulateValue);
     }
 
-    public float getLiquidIncome(double investedAmount) {
-        return Float.parseFloat(String.valueOf(getTotalIncome(investedAmount) - getTotalTax(investedAmount)));
+    public float getTotalLiquidIncome(double simulateValue) {
+        return getTotalGrossIncome(simulateValue) - getTotalTax(simulateValue);
     }
 
-    public float getLiquidIncomeAmount(double investedAmount) {
-        return Float.parseFloat(String.valueOf(investedAmount
-                + getLiquidIncome(investedAmount)));
+    public float getLiquidIncomeTotalAmount(double simulateValue) {
+        return (float) (simulateValue
+                + getTotalLiquidIncome(simulateValue));
     }
-
-    public float getLiquidAnnualIncome(double investedAmount) {
-        return (float) getGrossAnnualIncome(investedAmount) - (getTaxPercentage() / getTotalTimeInYears());
-    }
-
-    public float getGrossAnnualIncome(double investedAmount) {
-        return (float) (investedAmount * (interest));
-    }
-
 
     private float getTotalTimeInYears() {
         return totalTime / 365f;
     }
 
+    public float getLiquidAnnualIncome(double simulateValue) {
+        return getGrossAnnualIncome(simulateValue) - (getTaxPercentage() / getTotalTimeInYears());
+    }
 
+    public Double getLiquidAnnualInterest(double simulateValue) {
+        return interest - ((getAnnualIrTaxValue(simulateValue) * interest)
+                / getGrossAnnualIncome(simulateValue));
+    }
+
+    private float getAnnualIrTaxValue(double simulateValue) {
+        return getTaxPercentage() * getGrossAnnualIncome(simulateValue);
+    }
+
+    public float getGrossAnnualIncome(double simulateValue) {
+        return (float) (simulateValue * (interest / 100.0));
+    }
 }

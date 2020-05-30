@@ -35,6 +35,12 @@
     <string name="insertAValueGreaterOrEqualTo">Insira um valor maior ou igual à</string>
     <string name="liquid_income">Líquido</string>
     <string name="gross_income">Bruto</string>
-    <string name="income_annually">Rendimento (a.a)</string>
-
+    <string name="income_annually">Retorno (a.a)</string>
+    <string name="not_guaranteed">Não garantido</string>
+    <string name="on_expiry">No vencimento</string>
+    <string name="daily">Diário</string>
+    <string name="semiannual">Semestral</string>
+    <string name="no_fee">Isento</string>
+    <string name="day_plus_one">D+1</string>
+    <string name="on_expiry_abbreviated">No vencim.</string>
 </resources>

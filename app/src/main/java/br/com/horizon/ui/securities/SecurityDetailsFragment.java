@@ -25,6 +25,7 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.model.GradientColor;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +39,8 @@ import br.com.horizon.ui.databinding.ObservableSecurity;
 public class SecurityDetailsFragment extends Fragment {
     private SecurityDetailsBinding dataBinder;
     private ObservableSecurity observableSecurity;
+    private NumberFormat currencyFormatter;
+    private NumberFormat percentageFormatter;
     private MutableLiveData<Double> simulateValue;
     private int graphTextColor;
     private int taxColor;
@@ -52,7 +55,9 @@ public class SecurityDetailsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         observableSecurity = new ObservableSecurity();
         simulateValue = new MutableLiveData<>();
-        simulateValue.setValue(5000.0);
+        currencyFormatter = NumberFormat.getCurrencyInstance();
+        percentageFormatter = NumberFormat.getPercentInstance();
+        percentageFormatter.setMaximumFractionDigits(2);
     }
 
     @Nullable
@@ -61,8 +66,10 @@ public class SecurityDetailsFragment extends Fragment {
         dataBinder = SecurityDetailsBinding.inflate(inflater, container, false);
         dataBinder.setLifecycleOwner(this);
         dataBinder.setSecurity(observableSecurity);
-        dataBinder.setUrlClick(v -> redirectsToBrowserIfUrlIsValid());
         dataBinder.setSimulateValue(simulateValue);
+        dataBinder.setCurrencyFormatter(currencyFormatter);
+        dataBinder.setPercentageFormatter(percentageFormatter);
+        dataBinder.setUrlClick(v -> redirectsToBrowserIfUrlIsValid());
         return dataBinder.getRoot();
     }
 
@@ -78,27 +85,83 @@ public class SecurityDetailsFragment extends Fragment {
 
         Security security = observableSecurity.toSecurity();
 
+        simulateValue.setValue(security.getTitleValue());
+        dataBinder.securityDetailIncomeTaxYearlyGrossValue.setText(
+                percentageFormatter.format(security.getInterest() / 100));
+
+        dataBinder.securityDetailIncomeTaxYearlyLiquidValue.setText(parseYearlyLiquidInterest(security));
+
         dataBinder.securityDetailAnnualGrossIncomeValue.setText(
-                String.valueOf(security.getGrossAnnualIncome(simulateValue.getValue())));
+                currencyFormatter.format(security.getGrossAnnualIncome(simulateValue.getValue()))
+        );
+
         dataBinder.securityDetailAnnualLiquidIncomeValue.setText(
-                String.valueOf(security.getLiquidAnnualIncome(simulateValue.getValue())));
+                parseAnnualLiquidIncome(security)
+        );
+        dataBinder.securityDetailLiquidityValue.setText(parseLiquidity(security.getLiquidity()));
+        dataBinder.securityDetailInterestTypeValue.setText(parseInterestType(security.getInterestType()));
+
+        dataBinder.securityDetailIncomeTypeValue.setText(parseIncomeType(security.getLiquidity(), security.getTitleName()));
+
+        dataBinder.securityDetailTaxValue.setText(parseTotalTaxPercentage(observableSecurity));
 
         simulateValue.observe(getViewLifecycleOwner(), aDouble -> {
-            if (simulateValue.getValue() >= observableSecurity.getTitleValue().getValue()) {
-                updateChartDataSet(observableSecurity.toSecurity(), chart);
-                dataBinder.securityDetailSimulateValue.setErrorEnabled(false);
+            Double simulateValue = this.simulateValue.getValue();
+            Double minInvValue = observableSecurity.getTitleValue().getValue();
+            if (simulateValue >= minInvValue) {
+                updateChartDataWithSimulateValue(chart);
             } else {
-                dataBinder.securityDetailSimulateValueText.requestFocus();
-                dataBinder.securityDetailSimulateValue.setErrorEnabled(true);
-                dataBinder.securityDetailSimulateValue.setError(getString(R.string.insertAValueGreaterOrEqualTo)
-                        + " " + getString(R.string.currency_symbol) + observableSecurity.getTitleValue().getValue());
+                setErrorEditTextWhenSimulateValueIsLessThan(minInvValue);
             }
-
         });
     }
 
+    private String parseLiquidity(Integer liquidity) {
+        if (liquidity == 1) {
+            return "D+1";
+        }
+        return getString(R.string.on_expiry);
+    }
+
+    private String parseAnnualLiquidIncome(Security security) {
+
+        if (security.getIr()) {
+            return currencyFormatter.format(security.getLiquidAnnualIncome(simulateValue.getValue()));
+        }
+
+        return currencyFormatter.format(security.getGrossAnnualIncome(simulateValue.getValue()));
+    }
+
+    private String parseYearlyLiquidInterest(Security security) {
+
+        if (security.getIr()) {
+            return percentageFormatter.format(security.getLiquidAnnualInterest(simulateValue.getValue()) / 100);
+        }
+
+        return percentageFormatter.format(security.getInterest() / 100);
+    }
+
+    private String parseTotalTaxPercentage(ObservableSecurity observableSecurity) {
+        if (observableSecurity.toSecurity().getIr()) {
+            return percentageFormatter.format(observableSecurity.getTotalIrTaxPercentage());
+        }
+        return getString(R.string.no_fee);
+    }
+
+    private void setErrorEditTextWhenSimulateValueIsLessThan(Double minInvValue) {
+        dataBinder.securityDetailSimulateValueText.requestFocus();
+        dataBinder.securityDetailSimulateValue.setErrorEnabled(true);
+        dataBinder.securityDetailSimulateValue.setError(getString(R.string.insertAValueGreaterOrEqualTo)
+                + " " + currencyFormatter.format(minInvValue));
+    }
+
+    private void updateChartDataWithSimulateValue(BarChart chart) {
+        updateChartDataSet(observableSecurity.toSecurity(), chart);
+        dataBinder.securityDetailSimulateValue.setErrorEnabled(false);
+    }
+
     private void updateChartDataSet(Security security, BarChart chart) {
-        BarDataSet barDataSet = new BarDataSet(addDataValues(security, simulateValue.getValue()), "");
+        BarDataSet barDataSet = new BarDataSet(addDataValues(security), "");
         barDataSet.setGradientColors(setupBarColors());
         barDataSet.setValueTextColor(graphTextColor);
         barDataSet.setValueTextSize(16f);
@@ -159,12 +222,12 @@ public class SecurityDetailsFragment extends Fragment {
         return gradientColors;
     }
 
-    private List<BarEntry> addDataValues(Security security, Double investedAmount) {
+    private List<BarEntry> addDataValues(Security security) {
         List<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(0, security.getTotalTax(investedAmount)));
-        entries.add(new BarEntry(1, security.getTotalIncome(investedAmount)));
-        entries.add(new BarEntry(2, security.getLiquidIncome(investedAmount)));
-        entries.add(new BarEntry(3, security.getLiquidIncomeAmount(investedAmount)));
+        entries.add(new BarEntry(0, security.getTotalTax(simulateValue.getValue())));
+        entries.add(new BarEntry(1, security.getTotalGrossIncome(simulateValue.getValue())));
+        entries.add(new BarEntry(2, security.getTotalLiquidIncome(simulateValue.getValue())));
+        entries.add(new BarEntry(3, security.getLiquidIncomeTotalAmount(simulateValue.getValue())));
         return entries;
     }
 
@@ -183,6 +246,22 @@ public class SecurityDetailsFragment extends Fragment {
         return activities.size() > 0;
     }
 
+    private String parseInterestType(String interestType) {
+        if (interestType == "ANO") {
+            return getString(R.string.on_expiry);
+        } else {
+            return interestType;
+        }
+    }
+
+    private String parseIncomeType(int liquidity, String securityName) {
+        if (liquidity == 1) {
+            return getString(R.string.daily);
+        } else if (securityName.toUpperCase().contains("SEMESTRAL") || securityName.toUpperCase().contains("SEMESTRAIS")) {
+            return getString(R.string.semiannual);
+        }
+        return getString(R.string.on_expiry);
+    }
 
 }
 

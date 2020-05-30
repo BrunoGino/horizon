@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -14,11 +16,17 @@
         <variable
             name="dateFormat"
             type="java.text.SimpleDateFormat" />
+
+        <variable
+            name="currencyFormatter"
+            type="java.text.NumberFormat" />
+
+        <variable
+            name="percentageFormatter"
+            type="java.text.NumberFormat" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -45,11 +53,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:fontFamily="sans-serif"
                     android:text="@string/title_net_income"
                     android:textColor="@color/white"
-                    android:textSize="13sp"
+                    android:textSize="12sp"
                     android:textStyle="normal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -58,11 +66,11 @@
                     android:id="@+id/item_list_liquidity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="15dp"
                     android:fontFamily="sans-serif"
                     android:text="@string/rescue"
                     android:textColor="@color/white"
-                    android:textSize="13sp"
+                    android:textSize="12sp"
                     android:textStyle="normal"
                     app:layout_constraintStart_toEndOf="@+id/item_list_min_investment"
                     app:layout_constraintTop_toTopOf="@+id/item_list_net_income" />
@@ -75,7 +83,7 @@
                     android:fontFamily="sans-serif"
                     android:text="@string/minimum_investment"
                     android:textColor="@color/white"
-                    android:textSize="13sp"
+                    android:textSize="12sp"
                     android:textStyle="normal"
                     app:layout_constraintStart_toEndOf="@+id/item_list_net_income"
                     app:layout_constraintTop_toTopOf="@+id/item_list_net_income" />
@@ -84,11 +92,11 @@
                     android:id="@+id/item_list_ir"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="25dp"
                     android:fontFamily="sans-serif"
                     android:text="@string/ir"
                     android:textColor="@color/white"
-                    android:textSize="13sp"
+                    android:textSize="12sp"
                     android:textStyle="normal"
                     app:layout_constraintStart_toEndOf="@+id/item_list_liquidity"
                     app:layout_constraintTop_toTopOf="@+id/item_list_net_income" />
@@ -97,11 +105,13 @@
                     android:id="@+id/item_list_favorite_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
                     android:fontFamily="sans-serif"
                     android:text="100"
                     android:textColor="@color/favourite"
                     android:textSize="12sp"
                     android:textStyle="normal"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/item_list_favorite"
                     app:layout_constraintStart_toStartOf="@id/item_list_favorite"
                     app:layout_constraintTop_toBottomOf="@+id/item_list_favorite" />
@@ -112,14 +122,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:fontFamily="sans-serif"
-                    android:text="@{String.valueOf(security.interest)}"
+                    android:text="@{percentageFormatter.format(security.interest/100)}"
                     android:textAllCaps="true"
                     android:textColor="@color/colorSecondary"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@id/item_list_net_income"
                     app:layout_constraintTop_toBottomOf="@id/item_list_net_income"
+                    app:layout_constraintVertical_bias="0.0"
                     tools:text="5%" />
 
                 <TextView
@@ -127,31 +138,41 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
+                    android:ellipsize="end"
                     android:fontFamily="sans-serif"
-                    android:text="@{String.valueOf(security.liquidity)}"
-                    android:textAllCaps="true"
+                    android:maxWidth="80dp"
+                    android:maxLength="10"
+                    android:maxLines="1"
+                    android:text="@{security.liquidity == 1 ? @string/day_plus_one : @string/on_expiry_abbreviated }"
+                    android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/item_list_liquidity"
                     app:layout_constraintTop_toBottomOf="@+id/item_list_liquidity"
+                    app:layout_constraintVertical_bias="0.0"
                     tools:text="D+1" />
 
                 <TextView
                     android:id="@+id/item_list_min_investment_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginBottom="5dp"
+                    android:ellipsize="end"
                     android:fontFamily="sans-serif"
-                    android:text="@{String.valueOf(security.titleValue)}"
+                    android:maxLines="1"
+                    android:text="@{currencyFormatter.format(security.titleValue)}"
                     android:textAllCaps="true"
                     android:textColor="@color/white"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/item_list_liquidity_value"
                     app:layout_constraintStart_toStartOf="@+id/item_list_min_investment"
                     app:layout_constraintTop_toBottomOf="@+id/item_list_min_investment"
+                    app:layout_constraintVertical_bias="0.0"
                     tools:text="R$1000,00" />
 
                 <TextView
@@ -160,23 +181,22 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:fontFamily="sans-serif"
-                    android:text="@string/ir_regressive"
+                    android:text="@{security.ir ? @string/ir_regressive : @string/no_fee}"
                     android:textColor="@color/white"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/item_list_ir"
-                    app:layout_constraintTop_toBottomOf="@+id/item_list_ir" />
+                    app:layout_constraintTop_toBottomOf="@+id/item_list_ir"
+                    app:layout_constraintVertical_bias="0.0" />
 
                 <ImageView
                     android:id="@+id/item_list_favorite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/item_list_ir_value"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_stars_black_24dp" />
 

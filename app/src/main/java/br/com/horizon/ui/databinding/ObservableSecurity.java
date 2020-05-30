@@ -36,7 +36,8 @@ public class ObservableSecurity {
     @Getter
     private final MutableLiveData<String> url = new MutableLiveData<>();
     @Getter
-    private final MutableLiveData<Float> taxPercentage = new MutableLiveData<>();
+    private final MutableLiveData<Float> totalIrTaxPercentage = new MutableLiveData<>();
+
 
     public ObservableSecurity() {
 
@@ -50,9 +51,9 @@ public class ObservableSecurity {
                 .interestType("IPCA")
                 .liquidity(1)
                 .totalTime(1734)
-                .endingDate(new Date())
-                .ir(true)
-                .fgc(true)
+                .endingDate(new Date(2024,02,14))
+                .ir(false)
+                .fgc(false)
                 .url("http://tesouro.fazenda.gov.br/tesouro-direto-precos-e-taxas-dos-titulos")
                 .build();
 
@@ -68,6 +69,7 @@ public class ObservableSecurity {
         this.titleValue.setValue(security.getTitleValue());
         this.totalTime.setValue(security.getTotalTime());
         this.url.setValue(security.getUrl());
+        this.totalIrTaxPercentage.setValue(security.getTaxPercentage());
     }
 
     public void update(Security security) {
@@ -84,6 +86,7 @@ public class ObservableSecurity {
         ir.postValue(security.getIr());
         totalTime.postValue(security.getTotalTime());
         url.postValue(security.getUrl());
+        totalIrTaxPercentage.postValue(security.getTaxPercentage());
     }
 
     public Security toSecurity() {
@@ -102,4 +105,5 @@ public class ObservableSecurity {
                 .url(url.getValue())
                 .build();
     }
+
 }

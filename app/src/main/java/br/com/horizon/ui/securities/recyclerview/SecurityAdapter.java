@@ -11,6 +11,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LifecycleRegistry;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,17 +24,24 @@ public class SecurityAdapter extends RecyclerView.Adapter<SecurityAdapter.ViewHo
     private final OnItemClickListener onItemClickListener;
     private final Context context;
     private final List<Security> securities = new ArrayList<>();
+    private final NumberFormat percentageFormatter;
     private SecurityItemBinding binder;
+    private NumberFormat currencyFormatter;
 
     public SecurityAdapter(Context context, OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
         this.context = context;
+        this.currencyFormatter = NumberFormat.getCurrencyInstance();
+        this.percentageFormatter = NumberFormat.getPercentInstance();
+        this.percentageFormatter.setMaximumFractionDigits(2);
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         binder = SecurityItemBinding.inflate(LayoutInflater.from(context), parent, false);
+        binder.setCurrencyFormatter(currencyFormatter);
+        binder.setPercentageFormatter(percentageFormatter);
         return new ViewHolder(binder);
     }
 
