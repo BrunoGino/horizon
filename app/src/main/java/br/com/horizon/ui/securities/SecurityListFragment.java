@@ -75,6 +75,7 @@ public class SecurityListFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.securities_recycler);
         setOnRecyclerItemClickListener();
         securityAdapter = new SecurityAdapter(view.getContext(), this.onRecyclerItemClickListener);
+        securityAdapter.setHasStableIds(true);
         recyclerView.setAdapter(securityAdapter);
     }
 

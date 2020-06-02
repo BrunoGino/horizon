@@ -76,4 +76,6 @@ dependencies {
     implementation 'org.projectlombok:lombok:1.18.12'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
 
+    implementation 'org.florescu.android.rangeseekbar:rangeseekbar-library:0.3.0'
+
 }

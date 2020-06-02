@@ -12,7 +12,7 @@
     <string name="minimum_investment">Inv. Mínimo</string>
     <string name="security_details">Detalhes do Título</string>
     <string name="emitter">Emissor</string>
-    <string name="income_tax_yearly">Rendimento (a.a)</string>
+    <string name="interest_yearly">Rendimento (a.a)</string>
     <string name="liquidity">Liquidez</string>
     <string name="gross">Bruto</string>
     <string name="liquid">Líquido</string>
@@ -43,4 +43,6 @@
     <string name="no_fee">Isento</string>
     <string name="day_plus_one">D+1</string>
     <string name="on_expiry_abbreviated">No vencim.</string>
+    <string name="apply">Aplicar</string>
+    <string name="cancel">Cancelar</string>
 </resources>

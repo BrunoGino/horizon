@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <TextView
+        android:id="@+id/filters_interest_liquid2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/liquid"
+        app:layout_constraintStart_toStartOf="@+id/filters_interest_gross2"
+        app:layout_constraintTop_toBottomOf="@+id/filter_range_value_gross_interest2" />
+
+    <TextView
+        android:id="@+id/filters_interest_liquid3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/expiry_date"
+        android:textSize=""
+        app:layout_constraintStart_toStartOf="@+id/filters_interest_liquid2"
+        app:layout_constraintTop_toBottomOf="@+id/filter_range_value_gross_interest3" />
+
+    <TextView
+        android:id="@+id/filters_interest_liquid5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/fgc"
+        app:layout_constraintStart_toEndOf="@+id/editText2"
+        app:layout_constraintTop_toBottomOf="@+id/filter_range_value_gross_interest3" />
+
+    <TextView
+        android:id="@+id/filters_emitter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/emitter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/filters_publisher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/publisher"
+        app:layout_constraintStart_toStartOf="@+id/filters_emitter"
+        app:layout_constraintTop_toBottomOf="@+id/filters_emitter_value" />
+
+    <TextView
+        android:id="@+id/filters_interest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/interest_yearly"
+        app:layout_constraintStart_toStartOf="@+id/filters_publisher"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <TextView
+        android:id="@+id/filters_interest2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/interest_yearly"
+        app:layout_constraintStart_toStartOf="@+id/filters_interest_liquid"
+        app:layout_constraintTop_toBottomOf="@+id/filter_range_value_liquid_interest" />
+
+    <TextView
+        android:id="@+id/filters_interest_gross"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/gross"
+        app:layout_constraintStart_toStartOf="@+id/filters_interest"
+        app:layout_constraintTop_toBottomOf="@+id/filters_interest" />
+
+    <TextView
+        android:id="@+id/filters_interest_gross2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/gross"
+        app:layout_constraintStart_toStartOf="@+id/filters_interest2"
+        app:layout_constraintTop_toBottomOf="@+id/filters_interest2" />
+
+    <TextView
+        android:id="@+id/filters_interest_liquid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/liquid"
+        app:layout_constraintStart_toStartOf="@+id/filters_interest_gross"
+        app:layout_constraintTop_toBottomOf="@+id/filter_range_value_gross_interest" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/filters_cancel_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/error"
+        android:text="@string/cancel"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/guideline" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/filters_apply_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorSecondary"
+        android:text="@string/apply"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/guideline"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <org.florescu.android.rangeseekbar.RangeSeekBar
+        android:id="@+id/filter_range_value_gross_interest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/filters_interest_gross" />
+
+    <org.florescu.android.rangeseekbar.RangeSeekBar
+        android:id="@+id/filter_range_value_gross_interest3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filters_interest_liquid2" />
+
+    <org.florescu.android.rangeseekbar.RangeSeekBar
+        android:id="@+id/filter_range_value_gross_interest2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filters_interest_gross2" />
+
+    <org.florescu.android.rangeseekbar.RangeSeekBar
+        android:id="@+id/filter_range_value_liquid_interest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filters_interest_liquid" />
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:inputType="date"
+        android:textSize="@dimen/detail_screen_subtitle_value"
+        app:layout_constraintRight_toLeftOf="@id/guideline"
+        app:layout_constraintStart_toStartOf="@+id/filters_interest_liquid3"
+        app:layout_constraintTop_toBottomOf="@+id/filters_interest_liquid3" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Switch"
+        android:textSize="@dimen/detail_screen_subtitle_value"
+        app:layout_constraintStart_toStartOf="@+id/filters_interest_liquid5"
+        app:layout_constraintTop_toBottomOf="@+id/filters_interest_liquid5" />
+
+    <TextView
+        android:id="@+id/filters_income_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/income_type"
+        app:layout_constraintStart_toStartOf="@+id/filters_publisher"
+        app:layout_constraintTop_toBottomOf="@+id/spinner2" />
+
+    <Spinner
+        android:id="@+id/filters_emitter_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filters_emitter" />
+
+    <Spinner
+        android:id="@+id/spinner2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filters_publisher" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/liquidity"
+        app:layout_constraintStart_toStartOf="@+id/filters_income_type"
+        app:layout_constraintTop_toBottomOf="@+id/filters_income_type" />
+
+    <Spinner
+        android:id="@+id/spinner3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/filters_income_type"
+        app:layout_constraintEnd_toEndOf="@+id/spinner2"
+        app:layout_constraintStart_toEndOf="@+id/filters_income_type"
+        app:layout_constraintTop_toTopOf="@+id/filters_income_type" />
+
+    <Spinner
+        android:id="@+id/spinner4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/textView2"
+        app:layout_constraintEnd_toEndOf="@+id/spinner3"
+        app:layout_constraintStart_toStartOf="@+id/spinner3"
+        app:layout_constraintTop_toTopOf="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/tax_on_income"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <Spinner
+        android:id="@+id/spinner5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/textView3"
+        app:layout_constraintEnd_toEndOf="@+id/spinner4"
+        app:layout_constraintStart_toStartOf="@+id/spinner4"
+        app:layout_constraintTop_toTopOf="@+id/textView3" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

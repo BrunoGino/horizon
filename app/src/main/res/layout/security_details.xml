@@ -254,7 +254,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="@string/income_tax_yearly"
+                    android:text="@string/interest_yearly"
                     android:textColor="@android:color/secondary_text_dark"
                     android:textSize="@dimen/detail_screen_subtitle"
                     app:layout_constraintStart_toStartOf="parent"

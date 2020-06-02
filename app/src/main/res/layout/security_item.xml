@@ -151,8 +151,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/item_list_liquidity"
                     app:layout_constraintTop_toBottomOf="@+id/item_list_liquidity"
-                    app:layout_constraintVertical_bias="0.0"
-                    tools:text="D+1" />
+                    app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
                     android:id="@+id/item_list_min_investment_value"
@@ -172,8 +171,7 @@
                     app:layout_constraintEnd_toStartOf="@+id/item_list_liquidity_value"
                     app:layout_constraintStart_toStartOf="@+id/item_list_min_investment"
                     app:layout_constraintTop_toBottomOf="@+id/item_list_min_investment"
-                    app:layout_constraintVertical_bias="0.0"
-                    tools:text="R$1000,00" />
+                    app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
                     android:id="@+id/item_list_ir_value"
