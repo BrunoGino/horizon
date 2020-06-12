@@ -24,6 +24,10 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <argument
+            android:name="filter"
+            app:argType="br.com.horizon.model.Filter"
+            app:nullable="true" />
     </fragment>
 
     <fragment
@@ -48,6 +52,16 @@
         android:id="@+id/securityListFilterFragment"
         android:name="br.com.horizon.ui.securities.SecurityListFilterFragment"
         android:label="@string/filters"
-        tools:layout="@layout/security_list_filter" />
+        tools:layout="@layout/security_list_filter">
+        <action
+            android:id="@+id/action_securityListFilterFragment_to_securitiesListFragment"
+            app:destination="@id/securitiesListFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_close_exit"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim">
+        </action>
+
+    </fragment>
 
 </navigation>

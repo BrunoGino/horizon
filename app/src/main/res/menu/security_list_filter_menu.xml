@@ -3,9 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/security_list_filter_menu"
-        android:icon="@drawable/ic_filter"
+        android:icon="@drawable/ic_tune_black_24dp"
         android:iconTint="@color/graphInterest"
         android:title="@string/filters"
-        app:showAsAction="always"
-        />
+        app:showAsAction="always" />
 </menu>

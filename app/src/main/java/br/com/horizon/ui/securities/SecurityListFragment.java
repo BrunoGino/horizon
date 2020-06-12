@@ -22,6 +22,7 @@ import java.util.Objects;
 
 import br.com.horizon.MainActivity;
 import br.com.horizon.R;
+import br.com.horizon.model.Filter;
 import br.com.horizon.ui.VisualComponents;
 import br.com.horizon.ui.securities.recyclerview.SecurityAdapter;
 import br.com.horizon.viewmodel.SecurityListViewModel;
@@ -91,6 +92,22 @@ public class SecurityListFragment extends Fragment {
      *             wrong.
      */
     private void pullSecurities(View view) {
+        Filter filter = SecurityListFragmentArgs.fromBundle(getArguments()).getFilter();
+
+        if (filter == null) {
+            fetchAllSecurities(view);
+        } else {
+            securityListViewModel.fetchFiltered(filter).observe(getViewLifecycleOwner(), listResource -> {
+                if (listResource.getData() != null) {
+
+                } else {
+                    Snackbar.make(view, getString(R.string.no_filter_match), 3000).show();
+                }
+            });
+        }
+    }
+
+    private void fetchAllSecurities(View view) {
         securityListViewModel.fetchAll().observe(getViewLifecycleOwner(), listResource -> {
             if (listResource.getData() != null) {
                 securityAdapter.addAll(listResource.getData());

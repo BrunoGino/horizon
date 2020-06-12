@@ -1,7 +1,5 @@
 package br.com.horizon.repository;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -14,9 +12,12 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
+import br.com.horizon.model.Filter;
 import br.com.horizon.model.Security;
 import br.com.horizon.repository.callback.LoadedDataCallback;
 import br.com.horizon.repository.resource.Resource;
@@ -34,21 +35,20 @@ public class SecurityRepository {
         this.mediator = new MediatorLiveData<>();
     }
 
-    public MutableLiveData<Double> getMinOrMaxInterest(Query.Direction direction) {
+    public void getMaxOrMinInterest(Query.Direction direction, LoadedDataCallback<Double> rangeCallback) {
         Query query = securities.orderBy("interest", direction).limit(1);
-        MutableLiveData<Double> minValue = new MutableLiveData<>();
-
-        query.addSnapshotListener((queryDocumentSnapshots, e) -> {
-            List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
-            DocumentSnapshot documentSnapshot = documents.get(0);
-            minValue.setValue((Double) documentSnapshot.get("interest"));
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                List<DocumentSnapshot> documents = task.getResult().getDocuments();
+                DocumentSnapshot documentSnapshot = documents.get(0);
+                Double interest = documentSnapshot.getDouble("interest");
+                rangeCallback.onSuccess(interest);
+            }
         });
-
-        return minValue;
     }
 
-    public MutableLiveData<List<String>> getAllPublishers() {
-        List<String> publishers = new ArrayList<>();
+    public void getAllPublishers(LoadedDataCallback<Set<String>> callback) {
+        Set<String> publishers = new HashSet<>();
         securities.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 QuerySnapshot result = task.getResult();
@@ -56,35 +56,25 @@ public class SecurityRepository {
                 documents.forEach(documentSnapshot -> {
                     Security foundSecurity = documentSnapshot.toObject(Security.class);
                     publishers.add(foundSecurity.getPublisher());
-
                 });
+                callback.onSuccess(publishers);
             }
         });
-
-        return new MutableLiveData<>(publishers);
     }
 
-    public MutableLiveData<List<String>> getAllEmitters() {
-        List<String> emitters = new ArrayList<>();
-        MutableLiveData<List<String>> listMutableLiveData = new MutableLiveData<>();
+    public void getAllEmitters(LoadedDataCallback<Set<String>> callback) {
+        Set<String> emitters = new HashSet<>();
         securities.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 QuerySnapshot result = task.getResult();
                 List<DocumentSnapshot> documents = result.getDocuments();
                 documents.forEach(documentSnapshot -> {
-
                     Security foundSecurity = documentSnapshot.toObject(Security.class);
-                    Log.d("FOUND_SECURITY", foundSecurity.getEmitter());
                     emitters.add(foundSecurity.getEmitter());
-                    listMutableLiveData.setValue(emitters);
-                    String s = emitters.get(emitters.indexOf(foundSecurity) + 1);
-                    Log.d("EMITTER_ADDED_TO_LIST", s);
                 });
+                callback.onSuccess(emitters);
             }
         });
-//        listMutableLiveData.getValue().forEach(s -> Log.d("FOUND_IN_LIVE_DATA", s));
-
-        return listMutableLiveData;
     }
 
     public LiveData<Resource<List<Security>>> fetchAll() {
@@ -143,4 +133,7 @@ public class SecurityRepository {
                 .getException()).getMessage()));
     }
 
+    public LiveData<Resource<List<Security>>> fetchFiltered(Filter filter) {
+        return null;
+    }
 }
