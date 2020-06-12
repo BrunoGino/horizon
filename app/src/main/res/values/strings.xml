@@ -45,4 +45,7 @@
     <string name="on_expiry_abbreviated">No vencim.</string>
     <string name="apply">Aplicar</string>
     <string name="cancel">Cancelar</string>
+    <string name="filters">Filtros</string>
+    <string name="until">"Até: "</string>
+    <string name="fetch_error">Não foi possível carregar o título</string>
 </resources>

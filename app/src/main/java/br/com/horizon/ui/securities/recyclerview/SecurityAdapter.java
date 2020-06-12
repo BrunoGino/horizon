@@ -101,9 +101,8 @@ public class SecurityAdapter extends RecyclerView.Adapter<SecurityAdapter.ViewHo
 
         void vinculate(Security security) {
             this.security = security;
-            ObservableSecurity observableSecurity = new ObservableSecurity();
-            observableSecurity.update(this.security);
-            binder.setSecurity(observableSecurity);//Needs to be SecurityData
+            ObservableSecurity observableSecurity = new ObservableSecurity(this.security);
+            binder.setSecurity(observableSecurity);
             binder.setDateFormat(dateFormat);
         }
 
@@ -115,10 +114,10 @@ public class SecurityAdapter extends RecyclerView.Adapter<SecurityAdapter.ViewHo
     }
 
     public void addAll(List<Security> securities) {
-        notifyItemRangeRemoved(0, this.securities.size());
+//        notifyItemRangeRemoved(0, this.securities.size());
         this.securities.clear();
         this.securities.addAll(securities);
-        this.notifyItemRangeInserted(0, this.securities.size());
+//        notifyItemRangeInserted(0, this.securities.size());
     }
 
     public interface OnItemClickListener {

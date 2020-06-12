@@ -1,4 +1,4 @@
-package br.com.horizon.ui.securities.viewmodel;
+package br.com.horizon.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

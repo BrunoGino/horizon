@@ -2,6 +2,9 @@ package br.com.horizon.ui.securities;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -21,7 +24,7 @@ import br.com.horizon.MainActivity;
 import br.com.horizon.R;
 import br.com.horizon.ui.VisualComponents;
 import br.com.horizon.ui.securities.recyclerview.SecurityAdapter;
-import br.com.horizon.ui.securities.viewmodel.SecurityListViewModel;
+import br.com.horizon.viewmodel.SecurityListViewModel;
 
 public class SecurityListFragment extends Fragment {
     private SecurityListViewModel securityListViewModel;
@@ -29,12 +32,18 @@ public class SecurityListFragment extends Fragment {
     private SecurityAdapter.OnItemClickListener onRecyclerItemClickListener;
     private NavController controller;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
 
         MainActivity.getAppStateViewModel()
-                .setComponents(new VisualComponents(true, true));
+                .setComponents(new VisualComponents(true, false));
 
         return inflater.inflate(R.layout.security_list, container, false);
     }
@@ -45,25 +54,21 @@ public class SecurityListFragment extends Fragment {
         securityListViewModel = ViewModelProviders.of(this).get(SecurityListViewModel.class);
         setupRecyclerView(view);
         pullSecurities(view);
-
-
         this.controller = Navigation.findNavController(view);
     }
 
-    /**
-     * Fetches the securities list from ViewModel and add its content to the adapter.
-     *
-     * @param view A view instance to show a Snackbar containing the error message if the fetch goes
-     *             wrong.
-     */
-    private void pullSecurities(View view) {
-        securityListViewModel.fetchAll().observe(getViewLifecycleOwner(), listResource -> {
-            if (listResource.getData() != null) {
-                securityAdapter.addAll(listResource.getData());
-            } else {
-                Snackbar.make(view, Objects.requireNonNull(listResource.getError()), 3000).show();
-            }
-        });
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.security_list_filter_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.security_list_filter_menu) {
+            controller.navigate(SecurityListFragmentDirections.actionSecuritiesListToSecurityListFilter());
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -77,6 +82,23 @@ public class SecurityListFragment extends Fragment {
         securityAdapter = new SecurityAdapter(view.getContext(), this.onRecyclerItemClickListener);
         securityAdapter.setHasStableIds(true);
         recyclerView.setAdapter(securityAdapter);
+    }
+
+    /**
+     * Fetches the securities list from ViewModel and add its content to the adapter.
+     *
+     * @param view A view instance to show a Snackbar containing the error message if the fetch goes
+     *             wrong.
+     */
+    private void pullSecurities(View view) {
+        securityListViewModel.fetchAll().observe(getViewLifecycleOwner(), listResource -> {
+            if (listResource.getData() != null) {
+                securityAdapter.addAll(listResource.getData());
+                securityAdapter.notifyDataSetChanged();
+            } else {
+                Snackbar.make(view, Objects.requireNonNull(listResource.getError()), 3000).show();
+            }
+        });
     }
 
     private void setOnRecyclerItemClickListener() {

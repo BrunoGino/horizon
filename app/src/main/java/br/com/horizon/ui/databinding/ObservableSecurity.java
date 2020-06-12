@@ -6,8 +6,13 @@ import java.util.Date;
 
 import br.com.horizon.model.Security;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@NoArgsConstructor
 public class ObservableSecurity {
+    @Getter
+    @Setter
     private Security security;
     @Getter
     private final MutableLiveData<String> titleName = new MutableLiveData<>();
@@ -38,25 +43,7 @@ public class ObservableSecurity {
     @Getter
     private final MutableLiveData<Float> totalIrTaxPercentage = new MutableLiveData<>();
 
-
-    public ObservableSecurity() {
-
-        this.security = Security.builder().id("1")
-                .titleName("Tesouro IPCA+ 2024")
-                .titleType("TD")
-                .titleValue(5000.0)
-                .publisher("Tesouro Direto")
-                .emitter("Tesouro Nacional")
-                .interest(2.24)
-                .interestType("IPCA")
-                .liquidity(1)
-                .totalTime(1734)
-                .endingDate(new Date(2024,02,14))
-                .ir(false)
-                .fgc(false)
-                .url("http://tesouro.fazenda.gov.br/tesouro-direto-precos-e-taxas-dos-titulos")
-                .build();
-
+    public ObservableSecurity(Security security) {
         this.titleName.setValue(security.getTitleName());
         this.interest.setValue(security.getInterest());
         this.interestType.setValue(security.getInterestType());
@@ -73,7 +60,6 @@ public class ObservableSecurity {
     }
 
     public void update(Security security) {
-        this.security = security;
         titleName.postValue(security.getTitleName());
         titleType.postValue(security.getTitleType());
         titleValue.postValue(security.getTitleValue());
@@ -105,5 +91,4 @@ public class ObservableSecurity {
                 .url(url.getValue())
                 .build();
     }
-
 }

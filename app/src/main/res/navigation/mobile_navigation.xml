@@ -6,12 +6,6 @@
     app:startDestination="@id/securitiesListFragment">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="br.com.horizon.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
-
-    <fragment
         android:id="@+id/securitiesListFragment"
         android:name="br.com.horizon.ui.securities.SecurityListFragment"
         android:label="@string/security_list"
@@ -23,13 +17,15 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_securitiesList_to_securityListFilter"
+            app:destination="@id/securityListFilterFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
-    <fragment
-        android:id="@+id/walletFragment"
-        android:name="br.com.horizon.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
     <fragment
         android:id="@+id/securityDetailsFragment"
         android:name="br.com.horizon.ui.securities.SecurityDetailsFragment"
@@ -48,5 +44,10 @@
     <action
         android:id="@+id/action_global_securityListFragment"
         app:destination="@id/securitiesListFragment" />
+    <fragment
+        android:id="@+id/securityListFilterFragment"
+        android:name="br.com.horizon.ui.securities.SecurityListFilterFragment"
+        android:label="@string/filters"
+        tools:layout="@layout/security_list_filter" />
 
 </navigation>

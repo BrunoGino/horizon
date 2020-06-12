@@ -30,7 +30,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/dialog_title"
+        android:id="@+id/security_details_master_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimary">
@@ -149,9 +149,9 @@
                     android:id="@+id/security_detail_liquidity_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@{security.liquidity == 1 ? @string/day_plus_one : @string/on_expiry }"
                     android:textColor="@color/moccasin"
                     android:textSize="@dimen/detail_screen_subtitle_value"
-                    android:text="@{security.liquidity == 1 ? @string/day_plus_one : @string/on_expiry }"
                     app:layout_constraintStart_toStartOf="@+id/security_detail_liquidity"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_liquidity"
                     tools:text="No vencimento" />
@@ -215,8 +215,8 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/dialog_title_goto_url"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:backgroundTint="@color/colorSecondary"
+                    android:layout_height="80dp"
+                    android:backgroundTint="@color/graphLiquidIncome"
                     android:onClick="@{urlClick::onClick}"
                     android:text="@string/visit"
                     android:textSize="24sp"
@@ -488,8 +488,8 @@
                         android:id="@+id/security_detail_simulate_value_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
-                        android:maxLength="11"
+                        android:inputType="number"
+                        android:maxLength="10"
                         android:text="@={Converter.convertDoubleToString(simulateValue)}"
                         android:textSize="@dimen/detail_screen_subtitle_value" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -510,7 +510,7 @@
                     android:layout_marginTop="10dp"
                     android:textColor="@color/moccasin"
                     android:textSize="@dimen/detail_screen_subtitle_value"
-                    app:layout_constraintStart_toStartOf="@+id/security_detail_annual_gross_income_value"
+                    app:layout_constraintEnd_toEndOf="@+id/security_detail_annual_gross_income_value"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_annual_gross_income_value"
                     tools:text="R$5500,00" />
 
@@ -518,10 +518,10 @@
                     android:id="@+id/security_detail_annual_gross_income_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="15dp"
                     android:textColor="@color/moccasin"
                     android:textSize="@dimen/detail_screen_subtitle_value"
-                    app:layout_constraintStart_toStartOf="@+id/security_annual_income"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/security_annual_income"
                     tools:text="R$5600,00" />
 
@@ -540,11 +540,12 @@
                     android:id="@+id/security_detail_annual_liquid_income"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
                     android:text="@string/liquid_income"
                     android:textColor="@android:color/secondary_text_dark"
                     android:textSize="@dimen/detail_screen_subtitle"
                     app:layout_constraintBottom_toBottomOf="@+id/security_detail_annual_liquid_income_value"
-                    app:layout_constraintEnd_toEndOf="@+id/security_detail_annual_gross_income" />
+                    app:layout_constraintEnd_toStartOf="@+id/security_detail_annual_liquid_income_value" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 

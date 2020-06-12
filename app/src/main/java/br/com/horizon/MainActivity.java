@@ -11,9 +11,11 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import br.com.horizon.ui.securities.viewmodel.AppStateViewModel;
+import br.com.horizon.viewmodel.AppStateViewModel;
+import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,17 +30,16 @@ public class MainActivity extends AppCompatActivity {
         controller = Navigation.findNavController(this, R.id.nav_host_fragment);
         setupBottomNavigationView();
         setupOnDestinationChangeListener();
-
+        Fabric.with(this, new Crashlytics());
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

@@ -6,7 +6,6 @@ public class VisualComponents {
 
     public VisualComponents() {
         this.appBar = true;
-        this.bottomNavigation = true;
     }
 
     public VisualComponents(Boolean appBar, Boolean bottomNavigation) {
