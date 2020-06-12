@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         // menu should be considered as top level destinations.
 
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.securitiesListFragment, R.id.walletFragment)
+               R.id.securitiesListFragment)
                 .build();
 
 

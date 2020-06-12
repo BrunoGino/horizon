@@ -15,15 +15,6 @@
     <color name="white">#ffffff</color>
     <color name="favourite">#ffd600</color>
     <color name="colorAccent">#0267C1</color>
-    <color name="darkPuce">#483D3F</color>
-    <color name="deepTaupe">#77685D</color>
-    <color name="grullo">#A39A92</color>
-    <color name="moccasin">#F4EBD9</color>
-    <color name="richEletricBlue">#058ED9</color>
-    <color name="richBlack">#02111B</color>
-    <color name="arsenic">#3F4045</color>
-    <color name="charlestonGreen">#30292F</color>
-    <color name="lifoGreen">#23CE6B</color>
-    <color name="blackOlive">#3A3E3B</color>
+
 </resources>
 

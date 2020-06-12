@@ -4,34 +4,27 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import br.com.horizon.MainActivity;
 import br.com.horizon.R;
 import br.com.horizon.ui.VisualComponents;
 
-public class NotificationsFragment extends Fragment {
+public class WalletFragment extends Fragment {
 
-    private NotificationsViewModel notificationsViewModel;
+    private WalletViewModel walletViewModel;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
-        MainActivity.getAppStateViewModel()
-                .setComponents(new VisualComponents(true, true));
-
-        notificationsViewModel =
-                ViewModelProviders.of(this).get(NotificationsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_notifications, container, false);
+        walletViewModel =
+                ViewModelProviders.of(this).get(WalletViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_wallet, container, false);
       //  final TextView textView = root.findViewById(R.id.text_notifications);
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), s -> {
+        walletViewModel.getText().observe(getViewLifecycleOwner(), s -> {
             //textView.setText(s);
         });
         return root;
