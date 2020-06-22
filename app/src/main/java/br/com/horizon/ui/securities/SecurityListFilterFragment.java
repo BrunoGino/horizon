@@ -13,14 +13,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.HashMap;
 
 import br.com.horizon.R;
 import br.com.horizon.databinding.SecurityListFilterBinding;
@@ -103,9 +101,9 @@ public class SecurityListFilterFragment extends Fragment implements DatePickerDi
         filter.setIrValue(parseIrValue(dataBinder.filtersIrValue.toString()));
         filter.setFgc(dataBinder.filtersFgcValue.isChecked());
         dataBinder.filtersApplyButton.setOnClickListener(v -> {
-            NavDirections toListFragment = SecurityListFilterFragmentDirections
-                    .actionSecurityListFilterFragmentToSecuritiesListFragment(filter);
-            navController.navigate(toListFragment);
+//            NavDirections toListFragment = SecurityListFilterFragmentDirections
+//                    .actionSecurityListFilterFragmentToSecuritiesListFragment(filter);
+//            navController.navigate(toListFragment);
         });
 
     }

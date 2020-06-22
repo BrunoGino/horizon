@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="sendLinkAgainListener"
+            type="android.view.View.OnClickListener" />
+        <variable
+            name="backToLoginListener"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/message_fragment_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/tv_activate_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="@string/we_sent_an_activation_link"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/message_fragment_icon" />
+
+        <TextView
+            android:id="@+id/tv_activate_message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="@string/we_sent_an_activation_link_message"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_activate_title" />
+
+        <TextView
+            android:id="@+id/tv_activation_link_not_received_message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/havent_you_received_the_link"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/message_fragment_icon"
+            app:layout_constraintTop_toBottomOf="@+id/tv_activate_message" />
+
+        <TextView
+            android:id="@+id/tv_activation_link_not_received_resend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:onClick="@{sendLinkAgainListener}"
+            android:text="@string/send_again"
+            android:textColor="@color/graphInterestLiq"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_activation_link_not_received_message"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_activation_link_not_received_message"
+            app:layout_constraintTop_toTopOf="@+id/tv_activation_link_not_received_message" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bt_go_back_to_login_from_activation"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
+            android:onClick="@{backToLoginListener}"
+            android:text="@string/go_back_to_login"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/graphInterestLiq"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_activation_link_not_received_message" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

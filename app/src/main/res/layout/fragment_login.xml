@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="registerClickListener"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="forgotPassClickListener"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/loginLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/btGoogleSignIn"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="60dp"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/btLogin"
+            app:layout_constraintStart_toStartOf="@+id/btLogin"
+            app:layout_constraintTop_toBottomOf="@+id/btLogin" />
+
+
+        <TextView
+            android:id="@+id/txtForgotPass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:text="@string/forgot_password"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:onClick="@{forgotPassClickListener}"
+            app:layout_constraintBottom_toTopOf="@+id/btGoogleSignIn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btLogin" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btLogin"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="28dp"
+            android:background="@color/graphInterestLiq"
+            android:backgroundTint="@color/graphInterestLiq"
+            android:text="@string/logon"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:backgroundTint="@color/graphInterestLiq"
+            app:layout_constraintEnd_toEndOf="@+id/txtPassword"
+            app:layout_constraintStart_toStartOf="@+id/txtPassword"
+            app:layout_constraintTop_toBottomOf="@+id/txtPassword" />
+
+        <TextView
+            android:id="@+id/txtNoAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="84dp"
+            android:layout_marginTop="28dp"
+            android:text="@string/has_no_account"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btGoogleSignIn" />
+
+        <TextView
+            android:id="@+id/txtSignUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="@string/signup"
+            android:textAllCaps="false"
+            android:textColor="@color/graphInterestLiq"
+            android:textSize="16sp"
+            android:onClick="@{registerClickListener}"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/txtNoAccount"
+            app:layout_constraintStart_toEndOf="@+id/txtNoAccount"
+            app:layout_constraintTop_toTopOf="@+id/txtNoAccount" />
+
+        <ImageView
+            android:id="@+id/imgLogoLogin"
+            android:layout_width="202dp"
+            android:layout_height="196dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="45dp"
+            android:layout_marginEnd="30dp"
+            android:contentDescription="@string/investment_guide"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@mipmap/horizon_icon" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtPassword"
+            android:layout_width="00dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="32dp"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:textColor="#E8EAF6"
+            app:boxStrokeColor="@color/graphInterestLiq"
+            app:boxStrokeErrorColor="@color/error"
+            app:counterOverflowTextColor="@color/error"
+            app:endIconTint="@color/graphInterestLiq"
+            app:errorTextColor="@color/error"
+            app:hintTextColor="@color/graphInterestLiq"
+            app:layout_constraintEnd_toEndOf="@+id/txtEmail"
+            app:layout_constraintHorizontal_bias="0.494"
+            app:layout_constraintStart_toStartOf="@+id/txtEmail"
+            app:layout_constraintTop_toBottomOf="@+id/txtEmail"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="#E8EAF6"
+            app:startIconTint="@color/graphInterestLiq">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtEmail"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:ems="10"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/white"
+            app:boxStrokeColor="@color/graphInterestLiq"
+            app:boxStrokeErrorColor="@color/error"
+            app:counterOverflowTextColor="@color/error"
+            app:endIconTint="@color/graphInterestLiq"
+            app:errorTextColor="@color/error"
+            app:hintEnabled="true"
+            app:hintTextColor="@color/graphInterestLiq"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.505"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgLogoLogin"
+            app:startIconTint="@color/graphInterestLiq">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

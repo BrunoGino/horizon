@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupOnDestinationChangeListener() {
         controller.addOnDestinationChangedListener((controller1, destination, arguments) -> {
             getSupportActionBar().setTitle(destination.getLabel());
+
             appStateViewModel.getComponents().observe(this, visualComponents -> {
                 if (visualComponents.hasAppBar()) {
                     getSupportActionBar().show();
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     getSupportActionBar().hide();
                 }
+
                 if (visualComponents.hasBottomNav()) {
                     bottomNavigationView.setVisibility(View.VISIBLE);
                 } else {
@@ -68,8 +70,8 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
 
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-               R.id.securitiesListFragment)
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.loginFragment,
+               R.id.homeFragment)
                 .build();
 
 

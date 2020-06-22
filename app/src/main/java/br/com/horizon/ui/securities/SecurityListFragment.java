@@ -2,36 +2,38 @@ package br.com.horizon.ui.securities;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.Snackbar;
-
-import java.util.Objects;
+import java.util.List;
 
 import br.com.horizon.MainActivity;
 import br.com.horizon.R;
-import br.com.horizon.model.Filter;
+import br.com.horizon.databinding.SecurityListBinding;
+import br.com.horizon.model.Security;
+import br.com.horizon.repository.resource.Resource;
+import br.com.horizon.ui.BaseFragment;
 import br.com.horizon.ui.VisualComponents;
 import br.com.horizon.ui.securities.recyclerview.SecurityAdapter;
 import br.com.horizon.viewmodel.SecurityListViewModel;
 
-public class SecurityListFragment extends Fragment {
+public class SecurityListFragment extends BaseFragment {
     private SecurityListViewModel securityListViewModel;
     private SecurityAdapter securityAdapter;
     private SecurityAdapter.OnItemClickListener onRecyclerItemClickListener;
     private NavController controller;
+    private SecurityListBinding securityListBinding;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,12 +43,12 @@ public class SecurityListFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
+        securityListBinding = SecurityListBinding.inflate(inflater, container, false);
 
         MainActivity.getAppStateViewModel()
                 .setComponents(new VisualComponents(true, false));
 
-        return inflater.inflate(R.layout.security_list, container, false);
+        return securityListBinding.getRoot();
     }
 
     @Override
@@ -54,21 +56,25 @@ public class SecurityListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         securityListViewModel = ViewModelProviders.of(this).get(SecurityListViewModel.class);
         setupRecyclerView(view);
-        pullSecurities(view);
+        pullSecurities();
         this.controller = Navigation.findNavController(view);
+        handleOnBackPressed();
     }
 
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.security_list_filter_menu, menu);
+    private void handleOnBackPressed() {
+        OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                controller.popBackStack();
+            }
+        };
+
+        requireActivity().getOnBackPressedDispatcher()
+                .addCallback(getViewLifecycleOwner(), onBackPressedCallback);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.security_list_filter_menu) {
-            controller.navigate(SecurityListFragmentDirections.actionSecuritiesListToSecurityListFilter());
-        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -81,41 +87,52 @@ public class SecurityListFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.securities_recycler);
         setOnRecyclerItemClickListener();
         securityAdapter = new SecurityAdapter(view.getContext(), this.onRecyclerItemClickListener);
+        securityListBinding.setSecurityAdapter(securityAdapter);
         securityAdapter.setHasStableIds(true);
         recyclerView.setAdapter(securityAdapter);
     }
 
     /**
      * Fetches the securities list from ViewModel and add its content to the adapter.
-     *
-     * @param view A view instance to show a Snackbar containing the error message if the fetch goes
-     *             wrong.
      */
-    private void pullSecurities(View view) {
-        Filter filter = SecurityListFragmentArgs.fromBundle(getArguments()).getFilter();
+    private void pullSecurities() {
+        String titleType = SecurityListFragmentArgs.fromBundle(requireArguments()).getTitleType();
+        boolean orderByInterest = SecurityListFragmentArgs.fromBundle(requireArguments()).getOrderByInterest();
+        boolean orderByMostFavorite = SecurityListFragmentArgs.fromBundle(requireArguments()).getOrderByMostFavorite();
+        if (!titleType.isEmpty()) {
+            getSecuritiesByType(titleType);
+        }
+        if (orderByInterest) {
+            getFirstHundredOrderedByInterest();
+        }
 
-        if (filter == null) {
-            fetchAllSecurities(view);
-        } else {
-            securityListViewModel.fetchFiltered(filter).observe(getViewLifecycleOwner(), listResource -> {
-                if (listResource.getData() != null) {
-
-                } else {
-                    Snackbar.make(view, getString(R.string.no_filter_match), 3000).show();
-                }
-            });
+        if (orderByMostFavorite) {
+            getAllMostFavorite();
         }
     }
 
-    private void fetchAllSecurities(View view) {
-        securityListViewModel.fetchAll().observe(getViewLifecycleOwner(), listResource -> {
-            if (listResource.getData() != null) {
-                securityAdapter.addAll(listResource.getData());
-                securityAdapter.notifyDataSetChanged();
-            } else {
-                Snackbar.make(view, Objects.requireNonNull(listResource.getError()), 3000).show();
-            }
-        });
+    private void getAllMostFavorite() {
+        securityListViewModel.fetchMostFavorited();
+    }
+
+    private void getFirstHundredOrderedByInterest() {
+        securityListViewModel.fetchFirstHundredWithGreatestInterest().observe(getViewLifecycleOwner(), listResource ->
+                updateViewWithObtainedData(listResource.getData()));
+    }
+
+    private void getSecuritiesByType(String titleType) {
+        securityListViewModel.fetchFilteredByType(titleType).observe(getViewLifecycleOwner(), listResource ->
+                updateViewWithObtainedData(listResource.getData()));
+    }
+
+    private void updateViewWithObtainedData(List<Security> listData) {
+        if (listData != null && !listData.isEmpty()) {
+            securityListBinding.listFragmentIfNoValues.setVisibility(View.GONE);
+            securityAdapter.addAll(listData);
+            securityAdapter.notifyDataSetChanged();
+        } else {
+            securityListBinding.listFragmentIfNoValues.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setOnRecyclerItemClickListener() {

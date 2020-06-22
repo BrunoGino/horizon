@@ -39,11 +39,12 @@ import br.com.horizon.MainActivity;
 import br.com.horizon.R;
 import br.com.horizon.databinding.SecurityDetailsBinding;
 import br.com.horizon.model.Security;
+import br.com.horizon.ui.BaseFragment;
 import br.com.horizon.ui.VisualComponents;
 import br.com.horizon.ui.databinding.ObservableSecurity;
 import br.com.horizon.viewmodel.SecurityDetailsViewModel;
 
-public class SecurityDetailsFragment extends Fragment {
+public class SecurityDetailsFragment extends BaseFragment {
     private SecurityDetailsBinding dataBinder;
     private NumberFormat currencyFormatter;
     private NumberFormat percentageFormatter;
@@ -75,9 +76,7 @@ public class SecurityDetailsFragment extends Fragment {
         dataBinder = SecurityDetailsBinding.inflate(inflater, container, false);
         View rootView = dataBinder.getRoot();
         simulateValue = new MutableLiveData<>();
-        instantiateChartColors(rootView);
-        chart = createBarChart(rootView);
-        setupChartLegend(chart);
+        setupChart(rootView);
         String securityId = SecurityDetailsFragmentArgs.fromBundle(requireArguments()).getSecurityId();
         securityDetailsViewModel.getLiveDataById(securityId).observe(getViewLifecycleOwner(), securityResource -> {
             if (securityResource.getData() != null) {
@@ -92,6 +91,12 @@ public class SecurityDetailsFragment extends Fragment {
             }
         });
         return rootView;
+    }
+
+    private void setupChart(View rootView) {
+        instantiateChartColors(rootView);
+        chart = createBarChart(rootView);
+        setupChartLegend(chart);
     }
 
     private void showFetchError(View root) {
@@ -160,7 +165,6 @@ public class SecurityDetailsFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         return super.onOptionsItemSelected(item);
-
     }
 
     private String parseLiquidity(Integer liquidity) {
@@ -220,7 +224,7 @@ public class SecurityDetailsFragment extends Fragment {
     }
 
     private void instantiateChartColors(@NonNull View view) {
-        graphTextColor = ContextCompat.getColor(view.getContext(), R.color.moccasin);
+        graphTextColor = ContextCompat.getColor(view.getContext(), R.color.white);
         taxColor = ContextCompat.getColor(view.getContext(), R.color.graphTax);
         grossIncomeColor = ContextCompat.getColor(view.getContext(), R.color.graphInterest);
         liquidIncomeColor = ContextCompat.getColor(view.getContext(), R.color.graphInterestLiq);
@@ -309,6 +313,5 @@ public class SecurityDetailsFragment extends Fragment {
         }
         return getString(R.string.on_expiry);
     }
-
 }
 

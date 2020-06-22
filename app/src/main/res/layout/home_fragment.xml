@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="percentageFormatter"
+            type="java.text.NumberFormat" />
+
+        <variable
+            name="ipcaYearly"
+            type="Double" />
+
+        <variable
+            name="selicYearly"
+            type="Double" />
+
+        <variable
+            name="igpmYearly"
+            type="Double" />
+
+        <variable
+            name="cdiYearly"
+            type="Double" />
+
+        <variable
+            name="onFilterButtonClickListener"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/home_master_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:id="@+id/home_scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/homeguideline"
+                    android:layout_width="0dp"
+                    android:layout_height="739dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintGuide_percent="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/home_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/titles"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="@string/my_profile"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/home_td_filter_button"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="20dp"
+                    android:backgroundTint="@color/white"
+                    android:text="@string/public_titles"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="40dp"
+                    app:layout_constraintEnd_toStartOf="@+id/homeguideline"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/home_title" />
+
+                <Button
+                    android:id="@+id/home_lci_lca_filter_button"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/white"
+                    android:text="@string/lci_lca"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="40dp"
+                    app:layout_constraintEnd_toEndOf="@+id/home_td_filter_button"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/home_td_filter_button"
+                    app:layout_constraintTop_toBottomOf="@+id/home_td_filter_button" />
+
+                <Button
+                    android:id="@+id/home_deb_filter_button"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/white"
+                    android:text="@string/debentures"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="40dp"
+                    app:layout_constraintEnd_toEndOf="@+id/home_lci_lca_filter_button"
+                    app:layout_constraintStart_toStartOf="@+id/home_lci_lca_filter_button"
+                    app:layout_constraintTop_toBottomOf="@+id/home_lci_lca_filter_button" />
+
+                <Button
+                    android:id="@+id/home_cri_cra_filter_button"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/white"
+                    android:text="@string/cri_cra"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="40dp"
+                    app:layout_constraintEnd_toEndOf="@+id/home_cdb_filter_button"
+                    app:layout_constraintStart_toStartOf="@+id/home_cdb_filter_button"
+                    app:layout_constraintTop_toBottomOf="@+id/home_cdb_filter_button" />
+
+                <Button
+                    android:id="@+id/home_cdb_filter_button"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:backgroundTint="@color/white"
+                    android:text="@string/cdb"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="40dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/homeguideline"
+                    app:layout_constraintTop_toTopOf="@+id/home_td_filter_button" />
+
+                <TextView
+                    android:id="@+id/home_most_favorites_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/most_favorites"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/home_most_favorites_icon"
+                    app:layout_constraintStart_toEndOf="@+id/home_most_favorites_icon"
+                    app:layout_constraintTop_toTopOf="@+id/home_most_favorites_icon" />
+
+                <TextView
+                    android:id="@+id/home_indexes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/indexes_yearly"
+                    android:textSize="24sp"
+                    app:layout_constraintStart_toStartOf="@+id/home_greater_interests_icon"
+                    app:layout_constraintTop_toBottomOf="@+id/home_greater_interests_icon" />
+
+                <TextView
+                    android:id="@+id/home_greater_interests_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/greatest_interests"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/home_greater_interests_icon"
+                    app:layout_constraintStart_toEndOf="@+id/home_greater_interests_icon"
+                    app:layout_constraintTop_toTopOf="@+id/home_greater_interests_icon" />
+
+                <ImageView
+                    android:id="@+id/home_most_favorites_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/home_deb_filter_button"
+                    app:srcCompat="@drawable/ic_star_half_black_24dp" />
+
+                <ImageView
+                    android:id="@+id/home_greater_interests_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintStart_toStartOf="@+id/home_most_favorites_icon"
+                    app:layout_constraintTop_toBottomOf="@+id/home_most_favorites_icon"
+                    app:srcCompat="@drawable/ic_trending_up_black_24dp" />
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/home_indexes_plot"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/home_indexes" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

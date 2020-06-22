@@ -1,5 +1,7 @@
 package br.com.horizon.repository;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -12,27 +14,64 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import br.com.horizon.model.Filter;
 import br.com.horizon.model.Security;
 import br.com.horizon.repository.callback.LoadedDataCallback;
 import br.com.horizon.repository.resource.Resource;
-import lombok.Value;
 
-@Value
 public class SecurityRepository {
-    private FirebaseFirestore db;
-    private CollectionReference securities;
-    private MediatorLiveData<Resource<List<Security>>> mediator;
+    private final FirebaseFirestore db;
+    private final CollectionReference securities;
+    private final MediatorLiveData<Resource<List<Security>>> mediator;
 
     public SecurityRepository() {
         this.db = FirebaseFirestore.getInstance();
         this.securities = db.collection("securities");
         this.mediator = new MediatorLiveData<>();
+    }
+
+    public void getAllFilteredByType(String type, LoadedDataCallback<List<Security>> listCallback) {
+        Query query = securities.orderBy("interest", Query.Direction.DESCENDING);
+
+        if (type.toUpperCase().equals("LCI/LCA")) {
+            Query lciLcaQuery = query.whereIn("titleType", Arrays.asList("LCI", "LCA"));
+            Log.d("LCILCAQUERY", lciLcaQuery.toString());
+            runQuery(listCallback, lciLcaQuery);
+        } else if (type.toUpperCase().equals("CRI/CRA")) {
+            Query criCraQuery = query.whereEqualTo("titleType", "CRI")
+                    .whereEqualTo("titleType", "CRA");
+            runQuery(listCallback, criCraQuery);
+        } else {
+            runQuery(listCallback, query.whereEqualTo("titleType", type));
+        }
+
+    }
+
+    public void getFirstHundredWithGreatestInterest(LoadedDataCallback<List<Security>> listLoadedDataCallback) {
+        Query query = securities.orderBy("interest", Query.Direction.DESCENDING).limit(100);
+        runQuery(listLoadedDataCallback, query);
+    }
+
+    private void runQuery(LoadedDataCallback<List<Security>> listCallback, Query query) {
+        List<Security> securities = new ArrayList<>();
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                List<DocumentSnapshot> documents = task.getResult().getDocuments();
+                documents.forEach(documentSnapshot -> {
+                    if (documentSnapshot != null) {
+                        Security security = documentSnapshot.toObject(Security.class);
+                        security.setId(documentSnapshot.getId());
+                        securities.add(security);
+                    }
+                });
+                listCallback.onSuccess(securities);
+            }
+        });
     }
 
     public void getMaxOrMinInterest(Query.Direction direction, LoadedDataCallback<Double> rangeCallback) {
@@ -133,7 +172,7 @@ public class SecurityRepository {
                 .getException()).getMessage()));
     }
 
-    public LiveData<Resource<List<Security>>> fetchFiltered(Filter filter) {
-        return null;
+    public void getMostFavorited(LoadedDataCallback<List<Security>> listLoadedDataCallback) {
+
     }
 }

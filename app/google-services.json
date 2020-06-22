@@ -46,6 +46,49 @@
             {
               "client_id": "27768207438-777st0p038juasr1onaevuao3h1pb7vg.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "27768207438-20i27d06dck8ri788qk1c6r543baha2v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.brunorigao.horizon"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:27768207438:android:68989070bfc9c9c17b2b1f",
+        "android_client_info": {
+          "package_name": "com.brunorigao.horizon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "27768207438-777st0p038juasr1onaevuao3h1pb7vg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaQAm8GJLukNNyqDdycH8YXoFdhsBnvMM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "27768207438-777st0p038juasr1onaevuao3h1pb7vg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "27768207438-20i27d06dck8ri788qk1c6r543baha2v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.brunorigao.horizon"
+              }
             }
           ]
         }
