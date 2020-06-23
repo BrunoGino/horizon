@@ -97,4 +97,8 @@
     <string name="invalid_email">E-mail inválido!</string>
     <string name="recovery_email_resent">"O link de recuperação foi reenviado para: "</string>
     <string name="email_cant_be_null">E-mail não pode estar vazio!</string>
+    <string name="insert_your_name">Insira seu nome</string>
+    <string name="insert_your_last_name">Insira seu sobrenome</string>
+    <string name="insert_a_valid_email">Insira um endereço de e-mail válido</string>
+    <string name="invalid_password">Senha deve conter mais de 6 caracteres, ao menos uma letra maíscula e um número</string>
 </resources>
