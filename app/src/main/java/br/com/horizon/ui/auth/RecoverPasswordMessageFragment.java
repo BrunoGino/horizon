@@ -14,8 +14,10 @@ import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
 
 import br.com.horizon.MainActivity;
+import br.com.horizon.R;
 import br.com.horizon.databinding.FragmentRecoverMessageBinding;
 import br.com.horizon.ui.VisualComponents;
 
@@ -24,11 +26,13 @@ public class RecoverPasswordMessageFragment extends Fragment {
     private View.OnClickListener backToLoginListener;
     private View.OnClickListener sendRecoveryLinkAgainListener;
     private NavController navController;
+    private FirebaseAuth firebaseAuth;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         recoverMessageBinding = FragmentRecoverMessageBinding.inflate(inflater, container, false);
+        firebaseAuth = FirebaseAuth.getInstance();
         return recoverMessageBinding.getRoot();
     }
 
@@ -42,12 +46,21 @@ public class RecoverPasswordMessageFragment extends Fragment {
         navController = Navigation.findNavController(view);
 
         backToLoginListener = v -> goBackToLogin();
-        sendRecoveryLinkAgainListener = v -> Snackbar.make(view, "To implement! :)", Snackbar.LENGTH_LONG).show();
+        sendRecoveryLinkAgainListener = v -> resendPasswordRecoverEmail(view);
 
         recoverMessageBinding.setBackToLoginListener(backToLoginListener);
         recoverMessageBinding.setSendRecoveryLinkAgainListener(sendRecoveryLinkAgainListener);
 
         handleOnBackPressed();
+    }
+
+    private void resendPasswordRecoverEmail(View view) {
+        String userEmail = RecoverPasswordMessageFragmentArgs.fromBundle(requireArguments()).getUserEmail();
+        firebaseAuth.sendPasswordResetEmail(userEmail).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Snackbar.make(view, getString(R.string.recovery_email_resent) + userEmail, Snackbar.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void goBackToLogin() {

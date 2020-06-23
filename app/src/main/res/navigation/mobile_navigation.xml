@@ -127,7 +127,11 @@
         android:id="@+id/recoverPasswordFragment"
         android:name="br.com.horizon.ui.auth.RecoverPasswordMessageFragment"
         android:label="RecoverPasswordFragment"
-        tools:layout="@layout/fragment_recover_message" />
+        tools:layout="@layout/fragment_recover_message" >
+        <argument
+            android:name="userEmail"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/forgotPasswordFragment"
         android:name="br.com.horizon.ui.auth.ForgotPasswordFragment"

@@ -167,29 +167,22 @@ public class LoginFragment extends Fragment {
     private void handleAsyncGoogleSignInIntent(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount result = completedTask.getResult(ApiException.class);
-            Log.d("GACCOUNT_SUCCESSFULL", result.getEmail());
             authenticateWithGoogle(Objects.requireNonNull(result));
         } catch (ApiException e) {
             Snackbar.make(loginFragmentBinding.getRoot(), getString(R.string.google_signin_error),
-                    Snackbar.LENGTH_LONG);
+                    Snackbar.LENGTH_LONG).show();
         }
-        Log.d("NOWHERE", "You reached nowhere :/ - handleAsyncGoogleSignInIntent");
-
     }
 
     private void authenticateWithGoogle(GoogleSignInAccount googleSignInAccount) {
         AuthCredential authCredential = GoogleAuthProvider.getCredential(googleSignInAccount.getIdToken(), null);
         firebaseAuth.signInWithCredential(authCredential).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                Log.d("SUCCESSFULLY_AUTHENTICATED", authCredential.getProvider() + " "
-                        + authCredential.getSignInMethod());
                 navigateToHomeScreen();
             } else {
                 Snackbar.make(loginFragmentBinding.getRoot(), getString(R.string.invalid_credentials),
-                        Snackbar.LENGTH_LONG);
-                Log.d("GACCOUNT_ERROR", authCredential.getProvider() + " NOT VERIFIED " + authCredential.getSignInMethod());
+                        Snackbar.LENGTH_LONG).show();
             }
-            Log.d("NOWHERE", "You reached nowhere :/ - authenticateWithGoogle");
         });
     }
 
@@ -203,14 +196,11 @@ public class LoginFragment extends Fragment {
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 if (Objects.requireNonNull(firebaseAuth.getCurrentUser()).isEmailVerified()) {
-                    Log.d("EMAIL_PASS", email + " NO ERROR IN BOTH :D" + password);
                     navigateToHomeScreen();
                 } else {
-                    Log.d("EMAIL_PASS_ERROR", email + " NOT VERIFIED " + password);
                     Snackbar.make(view, getString(R.string.verify_inbox), Snackbar.LENGTH_LONG).show();
                 }
             } else {
-                Log.d("EMAIL_PASS_ERROR", email + " " + password);
                 Snackbar.make(view, getString(R.string.wrong_email_or_pass), Snackbar.LENGTH_LONG).show();
             }
         });

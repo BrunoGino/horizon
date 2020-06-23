@@ -94,4 +94,7 @@
     <string name="or">Ou</string>
     <string name="we_sent_an_activation_link">Enviamos um link de ativação para seu e-mail</string>
     <string name="we_sent_an_activation_link_message">Enviamos um link de ativação de conta para o seu e-mail. É necessário ativar a sua conta para logar no aplicativo. Se não encontrar o e-mail na caixa de entrada, verifique a caixa de spam ou lixo eletrônico.</string>
+    <string name="invalid_email">E-mail inválido!</string>
+    <string name="recovery_email_resent">"O link de recuperação foi reenviado para: "</string>
+    <string name="email_cant_be_null">E-mail não pode estar vazio!</string>
 </resources>
