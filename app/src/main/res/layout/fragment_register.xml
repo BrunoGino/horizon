@@ -15,6 +15,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/tv_password_tips"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="@string/password_tips"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_input_layout_email" />
+
         <ImageView
             android:id="@+id/register_fragment_icon"
             android:layout_width="wrap_content"
@@ -42,7 +54,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_input_layout_first_name"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
@@ -68,7 +80,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_input_layout_last_name"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
@@ -94,7 +106,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_input_layout_email"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
@@ -120,11 +132,11 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_input_layout_password"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
-            android:hint="@string/password"
+            android:hint="@string/password_register"
             app:boxStrokeColor="@color/graphInterestLiq"
             app:boxStrokeErrorColor="@color/error"
             app:counterOverflowTextColor="@color/error"
@@ -133,7 +145,7 @@
             app:hintTextColor="@color/graphInterestLiq"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_input_layout_email"
+            app:layout_constraintTop_toBottomOf="@+id/tv_password_tips"
             app:passwordToggleEnabled="true"
             app:passwordToggleTint="@color/white">
 
@@ -144,6 +156,35 @@
                 android:maxLength="20"
                 android:textColor="@color/white" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_layout_password_confirm"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:hint="@string/password_confirm"
+            app:boxStrokeColor="@color/graphInterestLiq"
+            app:boxStrokeErrorColor="@color/error"
+            app:counterOverflowTextColor="@color/error"
+            app:endIconTint="@color/graphInterestLiq"
+            app:errorTextColor="@color/error"
+            app:hintTextColor="@color/graphInterestLiq"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_input_layout_password"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textPassword"
+                android:maxLength="20"
+                android:textColor="@color/white" />
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/bt_register"
@@ -160,7 +201,7 @@
             app:backgroundTint="@color/graphInterestLiq"
             app:layout_constraintEnd_toEndOf="@+id/text_input_layout_password"
             app:layout_constraintStart_toStartOf="@+id/text_input_layout_password"
-            app:layout_constraintTop_toBottomOf="@+id/text_input_layout_password" />
+            app:layout_constraintTop_toBottomOf="@+id/text_input_layout_password_confirm" />
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/btGoogleSignIn"
@@ -179,7 +220,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:text="@string/or"
-            android:textAllCaps="true"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -14,7 +14,10 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -28,11 +31,13 @@ public class RegisterFragment extends Fragment {
     private FragmentRegisterBinding fragmentRegisterBinding;
     private View.OnClickListener createAccountListener;
     private NavController navController;
+    private FirebaseAuth firebaseAuth;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentRegisterBinding = FragmentRegisterBinding.inflate(inflater, container, false);
+        firebaseAuth = FirebaseAuth.getInstance();
         return fragmentRegisterBinding.getRoot();
     }
 
@@ -45,21 +50,45 @@ public class RegisterFragment extends Fragment {
 
         navController = Navigation.findNavController(view);
 
-        createAccountListener = v -> handleUserCreation();
+        createAccountListener = v -> handleUserCreation(view);
 
         fragmentRegisterBinding.setRegisterListener(createAccountListener);
     }
 
 
-    private void handleUserCreation() {
-        validateFirstNameInput();
-        validateLastNameInput();
-        validateEmailInput();
-        validatePasswordInput();
+    private void handleUserCreation(View view) {
+        if (inputsValid()) {
+            String password = Objects.requireNonNull(fragmentRegisterBinding.textInputLayoutPassword
+                    .getEditText()).getText().toString();
 
+            String email = Objects.requireNonNull(fragmentRegisterBinding.textInputLayoutEmail
+                    .getEditText()).getText().toString();
+
+            firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    sendEmailVerification();
+                } else {
+                    Snackbar.make(view, R.string.could_not_complete_registration, Snackbar.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
-    private void validateFirstNameInput() {
+    private void sendEmailVerification() {
+        FirebaseUser currentUser = Objects.requireNonNull(firebaseAuth.getCurrentUser());
+        currentUser.sendEmailVerification().addOnCompleteListener(emailTask -> {
+            if (emailTask.isSuccessful()) {
+                goToActivateAccountFragment();
+            }
+        });
+    }
+
+    private boolean inputsValid() {
+        return validateFirstNameInput() && validateLastNameInput() && validateEmailInput()
+                && validatePasswordInput() && validatePasswordConfirmationInput();
+    }
+
+    private boolean validateFirstNameInput() {
         TextInputLayout firstNameInputLayout = fragmentRegisterBinding.textInputLayoutFirstName;
         EditText firstNameEditText = Objects.requireNonNull(fragmentRegisterBinding
                 .textInputLayoutFirstName.getEditText());
@@ -68,12 +97,14 @@ public class RegisterFragment extends Fragment {
         if (firstNameString.isEmpty() || firstNameString.trim().isEmpty()) {
             firstNameInputLayout.setErrorEnabled(true);
             firstNameInputLayout.setError(getString(R.string.insert_your_name));
+            return false;
         } else {
             firstNameInputLayout.setErrorEnabled(false);
+            return true;
         }
     }
 
-    private void validateLastNameInput() {
+    private boolean validateLastNameInput() {
         TextInputLayout lastNameInputLayout = fragmentRegisterBinding.textInputLayoutLastName;
         EditText lastNameEditText = Objects.requireNonNull(fragmentRegisterBinding.
                 textInputLayoutLastName.getEditText());
@@ -82,12 +113,14 @@ public class RegisterFragment extends Fragment {
         if (lastNameString.isEmpty() || lastNameString.trim().isEmpty()) {
             lastNameInputLayout.setErrorEnabled(true);
             lastNameInputLayout.setError(getString(R.string.insert_your_last_name));
+            return false;
         } else {
             lastNameInputLayout.setErrorEnabled(false);
+            return true;
         }
     }
 
-    private void validateEmailInput() {
+    private boolean validateEmailInput() {
         TextInputLayout emailInputLayout = fragmentRegisterBinding.textInputLayoutEmail;
         EditText emailEditText = Objects.requireNonNull(fragmentRegisterBinding
                 .textInputLayoutEmail.getEditText());
@@ -96,22 +129,46 @@ public class RegisterFragment extends Fragment {
         if (emailString.isEmpty() || emailString.trim().isEmpty() || !isEmailValid(emailString)) {
             emailInputLayout.setErrorEnabled(true);
             emailInputLayout.setError(getString(R.string.insert_a_valid_email));
+            return false;
         } else {
             emailInputLayout.setErrorEnabled(false);
+            return true;
         }
     }
 
-    private void validatePasswordInput() {
+    private boolean validatePasswordConfirmationInput() {
+        TextInputLayout passwordConfirmInputLayout = fragmentRegisterBinding.textInputLayoutPasswordConfirm;
+        EditText passwordConfirm = Objects.requireNonNull(fragmentRegisterBinding
+                .textInputLayoutPasswordConfirm.getEditText());
+        String passwordConfirmString = passwordConfirm.getText().toString();
+
+        EditText passwordEditText = Objects.requireNonNull(fragmentRegisterBinding
+                .textInputLayoutPassword.getEditText());
+        String passwordString = passwordEditText.getText().toString();
+
+        if (passwordString.isEmpty() || passwordString.trim().isEmpty()
+                || !passwordConfirmString.equals(passwordString)) {
+            passwordConfirmInputLayout.setErrorEnabled(true);
+            passwordConfirmInputLayout.setError(getString(R.string.not_equal_to_password));
+            return false;
+        } else {
+            passwordConfirmInputLayout.setErrorEnabled(false);
+            return true;
+        }
+    }
+
+    private boolean validatePasswordInput() {
         TextInputLayout passwordInputLayout = fragmentRegisterBinding.textInputLayoutPassword;
         EditText passwordEditText = Objects.requireNonNull(fragmentRegisterBinding
                 .textInputLayoutPassword.getEditText());
         String passwordString = passwordEditText.getText().toString();
         if (passwordString.isEmpty() || passwordString.trim().isEmpty() || !isPasswordValid(passwordString)) {
-
             passwordInputLayout.setErrorEnabled(true);
             passwordInputLayout.setError(getString(R.string.invalid_password));
+            return false;
         } else {
             passwordInputLayout.setErrorEnabled(false);
+            return true;
         }
     }
 

@@ -68,11 +68,13 @@
     <string name="has_no_account">Não tem uma conta?</string>
     <string name="signup">Cadastre-se</string>
     <string name="logon">Entrar</string>
+    <string name="password_register">Senha (+ 6 caracteres)</string>
     <string name="password">Senha</string>
     <string name="email">E-mail</string>
     <string name="investment_guide">Horizon - Guia de Renda Fixa</string>
     <string name="verify_inbox">Verifique sua caixa de e-mails</string>
     <string name="wrong_email_or_pass">E-mail e/ou senha inválido</string>
+    <string name="password_tips">Sua senha deve conter mais de 6 caracteres, ao menos 1 letra maíuscula e 1 número</string>
     <string name="client_id">27768207438-rkv9nc1h52bh2t9bu32t5k8g711cgv4q.apps.googleusercontent.com</string>
     <string name="google_signin_error">Não foi possível autenticar com o Google</string>
     <string name="invalid_credentials">Credenciais inválidas</string>
@@ -101,4 +103,9 @@
     <string name="insert_your_last_name">Insira seu sobrenome</string>
     <string name="insert_a_valid_email">Insira um endereço de e-mail válido</string>
     <string name="invalid_password">Senha deve conter mais de 6 caracteres, ao menos uma letra maíscula e um número</string>
+    <string name="password_confirm">Confirme sua senha</string>
+    <string name="not_equal_to_password">Senhas não coicidem</string>
+    <string name="could_not_complete_registration">Não foi possível completar o cadastro</string>
+    <string name="link_resent">"Link reenviado para: "</string>
+    <string name="my_favorites">Meus títulos favoritos</string>
 </resources>

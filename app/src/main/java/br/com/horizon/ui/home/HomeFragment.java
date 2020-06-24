@@ -24,7 +24,6 @@ import com.github.mikephil.charting.model.GradientColor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import br.com.horizon.MainActivity;
 import br.com.horizon.R;
@@ -58,6 +57,7 @@ public class HomeFragment extends BaseFragment {
         homeFragmentBinding = HomeFragmentBinding.inflate(inflater, container, false);
         View rootView = homeFragmentBinding.getRoot();
         setupFilterButtonsListeners();
+        setupMyProfileListener();
         setupChart(rootView);
         initializeChartDataSet();
         updateChartWithIndexes();
@@ -70,16 +70,13 @@ public class HomeFragment extends BaseFragment {
         MainActivity.getAppStateViewModel()
                 .setComponents(new VisualComponents(false, false));
         controller = Navigation.findNavController(view);
-
     }
 
     private void updateChartWithIndexes() {
-        homeViewModel.observeIndexes(getViewLifecycleOwner(), floats -> {
+        homeViewModel.getIndexesLiveData().observe(getViewLifecycleOwner(), floats -> {
             List<Float> floatsList = Arrays.asList(floats);
-            List<BarEntry> barEntries = floatsList.parallelStream()
-                    .map(aFloat -> new BarEntry(floatsList.indexOf(aFloat), aFloat))
-                    .collect(Collectors.toList());
-
+            List<BarEntry> barEntries = new ArrayList<>();
+            floatsList.forEach(aFloat -> barEntries.add(new BarEntry(floatsList.indexOf(aFloat), aFloat)));
             updateChartDataSet(barEntries);
         });
     }
@@ -175,6 +172,17 @@ public class HomeFragment extends BaseFragment {
         cdiColor = ContextCompat.getColor(view.getContext(), R.color.graphInterest);
         ipcaColor = ContextCompat.getColor(view.getContext(), R.color.graphLiquidIncome);
         igpmColor = ContextCompat.getColor(view.getContext(), R.color.graphInterestLiq);
+    }
+
+    private void setupMyProfileListener() {
+        homeFragmentBinding.homeProfileLabel.setOnClickListener(v -> {
+            goesToMyProfileFragment();
+        });
+    }
+
+    private void goesToMyProfileFragment() {
+        NavDirections navDirections = HomeFragmentDirections.actionHomeFragmentToProfileFragment();
+        controller.navigate(navDirections);
     }
 
     private void setupFilterButtonsListeners() {

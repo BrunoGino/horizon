@@ -36,7 +36,6 @@ public class BaseFragment extends Fragment {
     private void verifyIfUserIsLoggedIn() {
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         if (currentUser == null || !currentUser.isEmailVerified()) {
-            Log.d("NO_CURRENT_USER", "USER IS NULL");
             goesToLogin();
         }
     }

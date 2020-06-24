@@ -1,14 +1,11 @@
 package br.com.horizon.viewmodel;
 
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import br.com.horizon.repository.BCBRepository;
 import br.com.horizon.repository.IBGERepository;
-import br.com.horizon.repository.resource.Resource;
 
 public class HomeViewModel extends ViewModel {
     private final MediatorLiveData<Float[]> mediatorLiveData;
@@ -19,12 +16,11 @@ public class HomeViewModel extends ViewModel {
         bcbRepository = new BCBRepository();
         ibgeRepository = new IBGERepository();
         mediatorLiveData = new MediatorLiveData<>();
+        observeIndexes();
     }
 
-    public void observeIndexes(LifecycleOwner lifecycleOwner, Observer<Float[]> observer) {
-        Float[] indexes = new Float[4];
-
-        mediatorLiveData.observe(lifecycleOwner, observer);
+    private void observeIndexes() {
+        Float[] indexes = new Float[]{0f, 0f, 0f, 0f};
 
         mediatorLiveData.addSource(bcbRepository.getSELICLiveData(), floatResource -> {
             if (floatResource.getData() != null) {
@@ -52,4 +48,7 @@ public class HomeViewModel extends ViewModel {
         });
     }
 
+    public LiveData<Float[]> getIndexesLiveData() {
+        return mediatorLiveData;
+    }
 }

@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/securitiesListFragment"
         android:name="br.com.horizon.ui.securities.SecurityListFragment"
-        android:label="@string/security_list"
+        android:label="@string/my_favorites"
         tools:layout="@layout/security_list">
         <action
             android:id="@+id/action_securityList_to_securityDetailsFragment"
@@ -66,6 +66,9 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -152,4 +155,18 @@
         android:name="br.com.horizon.ui.auth.ActivateAccountMessageFragment"
         android:label="ActivateAccountMessageFragment"
         tools:layout="@layout/fragment_activate_account" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="br.com.horizon.ui.profile.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profileFragment_to_securityFavoritesFragment"
+            app:destination="@id/securityFavoritesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/securityFavoritesFragment"
+        android:name="br.com.horizon.ui.securities.SecurityFavoritesFragment"
+        android:label="SecurityFavoritesFragment"
+        tools:layout="@layout/fragment_favorites_list"/>
 </navigation>
