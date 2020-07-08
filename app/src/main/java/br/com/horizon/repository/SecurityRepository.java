@@ -15,10 +15,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import br.com.horizon.model.Security;
 import br.com.horizon.repository.callback.LoadedDataCallback;
@@ -27,20 +25,72 @@ import br.com.horizon.repository.resource.Resource;
 public class SecurityRepository {
     private final FirebaseFirestore db;
     private final CollectionReference securities;
-    private final MediatorLiveData<Resource<List<Security>>> mediator;
 
     public SecurityRepository() {
         this.db = FirebaseFirestore.getInstance();
         this.securities = db.collection("securities");
-        this.mediator = new MediatorLiveData<>();
     }
 
     public void getAllFilteredByType(String type, LoadedDataCallback<List<Security>> listCallback) {
-        Query query = securities.orderBy("interest", Query.Direction.DESCENDING);
+        runQueryByType(securities, type, listCallback);
+    }
 
-        if (type.toUpperCase().equals("LCI/LCA")) {
+    public void getOrderedByAndByType(String titleType, String orderOption,
+                                      LoadedDataCallback<List<Security>> listLoadedDataCallback) {
+        switch (orderOption) {
+            case "Maior rentabilidade em menor prazo": {
+
+                Query query = securities.orderBy("interest", Query.Direction.DESCENDING)
+                        .orderBy("totalTime", Query.Direction.ASCENDING);
+                Log.d("orderOption", "getOrderedByAndByType: " + "Maior rentabilidade em menor prazo");
+                runQueryByType(query, titleType, listLoadedDataCallback);
+                break;
+            }
+            case "Maior juros": {
+                Query query = securities.orderBy("interest", Query.Direction.DESCENDING);
+                Log.d("orderOption", "getOrderedByAndByType: " + "Maior juros");
+                runQueryByType(query, titleType, listLoadedDataCallback);
+                break;
+            }
+            case "Menor juros": {
+                Query query = securities.orderBy("interest", Query.Direction.ASCENDING);
+                Log.d("orderOption", "getOrderedByAndByType: " + "Menor juros");
+                runQueryByType(query, titleType, listLoadedDataCallback);
+                break;
+            }
+            case "Maior prazo": {
+                Query query = securities.orderBy("totalTime", Query.Direction.DESCENDING);
+                Log.d("orderOption", "getOrderedByAndByType: " + "Maior prazo");
+                runQueryByType(query, titleType, listLoadedDataCallback);
+                break;
+            }
+            case "Menor prazo": {
+                Query query = securities.orderBy("totalTime", Query.Direction.ASCENDING);
+                Log.d("orderOption", "getOrderedByAndByType: " + "Menor prazo");
+                runQueryByType(query, titleType, listLoadedDataCallback);
+                break;
+            }
+            case "Menor investimento mínimo": {
+                Query query = securities.orderBy("titleValue", Query.Direction.ASCENDING);
+                Log.d("orderOption", "getOrderedByAndByType: " + "Menor investimento mínimo");
+                runQueryByType(query, titleType, listLoadedDataCallback);
+                break;
+            }
+            default: {
+                Query query = securities.orderBy("publisher", Query.Direction.ASCENDING);
+                Log.d("orderOption", "getOrderedByAndByType: " + "Emitter");
+                runQueryByType(query, titleType, listLoadedDataCallback);
+                break;
+            }
+        }
+
+    }
+
+    private void runQueryByType(Query query, String type, LoadedDataCallback<List<Security>> listCallback) {
+        if (type.equals("all")) {
+            runQuery(listCallback, query);
+        } else if (type.toUpperCase().equals("LCI/LCA")) {
             Query lciLcaQuery = query.whereIn("titleType", Arrays.asList("LCI", "LCA"));
-            Log.d("LCILCAQUERY", lciLcaQuery.toString());
             runQuery(listCallback, lciLcaQuery);
         } else if (type.toUpperCase().equals("CRI/CRA")) {
             Query criCraQuery = query.whereEqualTo("titleType", "CRI")
@@ -49,12 +99,10 @@ public class SecurityRepository {
         } else {
             runQuery(listCallback, query.whereEqualTo("titleType", type));
         }
-
     }
 
-    public void getFirstHundredWithGreatestInterest(LoadedDataCallback<List<Security>> listLoadedDataCallback) {
-        Query query = securities.orderBy("interest", Query.Direction.DESCENDING).limit(100);
-        runQuery(listLoadedDataCallback, query);
+    public void getAllSecurities(LoadedDataCallback<List<Security>> listLoadedDataCallback) {
+        runQuery(listLoadedDataCallback, securities);
     }
 
     private void runQuery(LoadedDataCallback<List<Security>> listCallback, Query query) {
@@ -67,64 +115,12 @@ public class SecurityRepository {
                         Security security = documentSnapshot.toObject(Security.class);
                         security.setId(documentSnapshot.getId());
                         securities.add(security);
+                        Log.d("RUNQUERY", "runQuery: " + security.toString());
                     }
                 });
                 listCallback.onSuccess(securities);
             }
         });
-    }
-
-    public void getMaxOrMinInterest(Query.Direction direction, LoadedDataCallback<Double> rangeCallback) {
-        Query query = securities.orderBy("interest", direction).limit(1);
-        query.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                List<DocumentSnapshot> documents = task.getResult().getDocuments();
-                DocumentSnapshot documentSnapshot = documents.get(0);
-                Double interest = documentSnapshot.getDouble("interest");
-                rangeCallback.onSuccess(interest);
-            }
-        });
-    }
-
-    public void getAllPublishers(LoadedDataCallback<Set<String>> callback) {
-        Set<String> publishers = new HashSet<>();
-        securities.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                QuerySnapshot result = task.getResult();
-                List<DocumentSnapshot> documents = result.getDocuments();
-                documents.forEach(documentSnapshot -> {
-                    Security foundSecurity = documentSnapshot.toObject(Security.class);
-                    publishers.add(foundSecurity.getPublisher());
-                });
-                callback.onSuccess(publishers);
-            }
-        });
-    }
-
-    public void getAllEmitters(LoadedDataCallback<Set<String>> callback) {
-        Set<String> emitters = new HashSet<>();
-        securities.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                QuerySnapshot result = task.getResult();
-                List<DocumentSnapshot> documents = result.getDocuments();
-                documents.forEach(documentSnapshot -> {
-                    Security foundSecurity = documentSnapshot.toObject(Security.class);
-                    emitters.add(foundSecurity.getEmitter());
-                });
-                callback.onSuccess(emitters);
-            }
-        });
-    }
-
-    public LiveData<Resource<List<Security>>> fetchAll() {
-        securities.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                populateMediatorWithAllSecurities();
-            } else {
-                addFirebaseFailResourceForList(task);
-            }
-        });
-        return mediator;
     }
 
     public void fetchById(String id, LoadedDataCallback<Security> callback) {
@@ -141,38 +137,4 @@ public class SecurityRepository {
 
     }
 
-    private void populateMediatorWithAllSecurities() {
-        securities.addSnapshotListener((queryDocumentSnapshots, e) -> {
-
-            List<DocumentSnapshot> documents = Objects
-                    .requireNonNull(queryDocumentSnapshots).getDocuments();
-            List<Security> securities = new ArrayList<>();
-
-            documents.forEach(documentSnapshot -> {
-                Security newSecurity = documentSnapshot.toObject(Security.class);
-                Objects.requireNonNull(newSecurity).setId(documentSnapshot.getId());
-                securities.add(newSecurity);
-            });
-
-            mediator.setValue(new Resource<>(securities, null));
-        });
-    }
-
-    private void addFirebaseFailResourceForList(Task<QuerySnapshot> task) {
-        MutableLiveData<Resource<List<Security>>> firebaseFails = new MutableLiveData<>();
-        mediator.addSource(firebaseFails, failResource -> {
-            Resource<List<Security>> currentResource = mediator.getValue();
-            Resource<List<Security>> newResource = currentResource != null ?
-                    new Resource<>(currentResource.getData(), failResource.getError())
-                    : failResource;
-            mediator.setValue(newResource);
-        });
-
-        firebaseFails.setValue(new Resource<>(null, Objects.requireNonNull(task
-                .getException()).getMessage()));
-    }
-
-    public void getMostFavorited(LoadedDataCallback<List<Security>> listLoadedDataCallback) {
-
-    }
 }

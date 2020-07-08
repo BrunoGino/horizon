@@ -1,6 +1,8 @@
 package br.com.horizon.ui.securities.recyclerview;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +11,12 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LifecycleRegistry;
+import androidx.recyclerview.widget.AsyncDifferConfig;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.common.util.JsonUtils;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -19,16 +26,19 @@ import java.util.List;
 import br.com.horizon.databinding.SecurityItemBinding;
 import br.com.horizon.model.Security;
 import br.com.horizon.ui.databinding.ObservableSecurity;
+import lombok.Getter;
 
-public class SecurityAdapter extends RecyclerView.Adapter<SecurityAdapter.ViewHolder> {
+public class SecurityAdapter extends ListAdapter<Security, SecurityAdapter.ViewHolder> {
     private final OnItemClickListener onItemClickListener;
     private final Context context;
+    @Getter
     private final List<Security> securities = new ArrayList<>();
     private final NumberFormat percentageFormatter;
     private SecurityItemBinding binder;
     private NumberFormat currencyFormatter;
 
     public SecurityAdapter(Context context, OnItemClickListener onItemClickListener) {
+        super(new DiffCallback());
         this.onItemClickListener = onItemClickListener;
         this.context = context;
         this.currencyFormatter = NumberFormat.getCurrencyInstance();
@@ -36,20 +46,22 @@ public class SecurityAdapter extends RecyclerView.Adapter<SecurityAdapter.ViewHo
         this.percentageFormatter.setMaximumFractionDigits(2);
     }
 
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         binder = SecurityItemBinding.inflate(LayoutInflater.from(context), parent, false);
         binder.setCurrencyFormatter(currencyFormatter);
         binder.setPercentageFormatter(percentageFormatter);
-        return new ViewHolder(binder);
+        ViewHolder viewHolder = new ViewHolder(binder);
+        binder.setLifecycleOwner(viewHolder);
+        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        binder.setLifecycleOwner(holder);
-        Security security = securities.get(position);
-        holder.vinculate(security);
+        Security item = getItem(position);
+        holder.link(item);
     }
 
     @Override
@@ -63,17 +75,6 @@ public class SecurityAdapter extends RecyclerView.Adapter<SecurityAdapter.ViewHo
         super.onViewDetachedFromWindow(holder);
         holder.markAsDestroyed();
     }
-
-    @Override
-    public long getItemId(int position) {
-        return securities.get(position).hashCode();
-    }
-
-    @Override
-    public int getItemCount() {
-        return securities.size();
-    }
-
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, LifecycleOwner {
         private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
@@ -99,9 +100,9 @@ public class SecurityAdapter extends RecyclerView.Adapter<SecurityAdapter.ViewHo
             onItemClickListener.onItemClick(security);
         }
 
-        void vinculate(Security security) {
+        void link(Security security) {
             this.security = security;
-            ObservableSecurity observableSecurity = new ObservableSecurity(this.security);
+            ObservableSecurity observableSecurity = new ObservableSecurity(security);
             binder.setSecurity(observableSecurity);
             binder.setDateFormat(dateFormat);
         }
@@ -113,15 +114,20 @@ public class SecurityAdapter extends RecyclerView.Adapter<SecurityAdapter.ViewHo
         }
     }
 
-    public void addAll(List<Security> securities) {
-//        notifyItemRangeRemoved(0, this.securities.size());
-        this.securities.clear();
-        this.securities.addAll(securities);
-//        notifyItemRangeInserted(0, this.securities.size());
-    }
 
     public interface OnItemClickListener {
         void onItemClick(Security security);
     }
 
+    public static class DiffCallback extends DiffUtil.ItemCallback<Security> {
+        @Override
+        public boolean areItemsTheSame(@NonNull Security oldItem, @NonNull Security newItem) {
+            return oldItem.getId().equals(newItem.getId());
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Security oldItem, @NonNull Security newItem) {
+            return oldItem.equals(newItem);
+        }
+    }
 }

@@ -2,53 +2,42 @@ package br.com.horizon.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import br.com.horizon.repository.BCBRepository;
-import br.com.horizon.repository.IBGERepository;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import br.com.horizon.model.Index;
+import br.com.horizon.repository.IndexRepository;
+import br.com.horizon.repository.resource.Resource;
 
 public class HomeViewModel extends ViewModel {
-    private final MediatorLiveData<Float[]> mediatorLiveData;
-    private final BCBRepository bcbRepository;
-    private final IBGERepository ibgeRepository;
+    private final IndexRepository indexRepository;
 
     public HomeViewModel() {
-        bcbRepository = new BCBRepository();
-        ibgeRepository = new IBGERepository();
-        mediatorLiveData = new MediatorLiveData<>();
-        observeIndexes();
+        indexRepository = new IndexRepository();
     }
 
-    private void observeIndexes() {
-        Float[] indexes = new Float[]{0f, 0f, 0f, 0f};
-
-        mediatorLiveData.addSource(bcbRepository.getSELICLiveData(), floatResource -> {
-            if (floatResource.getData() != null) {
-                indexes[0] = floatResource.getData();
-                mediatorLiveData.postValue(indexes);
-            }
-        });
-        mediatorLiveData.addSource(bcbRepository.getCdiLiveData(), floatResource -> {
-            if (floatResource.getData() != null) {
-                indexes[1] = floatResource.getData();
-                mediatorLiveData.postValue(indexes);
-            }
-        });
-        mediatorLiveData.addSource(ibgeRepository.getIPCALiveData(), floatResource -> {
-            if (floatResource.getData() != null) {
-                indexes[2] = floatResource.getData();
-                mediatorLiveData.postValue(indexes);
-            }
-        });
-        mediatorLiveData.addSource(bcbRepository.getIGPMLiveData(), floatResource -> {
-            if (floatResource.getData() != null) {
-                indexes[3] = floatResource.getData();
-                mediatorLiveData.postValue(indexes);
-            }
-        });
+    public LiveData<Resource<List<Index>>> getSelicLiveData() {
+        return indexRepository.getSELICLiveData();
     }
 
-    public LiveData<Float[]> getIndexesLiveData() {
-        return mediatorLiveData;
+    public LiveData<Resource<List<Index>>> getCDILiveData() {
+        return indexRepository.getCdiLiveData();
     }
+
+    public LiveData<Resource<List<Index>>> getIPCALiveData() {
+        return indexRepository.getIPCALiveData();
+    }
+
+    public LiveData<Resource<List<Index>>> getIGPMLiveData() {
+        return indexRepository.getIGPMLiveData();
+    }
+
 }

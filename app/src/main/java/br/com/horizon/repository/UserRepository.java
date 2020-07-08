@@ -45,8 +45,7 @@ public class UserRepository {
                         User foundUser = Objects.requireNonNull(documentSnapshot.toObject(User.class));
                         user.setUserUID(foundUser.getUserUID());
                         user.setEmail(foundUser.getEmail());
-                        user.setFirstName(foundUser.getFirstName());
-                        user.setLastName(foundUser.getLastName());
+                        user.setName(foundUser.getName());
                     }
                 });
                 callback.onSuccess(user);

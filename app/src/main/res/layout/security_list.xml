@@ -7,9 +7,6 @@
 
         <import type="android.view.View" />
 
-        <variable
-            name="securityAdapter"
-            type="br.com.horizon.ui.securities.recyclerview.SecurityAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,24 +16,35 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/securities_recycler"
-            android:layout_width="409dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:foregroundGravity="top"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/order_securities_spinner"
             tools:listitem="@layout/security_item" />
+
+        <Spinner
+            android:layout_margin="15dp"
+            android:id="@+id/order_securities_spinner"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:scrollbarThumbHorizontal="@color/white"
+            android:scrollbarThumbVertical="@color/white"
+            android:spinnerMode="dialog"
+            android:entries="@array/order_by_options"
+            android:backgroundTint="@color/white"
+            app:layout_constraintEnd_toEndOf="@+id/securities_recycler"
+            app:layout_constraintStart_toStartOf="@+id/securities_recycler"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/list_fragment_if_no_values"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/no_item_found"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"

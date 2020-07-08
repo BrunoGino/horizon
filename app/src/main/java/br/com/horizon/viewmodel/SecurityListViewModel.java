@@ -1,5 +1,7 @@
 package br.com.horizon.viewmodel;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -23,7 +25,19 @@ public class SecurityListViewModel extends ViewModel {
     }
 
     public LiveData<Resource<List<Security>>> fetchAll() {
-        return securityRepository.fetchAll();
+        securityRepository.getAllSecurities(new LoadedDataCallback<List<Security>>() {
+            @Override
+            public void onSuccess(List<Security> result) {
+
+                filteredLiveData.setValue(new Resource<>(result, null));
+            }
+
+            @Override
+            public void onFail(String error) {
+                filteredLiveData.setValue(new Resource<>(new ArrayList<>(), error));
+            }
+        });
+        return filteredLiveData;
     }
 
     public LiveData<Resource<List<Security>>> fetchFilteredByType(String titleType) {
@@ -41,8 +55,9 @@ public class SecurityListViewModel extends ViewModel {
         return filteredLiveData;
     }
 
-    public LiveData<Resource<List<Security>>> fetchFirstHundredWithGreatestInterest() {
-        securityRepository.getFirstHundredWithGreatestInterest(new LoadedDataCallback<List<Security>>() {
+    public LiveData<Resource<List<Security>>> fetchOrdered(String orderOption, String titleType) {
+        securityRepository.getOrderedByAndByType(titleType, orderOption, new LoadedDataCallback<List<Security>>() {
+
             @Override
             public void onSuccess(List<Security> result) {
                 filteredLiveData.setValue(new Resource<>(result, null));
@@ -50,22 +65,7 @@ public class SecurityListViewModel extends ViewModel {
 
             @Override
             public void onFail(String error) {
-                filteredLiveData.setValue(new Resource<>(null, error));
-            }
-        });
-        return filteredLiveData;
-    }
-
-    public LiveData<Resource<List<Security>>> fetchMostFavorited() {
-        securityRepository.getMostFavorited(new LoadedDataCallback<List<Security>>() {
-            @Override
-            public void onSuccess(List<Security> result) {
-
-            }
-
-            @Override
-            public void onFail(String error) {
-
+                filteredLiveData.setValue(new Resource<>(new ArrayList<>(), error));
             }
         });
         return filteredLiveData;

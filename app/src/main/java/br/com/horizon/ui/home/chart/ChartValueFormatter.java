@@ -1,4 +1,4 @@
-package br.com.horizon.ui.home;
+package br.com.horizon.ui.home.chart;
 
 import com.github.mikephil.charting.formatter.ValueFormatter;
 
@@ -13,7 +13,6 @@ public class ChartValueFormatter extends ValueFormatter {
     }
 
     @Override
-
     public String getFormattedValue(float value) {
         return percentageFormatter.format(value);
     }

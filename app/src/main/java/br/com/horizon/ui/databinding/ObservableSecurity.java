@@ -23,7 +23,7 @@ public class ObservableSecurity {
     @Getter
     private final MutableLiveData<String> emitter = new MutableLiveData<>();
     @Getter
-    private final MutableLiveData<Date> endingDate = new MutableLiveData<>();
+    private final MutableLiveData<Integer> endingDate = new MutableLiveData<>();
     @Getter
     private final MutableLiveData<Boolean> fgc = new MutableLiveData<>();
     @Getter

@@ -53,11 +53,11 @@
     <string name="cdi">CDI</string>
     <string name="ipca">IPCA</string>
     <string name="igpm">IGP-M</string>
-    <string name="indexes_yearly">Índices (a.a.)</string>
+    <string name="indexes_twelve">Índices de juros (12 meses)</string>
     <string name="greatest_interests">Maiores rendimentos</string>
     <string name="most_favorites">Mais favoritados</string>
     <string name="titles">Títulos</string>
-    <string name="public_titles">Títulos Públicos</string>
+    <string name="public_titles">Tesouro Direto</string>
     <string name="cdb">CDB</string>
     <string name="lci_lca">LCI/LCA</string>
     <string name="cri_cra">CRI/CRA</string>
@@ -108,4 +108,20 @@
     <string name="could_not_complete_registration">Não foi possível completar o cadastro</string>
     <string name="link_resent">"Link reenviado para: "</string>
     <string name="my_favorites">Meus títulos favoritos</string>
+    <string name="name">Nome</string>
+    <string name="could_not_fetch_profile">Não foi possível carregar o perfil</string>
+    <string name="all_titles">Todos os títulos</string>
+    <string name="loading_indexes">Carregando índices…</string>
+    <string name="days">dias</string>
+    <string name="loading_values">Carregando valores…</string>
+    <string name="loading_securities">Carregando títulos…</string>
+    <string-array name="order_by_options">
+        <item>Maior rentabilidade em menor prazo</item>
+        <item>Maior juros</item>
+        <item>Menor juros</item>
+        <item>Maior prazo</item>
+        <item>Menor prazo</item>
+        <item>Menor investimento mínimo</item>
+        <item>Corretora (A-Z)</item>
+    </string-array>
 </resources>

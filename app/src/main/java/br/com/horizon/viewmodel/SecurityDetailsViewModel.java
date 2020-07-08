@@ -21,7 +21,6 @@ public class SecurityDetailsViewModel extends ViewModel {
         this.liveDataById = new MutableLiveData<>();
 
     }
-
     private void getResultById(String id) {
         repository.fetchById(id, new LoadedDataCallback<Security>() {
             @Override

@@ -27,6 +27,18 @@
         <variable
             name="percentageFormatter"
             type="java.text.NumberFormat" />
+
+        <variable
+            name="onFavoriteClick"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="isFavorite"
+            type="Boolean" />
+
+        <variable
+            name="favoriteCount"
+            type="Integer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -54,8 +66,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="400dp"
                     android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
                     app:layout_constraintBottom_toTopOf="@+id/dialog_title_goto_url"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -89,15 +102,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="5dp"
                     android:maxLines="3"
                     android:text="@={security.titleName}"
                     android:textAllCaps="true"
                     android:textColor="@color/white"
                     android:textSize="@dimen/detail_screen_title"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/security_detail_favorite"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Tesouro IPCA+ 2024" />
@@ -172,7 +182,7 @@
                     android:id="@+id/security_detail_expiry_date_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@={Converter.convertDateToString(security.endingDate)}"
+                    android:text="@{String.valueOf(security.totalTime)}"
                     android:textColor="@color/white"
                     android:textSize="@dimen/detail_screen_subtitle_value"
                     app:layout_constraintStart_toStartOf="@+id/security_detail_expiry_date"
@@ -372,26 +382,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_income_tax_divider" />
 
-                <ImageButton
-                    android:id="@+id/security_detail_favorite"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="30dp"
-                    android:background="@drawable/ic_star_favourite"
-                    app:layout_constraintBottom_toBottomOf="@+id/security_details_name"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/security_details_name" />
-
-                <TextView
-                    android:id="@+id/security_detail_favorite_qty"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="600"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="@+id/security_detail_favorite"
-                    app:layout_constraintStart_toStartOf="@+id/security_detail_favorite"
-                    app:layout_constraintTop_toBottomOf="@+id/security_detail_favorite" />
-
                 <View
                     android:id="@+id/security_detail_head_divider"
                     android:layout_width="0dp"
@@ -402,7 +392,7 @@
                     android:background="@color/colorPrimaryLight"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/security_detail_favorite_qty" />
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_sec_type" />
 
                 <View
                     android:id="@+id/security_detail_emitter_publisher_divider"

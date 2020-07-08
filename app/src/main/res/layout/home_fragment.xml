@@ -32,6 +32,7 @@
         <variable
             name="profileOnClickListener"
             type="android.view.View.OnClickListener" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -72,167 +73,40 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="16dp"
                     android:text="@string/titles"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
+                    android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/home_td_filter_button"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/title_types_recycler"
                     android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_marginStart="20dp"
+                    android:layout_height="110dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp"
-                    android:backgroundTint="@color/white"
-                    android:text="@string/public_titles"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:cornerRadius="40dp"
-                    app:layout_constraintEnd_toStartOf="@+id/homeguideline"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/home_securities_divider" />
-
-                <Button
-                    android:id="@+id/home_lci_lca_filter_button"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="10dp"
-                    android:backgroundTint="@color/white"
-                    android:text="@string/lci_lca"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:cornerRadius="40dp"
-                    app:layout_constraintEnd_toEndOf="@+id/home_td_filter_button"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@+id/home_td_filter_button"
-                    app:layout_constraintTop_toBottomOf="@+id/home_td_filter_button" />
-
-                <Button
-                    android:id="@+id/home_deb_filter_button"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="10dp"
-                    android:backgroundTint="@color/white"
-                    android:text="@string/debentures"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:cornerRadius="40dp"
-                    app:layout_constraintEnd_toEndOf="@+id/home_lci_lca_filter_button"
-                    app:layout_constraintStart_toStartOf="@+id/home_lci_lca_filter_button"
-                    app:layout_constraintTop_toBottomOf="@+id/home_lci_lca_filter_button" />
-
-                <Button
-                    android:id="@+id/home_cri_cra_filter_button"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="10dp"
-                    android:backgroundTint="@color/white"
-                    android:text="@string/cri_cra"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:cornerRadius="40dp"
-                    app:layout_constraintEnd_toEndOf="@+id/home_cdb_filter_button"
-                    app:layout_constraintStart_toStartOf="@+id/home_cdb_filter_button"
-                    app:layout_constraintTop_toBottomOf="@+id/home_cdb_filter_button" />
-
-                <Button
-                    android:id="@+id/home_cdb_filter_button"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:backgroundTint="@color/white"
-                    android:text="@string/cdb"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:cornerRadius="40dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/homeguideline"
-                    app:layout_constraintTop_toTopOf="@+id/home_td_filter_button" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/home_title_securities"
+                    tools:listitem="@layout/type_item_fragment" />
 
-                <TextView
-                    android:id="@+id/home_most_favorites_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:text="@string/most_favorites"
-                    android:textSize="22sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/home_most_favorites_icon"
-                    app:layout_constraintStart_toEndOf="@+id/home_most_favorites_icon"
-                    app:layout_constraintTop_toTopOf="@+id/home_most_favorites_icon" />
-
-
-                <TextView
-                    android:id="@+id/home_profile_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="5dp"
-                    android:text="@string/my_profile"
-                    android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/imageView"
-                    app:layout_constraintEnd_toStartOf="@+id/imageView"
-                    app:layout_constraintTop_toTopOf="@+id/imageView" />
 
                 <TextView
                     android:id="@+id/home_indexes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="@string/indexes_yearly"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@+id/home_greater_interests_icon"
-                    app:layout_constraintTop_toBottomOf="@+id/home_greater_interests_icon" />
+                    android:text="@string/indexes_twelve"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="@+id/home_title_securities"
+                    app:layout_constraintTop_toBottomOf="@+id/title_types_recycler" />
 
-                <TextView
-                    android:id="@+id/home_greater_interests_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:text="@string/greatest_interests"
-                    android:textSize="22sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/home_greater_interests_icon"
-                    app:layout_constraintStart_toEndOf="@+id/home_greater_interests_icon"
-                    app:layout_constraintTop_toTopOf="@+id/home_greater_interests_icon" />
-
-                <ImageView
-                    android:id="@+id/home_most_favorites_icon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="20dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/home_deb_filter_button"
-                    app:srcCompat="@drawable/ic_star_half_black_24dp" />
-
-                <ImageView
-                    android:id="@+id/home_greater_interests_icon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="10dp"
-                    app:layout_constraintStart_toStartOf="@+id/home_most_favorites_icon"
-                    app:layout_constraintTop_toBottomOf="@+id/home_most_favorites_icon"
-                    app:srcCompat="@drawable/ic_trending_up_black_24dp" />
-
-                <com.github.mikephil.charting.charts.BarChart
+                <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/home_indexes_plot"
                     android:layout_width="match_parent"
-                    android:layout_height="400dp"
+                    android:layout_height="450dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -261,15 +135,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/home_indexes" />
-
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_marginEnd="10dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/home_title_securities"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:srcCompat="@drawable/ic_account_box_black_24dp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

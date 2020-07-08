@@ -16,7 +16,6 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
@@ -25,11 +24,13 @@ import androidx.navigation.Navigation;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LegendEntry;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.model.GradientColor;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -42,6 +43,8 @@ import br.com.horizon.model.Security;
 import br.com.horizon.ui.BaseFragment;
 import br.com.horizon.ui.VisualComponents;
 import br.com.horizon.ui.databinding.ObservableSecurity;
+import br.com.horizon.ui.home.chart.ChartValueFormatter;
+import br.com.horizon.ui.securities.chart.LeftAxisFormatter;
 import br.com.horizon.viewmodel.SecurityDetailsViewModel;
 
 public class SecurityDetailsFragment extends BaseFragment {
@@ -52,12 +55,15 @@ public class SecurityDetailsFragment extends BaseFragment {
     private NavController navController;
     private ObservableSecurity observableSecurity;
     private SecurityDetailsViewModel securityDetailsViewModel;
+    private FirebaseAuth firebaseAuth;
     private int graphTextColor;
     private int taxColor;
     private int grossIncomeColor;
     private int liquidIncomeColor;
     private int liquidAmountColor;
     private BarChart chart;
+    private String securityId;
+    private LeftAxisFormatter chartLeftAxisFormatter;
 
 
     @SuppressLint("SimpleDateFormat")
@@ -68,6 +74,9 @@ public class SecurityDetailsFragment extends BaseFragment {
         currencyFormatter = NumberFormat.getCurrencyInstance();
         percentageFormatter = NumberFormat.getPercentInstance();
         percentageFormatter.setMaximumFractionDigits(2);
+
+        chartLeftAxisFormatter = new LeftAxisFormatter();
+        firebaseAuth = FirebaseAuth.getInstance();
     }
 
     @Nullable
@@ -77,7 +86,7 @@ public class SecurityDetailsFragment extends BaseFragment {
         View rootView = dataBinder.getRoot();
         simulateValue = new MutableLiveData<>();
         setupChart(rootView);
-        String securityId = SecurityDetailsFragmentArgs.fromBundle(requireArguments()).getSecurityId();
+        securityId = SecurityDetailsFragmentArgs.fromBundle(requireArguments()).getSecurityId();
         securityDetailsViewModel.getLiveDataById(securityId).observe(getViewLifecycleOwner(), securityResource -> {
             if (securityResource.getData() != null) {
                 Security security = securityResource.getData();
@@ -93,6 +102,15 @@ public class SecurityDetailsFragment extends BaseFragment {
         return rootView;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        MainActivity.getAppStateViewModel()
+                .setComponents(new VisualComponents(true, false));
+
+        navController = Navigation.findNavController(view);
+        handleOnBackPressed();
+    }
+
     private void setupChart(View rootView) {
         instantiateChartColors(rootView);
         chart = createBarChart(rootView);
@@ -103,14 +121,6 @@ public class SecurityDetailsFragment extends BaseFragment {
         Snackbar.make(root, R.string.fetch_error, Snackbar.LENGTH_LONG).show();
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        MainActivity.getAppStateViewModel()
-                .setComponents(new VisualComponents(true, false));
-
-        navController = Navigation.findNavController(view);
-        handleOnBackPressed();
-    }
 
     private void handleOnBackPressed() {
         OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
@@ -221,6 +231,7 @@ public class SecurityDetailsFragment extends BaseFragment {
         barData.addDataSet(barDataSet);
         chart.setData(barData);
         chart.invalidate();
+        chart.animateXY(2000, 2000);
     }
 
     private void instantiateChartColors(@NonNull View view) {
@@ -253,12 +264,17 @@ public class SecurityDetailsFragment extends BaseFragment {
 
     private BarChart createBarChart(@NonNull View view) {
         BarChart chart = dataBinder.simulationPlot;
-        chart.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.graphBackground));
+        chart.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorPrimary));
         chart.getXAxis().setEnabled(false);
         chart.getAxisRight().setEnabled(false);
         chart.getDescription().setEnabled(false);
+        chart.setNoDataText(getString(R.string.loading_values));
+        YAxis axisLeft = chart.getAxisLeft();
 
-        chart.getAxisLeft().setTextColor(graphTextColor);
+        axisLeft.setTextColor(graphTextColor);
+
+        axisLeft.setTextColor(ContextCompat.getColor(view.getContext(), R.color.graphAxisLabelColor));
+        axisLeft.setValueFormatter(chartLeftAxisFormatter);
 
         return chart;
     }

@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/securitiesListFragment"
         android:name="br.com.horizon.ui.securities.SecurityListFragment"
-        android:label="@string/my_favorites"
+        android:label="@string/security_list"
         tools:layout="@layout/security_list">
         <action
             android:id="@+id/action_securityList_to_securityDetailsFragment"
@@ -130,7 +130,7 @@
         android:id="@+id/recoverPasswordFragment"
         android:name="br.com.horizon.ui.auth.RecoverPasswordMessageFragment"
         android:label="RecoverPasswordFragment"
-        tools:layout="@layout/fragment_recover_message" >
+        tools:layout="@layout/fragment_recover_message">
         <argument
             android:name="userEmail"
             app:argType="string" />
@@ -158,15 +158,7 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="br.com.horizon.ui.profile.ProfileFragment"
-        android:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile">
-        <action
-            android:id="@+id/action_profileFragment_to_securityFavoritesFragment"
-            app:destination="@id/securityFavoritesFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/securityFavoritesFragment"
-        android:name="br.com.horizon.ui.securities.SecurityFavoritesFragment"
-        android:label="SecurityFavoritesFragment"
-        tools:layout="@layout/fragment_favorites_list"/>
+        android:label="@string/my_profile"
+        tools:layout="@layout/fragment_profile"></fragment>
+
 </navigation>

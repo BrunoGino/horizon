@@ -5,16 +5,19 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -22,7 +25,6 @@ import br.com.horizon.MainActivity;
 import br.com.horizon.R;
 import br.com.horizon.databinding.SecurityListBinding;
 import br.com.horizon.model.Security;
-import br.com.horizon.repository.resource.Resource;
 import br.com.horizon.ui.BaseFragment;
 import br.com.horizon.ui.VisualComponents;
 import br.com.horizon.ui.securities.recyclerview.SecurityAdapter;
@@ -34,19 +36,39 @@ public class SecurityListFragment extends BaseFragment {
     private SecurityAdapter.OnItemClickListener onRecyclerItemClickListener;
     private NavController controller;
     private SecurityListBinding securityListBinding;
+    private String titleType;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        titleType = SecurityListFragmentArgs.fromBundle(requireArguments()).getTitleType();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         securityListBinding = SecurityListBinding.inflate(inflater, container, false);
 
+        Spinner orderSecuritiesSpinner = securityListBinding.orderSecuritiesSpinner;
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(securityListBinding.getRoot().getContext(),
+                R.array.order_by_options, R.layout.support_simple_spinner_dropdown_item);
+        orderSecuritiesSpinner.setAdapter(adapter);
+        orderSecuritiesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String orderBy = parent.getItemAtPosition(position).toString();
+                securityListViewModel.fetchOrdered(orderBy, titleType).observe(getViewLifecycleOwner(), listResource ->
+                        updateViewWithObtainedData(listResource.getData()));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         MainActivity.getAppStateViewModel()
                 .setComponents(new VisualComponents(true, false));
+
 
         return securityListBinding.getRoot();
     }
@@ -87,8 +109,6 @@ public class SecurityListFragment extends BaseFragment {
         RecyclerView recyclerView = view.findViewById(R.id.securities_recycler);
         setOnRecyclerItemClickListener();
         securityAdapter = new SecurityAdapter(view.getContext(), this.onRecyclerItemClickListener);
-        securityListBinding.setSecurityAdapter(securityAdapter);
-        securityAdapter.setHasStableIds(true);
         recyclerView.setAdapter(securityAdapter);
     }
 
@@ -96,27 +116,15 @@ public class SecurityListFragment extends BaseFragment {
      * Fetches the securities list from ViewModel and add its content to the adapter.
      */
     private void pullSecurities() {
-        String titleType = SecurityListFragmentArgs.fromBundle(requireArguments()).getTitleType();
-        boolean orderByInterest = SecurityListFragmentArgs.fromBundle(requireArguments()).getOrderByInterest();
-        boolean orderByMostFavorite = SecurityListFragmentArgs.fromBundle(requireArguments()).getOrderByMostFavorite();
         if (!titleType.isEmpty()) {
             getSecuritiesByType(titleType);
-        }
-        if (orderByInterest) {
-            getFirstHundredOrderedByInterest();
-        }
-
-        if (orderByMostFavorite) {
-            getAllMostFavorite();
+        } else {
+            getAll();
         }
     }
 
-    private void getAllMostFavorite() {
-        securityListViewModel.fetchMostFavorited();
-    }
-
-    private void getFirstHundredOrderedByInterest() {
-        securityListViewModel.fetchFirstHundredWithGreatestInterest().observe(getViewLifecycleOwner(), listResource ->
+    private void getAll() {
+        securityListViewModel.fetchAll().observe(getViewLifecycleOwner(), listResource ->
                 updateViewWithObtainedData(listResource.getData()));
     }
 
@@ -126,12 +134,12 @@ public class SecurityListFragment extends BaseFragment {
     }
 
     private void updateViewWithObtainedData(List<Security> listData) {
+        securityListBinding.listFragmentIfNoValues.setText(getString(R.string.loading_securities));
         if (listData != null && !listData.isEmpty()) {
+            securityAdapter.submitList(listData);
             securityListBinding.listFragmentIfNoValues.setVisibility(View.GONE);
-            securityAdapter.addAll(listData);
-            securityAdapter.notifyDataSetChanged();
         } else {
-            securityListBinding.listFragmentIfNoValues.setVisibility(View.VISIBLE);
+            securityListBinding.listFragmentIfNoValues.setText(getString(R.string.no_item_found));
         }
     }
 

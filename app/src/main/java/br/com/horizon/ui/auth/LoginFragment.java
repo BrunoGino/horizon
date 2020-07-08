@@ -11,6 +11,9 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
@@ -25,6 +28,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.Objects;
@@ -32,11 +36,15 @@ import java.util.Objects;
 import br.com.horizon.MainActivity;
 import br.com.horizon.R;
 import br.com.horizon.databinding.FragmentLoginBinding;
+import br.com.horizon.model.User;
+import br.com.horizon.repository.resource.Resource;
 import br.com.horizon.ui.VisualComponents;
+import br.com.horizon.viewmodel.UserViewModel;
 
 public class LoginFragment extends Fragment {
     private static final int G_SIGN_IN = 9001;
     private FirebaseAuth firebaseAuth;
+    private UserViewModel userViewModel;
     private FragmentLoginBinding loginFragmentBinding;
     private NavController navController;
     private GoogleSignInClient googleSignInClient;
@@ -48,7 +56,7 @@ public class LoginFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         firebaseAuth = FirebaseAuth.getInstance();
-
+        userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -178,6 +186,19 @@ public class LoginFragment extends Fragment {
         AuthCredential authCredential = GoogleAuthProvider.getCredential(googleSignInAccount.getIdToken(), null);
         firebaseAuth.signInWithCredential(authCredential).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
+                FirebaseUser currentUser = Objects.requireNonNull(firebaseAuth.getCurrentUser());
+                userViewModel.getUser(currentUser.getUid()).observe(getViewLifecycleOwner(), userResource -> {
+                    if(userResource.getData() == null){
+                        User user = new User();
+                        user.setName(currentUser.getDisplayName());
+                        user.setEmail(currentUser.getEmail());
+                        String uid = Objects.requireNonNull(task.getResult()).getUser().getUid();
+                        user.setUserUID(uid);
+                        createNewUser(user);
+                    }else{
+                        navigateToHomeScreen();
+                    }
+                });
                 navigateToHomeScreen();
             } else {
                 Snackbar.make(loginFragmentBinding.getRoot(), getString(R.string.invalid_credentials),
@@ -185,9 +206,16 @@ public class LoginFragment extends Fragment {
             }
         });
     }
+    private void createNewUser(User user) {
+        LiveData<Resource<User>> createdUser = userViewModel.createUser(user);
+        createdUser.observe(getViewLifecycleOwner(), userResource -> {
+            if (userResource.getData() != null) {
+                navigateToHomeScreen();
+            }
+        });
+    }
 
     private void navigateToHomeScreen() {
-        Log.d("PASS_HOME_SCREEN", "You reached me!! :) navigateToHomeScreen");
         NavDirections navDirections = LoginFragmentDirections.actionLoginFragmentToHomeFragment();
         navController.navigate(navDirections);
     }

@@ -12,14 +12,27 @@ import br.com.horizon.repository.resource.Resource;
 public class UserViewModel extends ViewModel {
     private final UserRepository userRepository;
     private MutableLiveData<Resource<User>> userLiveData;
+    private MutableLiveData<Resource<User>> newUserLiveData;
 
     public UserViewModel() {
         userRepository = new UserRepository();
         userLiveData = new MutableLiveData<>();
+        newUserLiveData = new MutableLiveData<>();
     }
 
-    public LiveData<Resource<User>> createUser(User newUser){
+    public LiveData<Resource<User>> createUser(User newUser) {
+        userRepository.createNewUser(newUser, new LoadedDataCallback<User>() {
+            @Override
+            public void onSuccess(User result) {
+                newUserLiveData.postValue(new Resource<>(result, null));
+            }
 
+            @Override
+            public void onFail(String error) {
+                newUserLiveData.postValue(new Resource<>(null, error));
+            }
+        });
+        return newUserLiveData;
     }
 
     public LiveData<Resource<User>> getUser(String uid) {
@@ -31,7 +44,7 @@ public class UserViewModel extends ViewModel {
 
             @Override
             public void onFail(String error) {
-                userLiveData.postValue(new Resource<>(null,error));
+                userLiveData.postValue(new Resource<>(null, error));
             }
         });
         return userLiveData;

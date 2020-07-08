@@ -10,6 +10,9 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
@@ -25,10 +28,14 @@ import java.util.regex.Pattern;
 import br.com.horizon.MainActivity;
 import br.com.horizon.R;
 import br.com.horizon.databinding.FragmentRegisterBinding;
+import br.com.horizon.model.User;
+import br.com.horizon.repository.resource.Resource;
 import br.com.horizon.ui.VisualComponents;
+import br.com.horizon.viewmodel.UserViewModel;
 
 public class RegisterFragment extends Fragment {
     private FragmentRegisterBinding fragmentRegisterBinding;
+    private UserViewModel userViewModel;
     private View.OnClickListener createAccountListener;
     private NavController navController;
     private FirebaseAuth firebaseAuth;
@@ -37,6 +44,7 @@ public class RegisterFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentRegisterBinding = FragmentRegisterBinding.inflate(inflater, container, false);
+        userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         firebaseAuth = FirebaseAuth.getInstance();
         return fragmentRegisterBinding.getRoot();
     }
@@ -58,20 +66,39 @@ public class RegisterFragment extends Fragment {
 
     private void handleUserCreation(View view) {
         if (inputsValid()) {
-            String password = Objects.requireNonNull(fragmentRegisterBinding.textInputLayoutPassword
+            String firstName = Objects.requireNonNull(fragmentRegisterBinding.textInputLayoutFirstName
+                    .getEditText()).getText().toString();
+
+            String lastName = Objects.requireNonNull(fragmentRegisterBinding.textInputLayoutLastName
                     .getEditText()).getText().toString();
 
             String email = Objects.requireNonNull(fragmentRegisterBinding.textInputLayoutEmail
                     .getEditText()).getText().toString();
+            String password = Objects.requireNonNull(fragmentRegisterBinding.textInputLayoutPassword
+                    .getEditText()).getText().toString();
 
             firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    sendEmailVerification();
+                    User user = new User();
+                    user.setName(firstName + " " + lastName);
+                    user.setEmail(email);
+                    String uid = Objects.requireNonNull(task.getResult()).getUser().getUid();
+                    user.setUserUID(uid);
+                    createNewUser(user);
                 } else {
                     Snackbar.make(view, R.string.could_not_complete_registration, Snackbar.LENGTH_SHORT).show();
                 }
             });
         }
+    }
+
+    private void createNewUser(User user) {
+        LiveData<Resource<User>> createdUser = userViewModel.createUser(user);
+        createdUser.observe(getViewLifecycleOwner(), userResource -> {
+            if (userResource.getData() != null) {
+                sendEmailVerification();
+            }
+        });
     }
 
     private void sendEmailVerification() {
