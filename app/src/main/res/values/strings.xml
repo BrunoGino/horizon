@@ -115,6 +115,25 @@
     <string name="days">dias</string>
     <string name="loading_values">Carregando valores…</string>
     <string name="loading_securities">Carregando títulos…</string>
+    <string name="order_by">Ordenar por</string>
+    <string name="direct_treasure">Tesouro Direto</string>
+    <string name="income_tax">Imposto de Renda</string>
+    <string name="order_by_key">ORDER_BY</string>
+    <string name="title_type_key">TITLE_TYPE_KEY</string>
+    <string name="preferences">Preferências</string>
+    <string name="exit">Sair</string>
+    <string name="would_you_like_to_sign_out">Tem certeza que deseja fazer o logoff ?</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="welcome">Bem vindo(a), %1$s!</string>
+    <string name="about_the_app_text">O Horizon é um aplicativo de busca de títulos de Renda Fixa
+        criado como projeto de Iniciação Científica na Fatec Indaiatuba pelo aluno Bruno Gino, orientado pelo professor Michel Moron Munhoz</string>
+    <string name="faq">F.A.Q</string>
+    <string name="tax_indexes">Índices de juros</string>
+    <string name="about">Sobre o app</string>
+    <string name="select_a_type_of_security">Selecione um tipo de título</string>
+    <string name="see_tax_indexes">Ver índices de juros</string>
+    <string name="about_the_app">Sobre o app</string>
     <string-array name="order_by_options">
         <item>Maior rentabilidade em menor prazo</item>
         <item>Maior juros</item>
@@ -122,6 +141,5 @@
         <item>Maior prazo</item>
         <item>Menor prazo</item>
         <item>Menor investimento mínimo</item>
-        <item>Corretora (A-Z)</item>
     </string-array>
 </resources>

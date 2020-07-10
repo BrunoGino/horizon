@@ -1,8 +1,6 @@
 package br.com.horizon.ui.securities.recyclerview;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LifecycleRegistry;
-import androidx.recyclerview.widget.AsyncDifferConfig;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.gms.common.util.JsonUtils;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -76,6 +71,11 @@ public class SecurityAdapter extends ListAdapter<Security, SecurityAdapter.ViewH
         holder.markAsDestroyed();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return getCurrentList().get(position).hashCode();
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, LifecycleOwner {
         private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
         private Security security;
@@ -85,6 +85,7 @@ public class SecurityAdapter extends ListAdapter<Security, SecurityAdapter.ViewH
             super(binding.getRoot());
             registry.setCurrentState(Lifecycle.State.INITIALIZED);
             binder.setItemClick(this);
+            binder.setDateFormat(dateFormat);
         }
 
         private void markAsActive() {
@@ -102,9 +103,7 @@ public class SecurityAdapter extends ListAdapter<Security, SecurityAdapter.ViewH
 
         void link(Security security) {
             this.security = security;
-            ObservableSecurity observableSecurity = new ObservableSecurity(security);
-            binder.setSecurity(observableSecurity);
-            binder.setDateFormat(dateFormat);
+            binder.setSecurity(new ObservableSecurity(security));
         }
 
         @NonNull
@@ -112,11 +111,6 @@ public class SecurityAdapter extends ListAdapter<Security, SecurityAdapter.ViewH
         public Lifecycle getLifecycle() {
             return registry;
         }
-    }
-
-
-    public interface OnItemClickListener {
-        void onItemClick(Security security);
     }
 
     public static class DiffCallback extends DiffUtil.ItemCallback<Security> {
@@ -130,4 +124,9 @@ public class SecurityAdapter extends ListAdapter<Security, SecurityAdapter.ViewH
             return oldItem.equals(newItem);
         }
     }
+
+    public interface OnItemClickListener {
+        void onItemClick(Security security);
+    }
+
 }

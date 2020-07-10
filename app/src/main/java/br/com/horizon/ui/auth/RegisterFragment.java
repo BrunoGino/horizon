@@ -63,7 +63,6 @@ public class RegisterFragment extends Fragment {
         fragmentRegisterBinding.setRegisterListener(createAccountListener);
     }
 
-
     private void handleUserCreation(View view) {
         if (inputsValid()) {
             String firstName = Objects.requireNonNull(fragmentRegisterBinding.textInputLayoutFirstName
@@ -122,11 +121,10 @@ public class RegisterFragment extends Fragment {
         String firstNameString = firstNameEditText.getText().toString();
 
         if (firstNameString.isEmpty() || firstNameString.trim().isEmpty()) {
-            firstNameInputLayout.setErrorEnabled(true);
             firstNameInputLayout.setError(getString(R.string.insert_your_name));
             return false;
         } else {
-            firstNameInputLayout.setErrorEnabled(false);
+            firstNameInputLayout.setError(null);
             return true;
         }
     }
@@ -138,11 +136,10 @@ public class RegisterFragment extends Fragment {
         String lastNameString = lastNameEditText.getText().toString();
 
         if (lastNameString.isEmpty() || lastNameString.trim().isEmpty()) {
-            lastNameInputLayout.setErrorEnabled(true);
             lastNameInputLayout.setError(getString(R.string.insert_your_last_name));
             return false;
         } else {
-            lastNameInputLayout.setErrorEnabled(false);
+            lastNameInputLayout.setError(null);
             return true;
         }
     }
@@ -154,11 +151,24 @@ public class RegisterFragment extends Fragment {
         String emailString = emailEditText.getText().toString();
 
         if (emailString.isEmpty() || emailString.trim().isEmpty() || !isEmailValid(emailString)) {
-            emailInputLayout.setErrorEnabled(true);
             emailInputLayout.setError(getString(R.string.insert_a_valid_email));
             return false;
         } else {
-            emailInputLayout.setErrorEnabled(false);
+            emailInputLayout.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validatePasswordInput() {
+        TextInputLayout passwordInputLayout = fragmentRegisterBinding.textInputLayoutPassword;
+        EditText passwordEditText = Objects.requireNonNull(fragmentRegisterBinding
+                .textInputLayoutPassword.getEditText());
+        String passwordString = passwordEditText.getText().toString();
+        if (passwordString.isEmpty() || passwordString.trim().isEmpty() || !isPasswordValid(passwordString)) {
+            passwordInputLayout.setError(getString(R.string.invalid_password));
+            return false;
+        } else {
+            passwordInputLayout.setError(null);
             return true;
         }
     }
@@ -175,26 +185,10 @@ public class RegisterFragment extends Fragment {
 
         if (passwordString.isEmpty() || passwordString.trim().isEmpty()
                 || !passwordConfirmString.equals(passwordString)) {
-            passwordConfirmInputLayout.setErrorEnabled(true);
             passwordConfirmInputLayout.setError(getString(R.string.not_equal_to_password));
             return false;
         } else {
-            passwordConfirmInputLayout.setErrorEnabled(false);
-            return true;
-        }
-    }
-
-    private boolean validatePasswordInput() {
-        TextInputLayout passwordInputLayout = fragmentRegisterBinding.textInputLayoutPassword;
-        EditText passwordEditText = Objects.requireNonNull(fragmentRegisterBinding
-                .textInputLayoutPassword.getEditText());
-        String passwordString = passwordEditText.getText().toString();
-        if (passwordString.isEmpty() || passwordString.trim().isEmpty() || !isPasswordValid(passwordString)) {
-            passwordInputLayout.setErrorEnabled(true);
-            passwordInputLayout.setError(getString(R.string.invalid_password));
-            return false;
-        } else {
-            passwordInputLayout.setErrorEnabled(false);
+            passwordConfirmInputLayout.setError(null);
             return true;
         }
     }

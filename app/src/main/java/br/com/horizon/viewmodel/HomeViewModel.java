@@ -1,43 +1,36 @@
 package br.com.horizon.viewmodel;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import br.com.horizon.model.Index;
-import br.com.horizon.repository.IndexRepository;
+import br.com.horizon.model.User;
+import br.com.horizon.repository.UserRepository;
+import br.com.horizon.repository.callback.LoadedDataCallback;
 import br.com.horizon.repository.resource.Resource;
 
 public class HomeViewModel extends ViewModel {
-    private final IndexRepository indexRepository;
+    private final UserRepository userRepository;
+    private final MutableLiveData<Resource<User>> userMutableLiveData;
 
     public HomeViewModel() {
-        indexRepository = new IndexRepository();
+        userRepository = new UserRepository();
+        userMutableLiveData = new MutableLiveData<>();
     }
 
-    public LiveData<Resource<List<Index>>> getSelicLiveData() {
-        return indexRepository.getSELICLiveData();
-    }
+    public LiveData<Resource<User>> getUserByUid(String uid) {
+        userRepository.getUserByUID(uid, new LoadedDataCallback<User>() {
+            @Override
+            public void onSuccess(User result) {
+                userMutableLiveData.setValue(new Resource<>(result, null));
+            }
 
-    public LiveData<Resource<List<Index>>> getCDILiveData() {
-        return indexRepository.getCdiLiveData();
-    }
-
-    public LiveData<Resource<List<Index>>> getIPCALiveData() {
-        return indexRepository.getIPCALiveData();
-    }
-
-    public LiveData<Resource<List<Index>>> getIGPMLiveData() {
-        return indexRepository.getIGPMLiveData();
+            @Override
+            public void onFail(String error) {
+                userMutableLiveData.setValue(new Resource<>(new User(), error));
+            }
+        });
+        return userMutableLiveData;
     }
 
 }

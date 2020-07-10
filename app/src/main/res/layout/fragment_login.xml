@@ -17,7 +17,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/loginLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorBackground">
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/btGoogleSignIn"
@@ -37,10 +38,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="30dp"
-            android:text="@string/forgot_password"
-            android:textSize="16sp"
-            android:textStyle="bold"
             android:onClick="@{forgotPassClickListener}"
+            android:text="@string/forgot_password"
+            android:textColor="@color/white"
+            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/btGoogleSignIn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -56,7 +57,7 @@
             android:text="@string/logon"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="18sp"
             app:backgroundTint="@color/graphInterestLiq"
             app:layout_constraintEnd_toEndOf="@+id/txtPassword"
             app:layout_constraintStart_toStartOf="@+id/txtPassword"
@@ -69,8 +70,8 @@
             android:layout_marginStart="84dp"
             android:layout_marginTop="28dp"
             android:text="@string/has_no_account"
+            android:textColor="@color/white"
             android:textSize="16sp"
-            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btGoogleSignIn" />
 
@@ -79,35 +80,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
+            android:onClick="@{registerClickListener}"
             android:text="@string/signup"
             android:textAllCaps="false"
+
             android:textColor="@color/graphInterestLiq"
             android:textSize="16sp"
-            android:onClick="@{registerClickListener}"
-            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/txtNoAccount"
             app:layout_constraintStart_toEndOf="@+id/txtNoAccount"
             app:layout_constraintTop_toTopOf="@+id/txtNoAccount" />
 
         <ImageView
             android:id="@+id/imgLogoLogin"
-            android:layout_width="202dp"
-            android:layout_height="196dp"
+            android:layout_width="190dp"
+            android:layout_height="180dp"
             android:layout_marginStart="30dp"
             android:layout_marginTop="45dp"
             android:layout_marginEnd="30dp"
+            android:adjustViewBounds="true"
             android:contentDescription="@string/investment_guide"
+            android:scaleType="fitCenter"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@mipmap/horizon_icon" />
+            app:srcCompat="@mipmap/horizon_icon_full" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txtPassword"
-            android:layout_width="00dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="32dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:ems="10"
             android:inputType="textPassword"
             android:textColor="#E8EAF6"
@@ -137,7 +139,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txtEmail"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"

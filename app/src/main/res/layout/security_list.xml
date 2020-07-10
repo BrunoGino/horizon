@@ -12,44 +12,107 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="top">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/securities_recycler"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:foregroundGravity="top"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/order_securities_spinner"
-            tools:listitem="@layout/security_item" />
-
-        <Spinner
-            android:layout_margin="15dp"
-            android:id="@+id/order_securities_spinner"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:scrollbarThumbHorizontal="@color/white"
-            android:scrollbarThumbVertical="@color/white"
-            android:spinnerMode="dialog"
-            android:entries="@array/order_by_options"
-            android:backgroundTint="@color/white"
-            app:layout_constraintEnd_toEndOf="@+id/securities_recycler"
-            app:layout_constraintStart_toStartOf="@+id/securities_recycler"
-            app:layout_constraintTop_toTopOf="parent" />
+        android:background="@color/colorBackground">
 
         <TextView
-            android:id="@+id/list_fragment_if_no_values"
+            android:id="@+id/security_list_filters"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/securities_recycler"
-            app:layout_constraintStart_toStartOf="@+id/securities_recycler"
-            app:layout_constraintTop_toTopOf="@+id/securities_recycler" />
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/filters"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <br.com.horizon.ui.customviews.MultiSpinner
+            android:id="@+id/publisher_multiple_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/colorPrimaryLight"
+            android:spinnerMode="dialog"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/security_list_filters" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/publisher_multiple_spinner">
+
+
+            <ScrollView
+                android:id="@+id/security_list_scrollview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintVertical_bias="1.0">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/securities_recycler"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:foregroundGravity="top"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/order_securities_spinner"
+                        tools:listitem="@layout/security_item" />
+
+                    <Spinner
+                        android:id="@+id/order_securities_spinner"
+                        style="@android:style/Widget.Material.Spinner.Underlined"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:backgroundTint="@color/white"
+                        android:entries="@array/order_by_options"
+                        android:pointerIcon="zoom_out"
+                        android:scrollbarThumbHorizontal="@color/white"
+                        android:scrollbarThumbVertical="@color/white"
+                        android:spinnerMode="dialog"
+                        app:layout_constraintEnd_toEndOf="@+id/securities_recycler"
+                        app:layout_constraintStart_toStartOf="@+id/securities_recycler"
+                        app:layout_constraintTop_toBottomOf="@+id/order_by_spinner_hint" />
+
+                    <TextView
+                        android:id="@+id/list_fragment_if_no_values"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/securities_recycler"
+                        app:layout_constraintStart_toStartOf="@+id/securities_recycler"
+                        app:layout_constraintTop_toTopOf="@+id/securities_recycler" />
+
+                    <TextView
+                        android:id="@+id/order_by_spinner_hint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/order_by"
+                        android:textColor="@color/white"
+                        app:layout_constraintStart_toStartOf="@+id/order_securities_spinner"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </ScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

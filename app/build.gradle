@@ -79,7 +79,8 @@ dependencies {
 
     //Charts
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-    //MaskEditText
+    //Custom views
+    implementation 'com.github.javiersantos:MaterialStyledDialogs:2.2'
 
     //Lombok
     implementation 'org.projectlombok:lombok:1.18.12'

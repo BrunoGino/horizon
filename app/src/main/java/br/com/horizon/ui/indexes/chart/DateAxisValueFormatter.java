@@ -1,4 +1,4 @@
-package br.com.horizon.ui.home.chart;
+package br.com.horizon.ui.indexes.chart;
 
 import com.github.mikephil.charting.formatter.ValueFormatter;
 

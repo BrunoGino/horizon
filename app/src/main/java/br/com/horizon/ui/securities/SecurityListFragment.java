@@ -1,6 +1,9 @@
 package br.com.horizon.ui.securities;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,13 +15,13 @@ import android.widget.Spinner;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.Snackbar;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.horizon.MainActivity;
@@ -27,6 +30,7 @@ import br.com.horizon.databinding.SecurityListBinding;
 import br.com.horizon.model.Security;
 import br.com.horizon.ui.BaseFragment;
 import br.com.horizon.ui.VisualComponents;
+import br.com.horizon.ui.customviews.MultiSpinner;
 import br.com.horizon.ui.securities.recyclerview.SecurityAdapter;
 import br.com.horizon.viewmodel.SecurityListViewModel;
 
@@ -37,35 +41,29 @@ public class SecurityListFragment extends BaseFragment {
     private NavController controller;
     private SecurityListBinding securityListBinding;
     private String titleType;
+    private List<String> publishers;
+    private MainActivity mainActivity;
+    private List<String> selectedPublishers;
+    private List<String> selectedIrs;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        mainActivity = (MainActivity) requireActivity();
+        mainActivity.getBottomNavigationView().setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.graphInterest));
         titleType = SecurityListFragmentArgs.fromBundle(requireArguments()).getTitleType();
+        saveNewStringPreference(R.string.title_type_key, titleType);
+        securityListViewModel = ViewModelProviders.of(this).get(SecurityListViewModel.class);
+        publishers = new ArrayList<>();
+        selectedPublishers = new ArrayList<>();
+        selectedIrs = new ArrayList<>();
     }
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         securityListBinding = SecurityListBinding.inflate(inflater, container, false);
-
-        Spinner orderSecuritiesSpinner = securityListBinding.orderSecuritiesSpinner;
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(securityListBinding.getRoot().getContext(),
-                R.array.order_by_options, R.layout.support_simple_spinner_dropdown_item);
-        orderSecuritiesSpinner.setAdapter(adapter);
-        orderSecuritiesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String orderBy = parent.getItemAtPosition(position).toString();
-                securityListViewModel.fetchOrdered(orderBy, titleType).observe(getViewLifecycleOwner(), listResource ->
-                        updateViewWithObtainedData(listResource.getData()));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
         MainActivity.getAppStateViewModel()
                 .setComponents(new VisualComponents(true, false));
 
@@ -76,11 +74,52 @@ public class SecurityListFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        securityListViewModel = ViewModelProviders.of(this).get(SecurityListViewModel.class);
+        if (titleType.equals("TD")) {
+            mainActivity.setActionBarTitle(getString(R.string.direct_treasure));
+        } else {
+            mainActivity.setActionBarTitle(titleType);
+        }
+
         setupRecyclerView(view);
         pullSecurities();
         this.controller = Navigation.findNavController(view);
         handleOnBackPressed();
+
+        Spinner orderSecuritiesSpinner = securityListBinding.orderSecuritiesSpinner;
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(securityListBinding.getRoot().getContext(),
+                R.array.order_by_options, R.layout.support_simple_spinner_dropdown_item);
+        orderSecuritiesSpinner.setAdapter(adapter);
+        orderSecuritiesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String orderBy = parent.getItemAtPosition(position).toString();
+                saveNewStringPreference(R.string.order_by_key, orderBy);
+                securityListViewModel.fetchFiltered(selectedIrs, selectedPublishers, orderBy, titleType).observe(getViewLifecycleOwner(), listResource ->
+                        updateViewWithObtainedData(listResource.getData()));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        MultiSpinner publishersSpinner = securityListBinding.publisherMultipleSpinner;
+        publishersSpinner.setSpinnerText(getString(R.string.publisher));
+        securityListViewModel.fetchPublishersByType(titleType).observe(getViewLifecycleOwner(), listResource -> {
+            if (listResource.getData() != null) {
+                publishers.clear();
+                publishers.addAll(listResource.getData());
+                publishersSpinner.setItems(publishers);
+            }
+        });
+        publishersSpinner.setOnApplyListener(selectedPublishers -> {
+            String orderBy = getPreferencesString(R.string.order_by_key);
+            String titleType = getPreferencesString(R.string.title_type_key);
+            this.selectedPublishers.clear();
+            this.selectedPublishers.addAll(selectedPublishers);
+            securityListViewModel.fetchFiltered(selectedIrs, this.selectedPublishers, orderBy, titleType).observe(getViewLifecycleOwner(), listResource ->
+                    updateViewWithObtainedData(listResource.getData()));
+        });
     }
 
     private void handleOnBackPressed() {
@@ -137,6 +176,7 @@ public class SecurityListFragment extends BaseFragment {
         securityListBinding.listFragmentIfNoValues.setText(getString(R.string.loading_securities));
         if (listData != null && !listData.isEmpty()) {
             securityAdapter.submitList(listData);
+            Log.d("ADAPTERDOSTITULOS", "updateViewWithObtainedData: " + securityAdapter.getCurrentList().toString());
             securityListBinding.listFragmentIfNoValues.setVisibility(View.GONE);
         } else {
             securityListBinding.listFragmentIfNoValues.setText(getString(R.string.no_item_found));
@@ -154,5 +194,17 @@ public class SecurityListFragment extends BaseFragment {
                         .actionSecurityListToSecurityDetailsFragment(id);
 
         controller.navigate(destination);
+    }
+
+    private void saveNewStringPreference(int key, String titleType) {
+        SharedPreferences sharedPreferences = mainActivity.getSharedPreferences(getString(key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.putString(getString(key), titleType);
+        edit.apply();
+    }
+
+    private String getPreferencesString(int key) {
+        SharedPreferences sharedPreferences = mainActivity.getSharedPreferences(getString(key), Context.MODE_PRIVATE);
+        return sharedPreferences.getString(getString(key), "");
     }
 }

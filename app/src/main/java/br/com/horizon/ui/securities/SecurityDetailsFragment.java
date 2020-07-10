@@ -43,7 +43,6 @@ import br.com.horizon.model.Security;
 import br.com.horizon.ui.BaseFragment;
 import br.com.horizon.ui.VisualComponents;
 import br.com.horizon.ui.databinding.ObservableSecurity;
-import br.com.horizon.ui.home.chart.ChartValueFormatter;
 import br.com.horizon.ui.securities.chart.LeftAxisFormatter;
 import br.com.horizon.viewmodel.SecurityDetailsViewModel;
 

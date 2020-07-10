@@ -8,7 +8,6 @@
     <fragment
         android:id="@+id/securitiesListFragment"
         android:name="br.com.horizon.ui.securities.SecurityListFragment"
-        android:label="@string/security_list"
         tools:layout="@layout/security_list">
         <action
             android:id="@+id/action_securityList_to_securityDetailsFragment"
@@ -20,21 +19,6 @@
         <argument
             android:name="titleType"
             app:argType="string" />
-        <argument
-            android:name="orderByInterest"
-            app:argType="boolean" />
-        <argument
-            android:name="orderByMostFavorite"
-            app:argType="boolean" />
-        <action
-            android:id="@+id/action_securitiesListFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -57,18 +41,20 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="br.com.horizon.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/home_fragment">
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_indexesFragment"
+            app:destination="@id/indexesFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_FAQFragment"
+            app:destination="@id/FAQFragment" />
         <action
             android:id="@+id/action_homeFragment_to_securitiesListFragment"
-            app:destination="@id/securitiesListFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
-            android:id="@+id/action_homeFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/securitiesListFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -90,7 +76,8 @@
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
             app:destination="@id/forgotPasswordFragment"
@@ -98,7 +85,7 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
     </fragment>
     <action
         android:id="@+id/action_global_login"
@@ -108,7 +95,7 @@
         app:launchSingleTop="true"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
         app:popExitAnim="@anim/nav_default_pop_exit_anim"
-        app:popUpTo="@id/homeFragment"
+        app:popUpTo="@id/mobile_navigation"
         app:popUpToInclusive="true" />
 
     <fragment
@@ -147,7 +134,6 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -156,9 +142,23 @@
         android:label="ActivateAccountMessageFragment"
         tools:layout="@layout/fragment_activate_account" />
     <fragment
-        android:id="@+id/profileFragment"
-        android:name="br.com.horizon.ui.profile.ProfileFragment"
-        android:label="@string/my_profile"
-        tools:layout="@layout/fragment_profile"></fragment>
+        android:id="@+id/baseFragment2"
+        android:name="br.com.horizon.ui.BaseFragment"
+        android:label="BaseFragment" />
+    <fragment
+        android:id="@+id/indexesFragment"
+        android:name="br.com.horizon.ui.indexes.IndexesFragment"
+        android:label="@string/indexes_twelve"
+        tools:layout="@layout/fragment_indexes" />
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="br.com.horizon.ui.about.AboutFragment"
+        android:label="@string/about_the_app"
+        tools:layout="@layout/fragment_about_the_app" />
+    <fragment
+        android:id="@+id/FAQFragment"
+        android:name="br.com.horizon.ui.faq.FAQFragment"
+        android:label="@string/faq"
+        tools:layout="@layout/fragment_faq" />
 
 </navigation>

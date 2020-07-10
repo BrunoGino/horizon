@@ -15,9 +15,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import br.com.horizon.MainActivity;
 import br.com.horizon.model.Security;
 import br.com.horizon.repository.callback.LoadedDataCallback;
 import br.com.horizon.repository.resource.Resource;
@@ -35,68 +39,84 @@ public class SecurityRepository {
         runQueryByType(securities, type, listCallback);
     }
 
-    public void getOrderedByAndByType(String titleType, String orderOption,
-                                      LoadedDataCallback<List<Security>> listLoadedDataCallback) {
-        switch (orderOption) {
-            case "Maior rentabilidade em menor prazo": {
-
-                Query query = securities.orderBy("interest", Query.Direction.DESCENDING)
-                        .orderBy("totalTime", Query.Direction.ASCENDING);
-                Log.d("orderOption", "getOrderedByAndByType: " + "Maior rentabilidade em menor prazo");
-                runQueryByType(query, titleType, listLoadedDataCallback);
-                break;
-            }
-            case "Maior juros": {
-                Query query = securities.orderBy("interest", Query.Direction.DESCENDING);
-                Log.d("orderOption", "getOrderedByAndByType: " + "Maior juros");
-                runQueryByType(query, titleType, listLoadedDataCallback);
-                break;
-            }
-            case "Menor juros": {
-                Query query = securities.orderBy("interest", Query.Direction.ASCENDING);
-                Log.d("orderOption", "getOrderedByAndByType: " + "Menor juros");
-                runQueryByType(query, titleType, listLoadedDataCallback);
-                break;
-            }
-            case "Maior prazo": {
-                Query query = securities.orderBy("totalTime", Query.Direction.DESCENDING);
-                Log.d("orderOption", "getOrderedByAndByType: " + "Maior prazo");
-                runQueryByType(query, titleType, listLoadedDataCallback);
-                break;
-            }
-            case "Menor prazo": {
-                Query query = securities.orderBy("totalTime", Query.Direction.ASCENDING);
-                Log.d("orderOption", "getOrderedByAndByType: " + "Menor prazo");
-                runQueryByType(query, titleType, listLoadedDataCallback);
-                break;
-            }
-            case "Menor investimento mínimo": {
-                Query query = securities.orderBy("titleValue", Query.Direction.ASCENDING);
-                Log.d("orderOption", "getOrderedByAndByType: " + "Menor investimento mínimo");
-                runQueryByType(query, titleType, listLoadedDataCallback);
-                break;
-            }
-            default: {
-                Query query = securities.orderBy("publisher", Query.Direction.ASCENDING);
-                Log.d("orderOption", "getOrderedByAndByType: " + "Emitter");
-                runQueryByType(query, titleType, listLoadedDataCallback);
-                break;
-            }
+    public void getSecuritiesFiltered(List<String> selectedIrs, List<String> selectedPublishers,
+                                      String orderBy, String titleType, LoadedDataCallback<List<Security>> listLoadedDataCallback) {
+        Query query = getQueryOrderedBy(orderBy);
+        if (selectedPublishers != null && !selectedPublishers.isEmpty()) {
+            Log.d("QUERYfirebase", "query.whereIn(publisher, " + selectedPublishers.toString() + ")");
+            query = query.whereIn("publisher", selectedPublishers);
+            Log.d("QUERYfirebase", "getSecuritiesFiltered: publishers " + selectedPublishers.toString());
         }
-
+        Log.d("QUERYfirebase", "getSecuritiesFiltered: end " + query.toString());
+        runQueryByType(query, titleType, listLoadedDataCallback);
     }
 
+    public void getAllPublishersBySecurityType(String titleType, LoadedDataCallback<Set<String>> listLoadedDataCallback) {
+        Set<String> publishers = new HashSet<>();
+        if (titleType.equals("Todos os títulos")) {
+            queryPublishers(listLoadedDataCallback, publishers, securities);
+        } else if (titleType.toUpperCase().equals("LCI/LCA")) {
+            Query lciLcaQuery = securities.whereIn("titleType", Arrays.asList("LCI", "LCA"));
+            queryPublishers(listLoadedDataCallback, publishers, lciLcaQuery);
+        } else if (titleType.toUpperCase().equals("CRI/CRA")) {
+            Query criCraQuery = securities.whereIn("titleType", Arrays.asList("CRI", "CRA"));
+            queryPublishers(listLoadedDataCallback, publishers, criCraQuery);
+        } else {
+            queryPublishers(listLoadedDataCallback, publishers, securities.whereEqualTo("titleType", titleType));
+        }
+    }
+
+    private void queryPublishers(LoadedDataCallback<Set<String>> listLoadedDataCallback,
+                                 Set<String> publishers, Query query) {
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                List<DocumentSnapshot> documents = Objects.requireNonNull(task.getResult()).getDocuments();
+                documents.forEach(documentSnapshot -> {
+                    Security security = documentSnapshot.toObject(Security.class);
+                    String publisher = Objects.requireNonNull(security).getPublisher();
+                    publishers.add(publisher);
+                });
+                listLoadedDataCallback.onSuccess(publishers);
+            }
+        });
+    }
+
+    private Query getQueryOrderedBy(String orderOption) {
+        switch (orderOption) {
+            case "Maior rentabilidade em menor prazo":
+                return securities.orderBy("totalTime", Query.Direction.ASCENDING)
+                        .orderBy("interest", Query.Direction.DESCENDING);
+            case "Maior juros":
+                return securities.orderBy("interest", Query.Direction.DESCENDING);
+            case "Menor juros":
+                return securities.orderBy("interest", Query.Direction.ASCENDING);
+            case "Maior prazo":
+                return securities.orderBy("totalTime", Query.Direction.DESCENDING);
+            case "Menor prazo":
+                return securities.orderBy("totalTime", Query.Direction.ASCENDING);
+            case "Menor investimento mínimo":
+                return securities.orderBy("titleValue", Query.Direction.ASCENDING);
+            default:
+                return securities.orderBy("publisher", Query.Direction.ASCENDING);
+        }
+    }
+
+
     private void runQueryByType(Query query, String type, LoadedDataCallback<List<Security>> listCallback) {
-        if (type.equals("all")) {
+        if (type.equals("Todos os títulos")) {
+            Log.d("QUERYfirebase", "runQueryByType: " + "Todos os títulos");
             runQuery(listCallback, query);
         } else if (type.toUpperCase().equals("LCI/LCA")) {
+            Log.d("QUERYfirebase", "runQueryByType: " + "LCI/LCA");
             Query lciLcaQuery = query.whereIn("titleType", Arrays.asList("LCI", "LCA"));
             runQuery(listCallback, lciLcaQuery);
         } else if (type.toUpperCase().equals("CRI/CRA")) {
+            Log.d("QUERYfirebase", "runQueryByType: " + "CRI/CRA");
             Query criCraQuery = query.whereEqualTo("titleType", "CRI")
                     .whereEqualTo("titleType", "CRA");
             runQuery(listCallback, criCraQuery);
         } else {
+            Log.d("QUERYfirebase", "runQueryByType: " + type);
             runQuery(listCallback, query.whereEqualTo("titleType", type));
         }
     }
@@ -115,10 +135,12 @@ public class SecurityRepository {
                         Security security = documentSnapshot.toObject(Security.class);
                         security.setId(documentSnapshot.getId());
                         securities.add(security);
-                        Log.d("RUNQUERY", "runQuery: " + security.toString());
                     }
                 });
+                Log.d("QUERYfirebase", "runQuery: " + securities.toString());
                 listCallback.onSuccess(securities);
+            } else {
+                Log.d("QUERYfirebase", "runQuery: " + task.getException().getMessage());
             }
         });
     }
@@ -136,5 +158,4 @@ public class SecurityRepository {
         });
 
     }
-
 }
