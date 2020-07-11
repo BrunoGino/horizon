@@ -2,11 +2,15 @@ package br.com.horizon.ui.indexes;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -19,6 +23,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +64,7 @@ public class IndexesFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         indexesViewModel = ViewModelProviders.of(this).get(IndexesViewModel.class);
         chartValueFormatter = new ChartValueFormatter();
         dateValueFormatter = new DateAxisValueFormatter();
@@ -84,6 +90,23 @@ public class IndexesFragment extends BaseFragment {
         initializeChartDataSet();
         updateChartWithIndexes();
         return root;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.indexes_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.action_indexes_refresh) {
+            indexesChart.notifyDataSetChanged();
+            indexesChart.animateXY(3000, 3000);
+            indexesChart.invalidate();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setupChart(View rootView) {

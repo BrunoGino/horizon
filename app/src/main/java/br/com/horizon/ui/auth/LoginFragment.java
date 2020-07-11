@@ -188,14 +188,14 @@ public class LoginFragment extends Fragment {
             if (task.isSuccessful()) {
                 FirebaseUser currentUser = Objects.requireNonNull(firebaseAuth.getCurrentUser());
                 userViewModel.getUser(currentUser.getUid()).observe(getViewLifecycleOwner(), userResource -> {
-                    if(userResource.getData() == null){
+                    if (userResource.getData() == null) {
                         User user = new User();
                         user.setName(currentUser.getDisplayName());
                         user.setEmail(currentUser.getEmail());
                         String uid = Objects.requireNonNull(task.getResult()).getUser().getUid();
                         user.setUserUID(uid);
                         createNewUser(user);
-                    }else{
+                    } else {
                         navigateToHomeScreen();
                     }
                 });
@@ -206,6 +206,7 @@ public class LoginFragment extends Fragment {
             }
         });
     }
+
     private void createNewUser(User user) {
         LiveData<Resource<User>> createdUser = userViewModel.createUser(user);
         createdUser.observe(getViewLifecycleOwner(), userResource -> {

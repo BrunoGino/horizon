@@ -45,7 +45,7 @@
         android:id="@+id/home_master_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBackground">
+        android:background="@drawable/gradient_background">
 
         <ScrollView
             android:id="@+id/security_details_scrollview"
@@ -227,9 +227,10 @@
                     android:id="@+id/dialog_title_goto_url"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/graphLiquidIncome"
+                    android:backgroundTint="@color/graphInterest"
                     android:onClick="@{urlClick::onClick}"
                     android:text="@string/visit"
+                    android:textColor="@color/white"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -15,7 +15,7 @@
         android:id="@+id/register_master_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBackground">
+        android:background="@drawable/gradient_background">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -61,6 +61,7 @@
                     android:layout_marginEnd="10dp"
                     android:text="@string/register_in_horizon"
                     android:textSize="24sp"
+                    android:textColor="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/register_fragment_icon"
@@ -217,7 +218,7 @@
                     android:layout_height="60dp"
                     android:layout_marginTop="25dp"
                     android:background="@color/graphInterestLiq"
-                    android:backgroundTint="@color/graphInterestLiq"
+                    android:backgroundTint="@color/graphInterest"
                     android:onClick="@{registerListener}"
                     android:text="@string/register"
                     android:textAllCaps="false"

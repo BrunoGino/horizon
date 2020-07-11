@@ -3,111 +3,101 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/gradient_background">
+        android:background="@color/colorPrimary">
 
-        <ScrollView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:background="@drawable/gradient_background">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_welcome_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="100dp"
+                android:layout_marginEnd="10dp"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/tv_welcome_message"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="100dp"
-                    android:layout_marginEnd="10dp"
-                    android:text="@string/welcome"
-                    android:textColor="@color/white"
-                    android:textSize="24sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/bt_indexes"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="100dp"
-                    android:layout_marginEnd="10dp"
-                    android:backgroundTint="@color/graphInterestLiq"
-                    android:text="@string/see_tax_indexes"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    app:backgroundTint="@color/graphInterest"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/title_types_recycler" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bt_indexes"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="150dp"
+                android:layout_marginEnd="20dp"
+                android:text="@string/see_tax_indexes"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:background="@drawable/gradient_button"
+                app:backgroundTint="@color/graphInterest"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_types_recycler" />
 
 
-                <TextView
-                    android:id="@+id/home_title_securities"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="100dp"
-                    android:text="@string/select_a_type_of_security"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_welcome_message" />
+            <TextView
+                android:id="@+id/home_title_securities"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="100dp"
+                android:text="@string/select_a_type_of_security"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_welcome_message" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/title_types_recycler"
-                    android:layout_width="0dp"
-                    android:layout_height="130dp"
-                    android:layout_marginTop="5dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/home_title_securities"
-                    tools:listitem="@layout/type_item_fragment" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/title_types_recycler"
+                android:layout_width="0dp"
+                android:layout_height="130dp"
+                android:layout_marginTop="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/home_title_securities"
+                tools:listitem="@layout/type_item_fragment" />
 
-                <TextView
-                    android:id="@+id/tv_faq"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@color/graphInterestLiq"
-                    android:backgroundTint="@color/graphInterestLiq"
-                    android:text="@string/faq"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    app:backgroundTint="@android:color/transparent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tv_about"
-                    app:layout_constraintVertical_bias="1.0" />
+            <TextView
+                android:id="@+id/tv_faq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/graphInterestLiq"
+                android:backgroundTint="@color/graphInterestLiq"
+                android:text="@string/faq"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:backgroundTint="@android:color/transparent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bt_indexes" />
 
-                <TextView
-                    android:id="@+id/tv_about"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="100dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@color/graphInterestLiq"
-                    android:backgroundTint="@color/graphInterestLiq"
-                    android:text="@string/about"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    app:backgroundTint="@android:color/transparent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/bt_indexes"
-                    app:layout_constraintVertical_bias="1.0" />
+            <TextView
+                android:id="@+id/tv_about"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/graphInterestLiq"
+                android:backgroundTint="@color/graphInterestLiq"
+                android:text="@string/about"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:backgroundTint="@android:color/transparent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bt_indexes" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
-    </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

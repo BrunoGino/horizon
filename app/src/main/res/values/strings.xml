@@ -127,13 +127,31 @@
     <string name="no">Não</string>
     <string name="welcome">Bem vindo(a), %1$s!</string>
     <string name="about_the_app_text">O Horizon é um aplicativo de busca de títulos de Renda Fixa
-        criado como projeto de Iniciação Científica na Fatec Indaiatuba pelo aluno Bruno Gino, orientado pelo professor Michel Moron Munhoz</string>
+        criado como projeto acadêmico de Iniciação Científica na Fatec Indaiatuba pelo aluno do curso de Análise e Desenvolvimento de Sistemas, Bruno Gino, orientado pelo professor Michel Moron Munhoz.\n\n
+        O app foi criado com o objetivo de ser um buscador rápido, objetivo e simples de diversos títulos de renda fixa disponíveis no mercado brasileiro.\n
+        \n Este projeto também visa dar continuidade nos projetos anteriores de Iniciação Científicas também orientados pelo professor, todos com foco no mercado financeiro.
+    </string>
     <string name="faq">F.A.Q</string>
     <string name="tax_indexes">Índices de juros</string>
     <string name="about">Sobre o app</string>
     <string name="select_a_type_of_security">Selecione um tipo de título</string>
     <string name="see_tax_indexes">Ver índices de juros</string>
     <string name="about_the_app">Sobre o app</string>
+    <string name="observation">Obs.: O aplicativo está atualmente em sua fase de teste ! Clique não botão abaixo para deixar o seu feedback caso ainda não tenha feito</string>
+    <string name="rate_me">Avalie o app ! :)</string>
+    <string name="question_one">P: O aplicativo tem alguma função ou relação com a compra dos títulos ?</string>
+    <string name="answer_one">R: Não, o Horizon é um aplicativo de busca. A sua função é somente de ser um guia, para posterior redirecionamento para o site da corretora e eventual compra.</string>
+    <string name="question_two">P: Por que o valor de simulação na tela de detalhes do título já está preenchido quando abro a tela ?</string>
+    <string name="answer_two">R: Todos os títulos tem um valor mínimo para aplicação, no caso este valor está na caixa de texto por padrão mas você pode alterá-lo para fazer suas simulações de investimento normalmente.</string>
+    <string name="question_three">P: As linhas do gráfico de índices parecem piscar quando abro a tela do gráfico, isso é normal ?</string>
+    <string name="answer_three">R: Os dados do gráfico são fornecidos por um serviço externo e são carregados em tempo real. Na medida em que o dados são obtidos, todo o conjunto de dados do gráfico é atualizado e o componente também, decorrendo na animação.</string>
+    <string name="question_four">P: Quando abro a tela do gráfico os dados não carregam, o que fazer ?</string>
+    <string name="indexes_refresh">Atualizar dados</string>
+    <string name="answer_four">R: Você pode tentar atualizar o gráfico por meio do menu no canto superior direito. Caso não resolva, tente sair e voltar para tela para executar a atualização.</string>
+    <string name="question_five">P: É possível usar o aplicativo sem internet ?</string>
+    <string name="answer_five">R: É possível somente carregar a lista de títulos, caso tenha sido acessada anteriormente. Infelizmente, não é possível acessar o gráfico, pois os dados são carregados em tempo real e não são salvos temporariamente.</string>
+    <string name="google_forms_url">https://forms.gle/zrYm31MBsLk9k4dw8</string>
+    <string name="would_you_like_to_be_redirected">Gostaria de ser redirecionado para o formulário no Google Forms ?</string>
     <string-array name="order_by_options">
         <item>Maior rentabilidade em menor prazo</item>
         <item>Maior juros</item>

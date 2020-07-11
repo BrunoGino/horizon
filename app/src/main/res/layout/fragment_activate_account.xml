@@ -16,7 +16,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBackground">
+        android:background="@drawable/gradient_background">
 
         <ImageView
             android:id="@+id/message_fragment_icon"
@@ -87,7 +87,6 @@
             android:id="@+id/bt_go_back_to_login_from_activation"
             android:layout_width="0dp"
             android:layout_height="60dp"
-            android:layout_marginStart="10dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="10dp"
             android:onClick="@{backToLoginListener}"
@@ -95,9 +94,9 @@
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="18sp"
-            app:backgroundTint="@color/graphInterestLiq"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:backgroundTint="@color/graphInterest"
+            app:layout_constraintEnd_toEndOf="@+id/tv_activate_message"
+            app:layout_constraintStart_toStartOf="@+id/tv_activate_message"
             app:layout_constraintTop_toBottomOf="@+id/tv_activation_link_not_received_message" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

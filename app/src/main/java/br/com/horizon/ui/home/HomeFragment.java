@@ -24,7 +24,6 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import br.com.horizon.MainActivity;
 import br.com.horizon.R;
@@ -41,11 +40,13 @@ public class HomeFragment extends BaseFragment {
     private NavController controller;
     private TypeCardAdapter.OnItemClickListener onRecyclerItemClickListener;
     private List<String> titleTypes;
+    private FirebaseUser currentUser;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        currentUser = getFirebaseAuth().getCurrentUser();
         titleTypes = new ArrayList<>(Arrays.asList(getString(R.string.public_titles),
                 getString(R.string.cdb), getString(R.string.lci_lca), getString(R.string.cri_cra),
                 getString(R.string.debentures), getString(R.string.all_titles)));
@@ -56,21 +57,16 @@ public class HomeFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         viewBinder = FragmentHomeBinding.inflate(inflater, container, false);
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
-        FirebaseUser currentUser = getFirebaseAuth().getCurrentUser();
-        homeViewModel.getUserByUid(Objects.requireNonNull(currentUser).getUid()).observe(getViewLifecycleOwner(), userResource -> {
-            if (userResource.getData() != null) {
-                User user = userResource.getData();
-                viewBinder.tvWelcomeMessage.setText(getString(R.string.welcome, user.getName()));
-            }
-        });
         return viewBinder.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         MainActivity.getAppStateViewModel()
                 .setComponents(new VisualComponents(true, false));
+
         controller = Navigation.findNavController(view);
         setupRecyclerView(view);
 
@@ -87,6 +83,16 @@ public class HomeFragment extends BaseFragment {
             controller.navigate(navDirection);
         });
 
+        if (currentUser != null) {
+            homeViewModel.getUserByUid(currentUser.getUid()).observe(getViewLifecycleOwner(), userResource -> {
+                if (userResource.getData() != null) {
+                    User user = userResource.getData();
+                    String userName = currentUser.getDisplayName() == null ?
+                            splitUserName(user.getName()) : splitUserName(currentUser.getDisplayName());
+                    viewBinder.tvWelcomeMessage.setText(getString(R.string.welcome, userName));
+                }
+            });
+        }
     }
 
     @Override
@@ -143,5 +149,10 @@ public class HomeFragment extends BaseFragment {
 
         controller.navigate(direction);
     }
+
+    private String splitUserName(String userName) {
+        return userName.split(" ")[0];
+    }
+
 }
 
