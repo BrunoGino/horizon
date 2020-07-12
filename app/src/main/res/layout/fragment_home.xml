@@ -26,23 +26,24 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bt_indexes"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="150dp"
+                android:layout_marginTop="152dp"
                 android:layout_marginEnd="20dp"
+                android:background="@drawable/gradient_button"
                 android:text="@string/see_tax_indexes"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                android:background="@drawable/gradient_button"
                 app:backgroundTint="@color/graphInterest"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/title_types_recycler" />
-
 
             <TextView
                 android:id="@+id/home_title_securities"
@@ -70,14 +71,14 @@
                 android:id="@+id/tv_faq"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginEnd="10dp"
                 android:background="@color/graphInterestLiq"
                 android:backgroundTint="@color/graphInterestLiq"
-                android:text="@string/faq"
+                android:text="@string/faq_home"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 app:backgroundTint="@android:color/transparent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/bt_indexes" />
@@ -87,13 +88,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:background="@color/graphInterestLiq"
                 android:backgroundTint="@color/graphInterestLiq"
-                android:text="@string/about"
+                android:text="@string/about_home"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 app:backgroundTint="@android:color/transparent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/bt_indexes" />

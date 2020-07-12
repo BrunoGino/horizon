@@ -18,6 +18,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
 
+import br.com.horizon.MainActivity;
 import br.com.horizon.R;
 import br.com.horizon.databinding.FragmentAboutTheAppBinding;
 import br.com.horizon.ui.BaseFragment;
@@ -25,10 +26,12 @@ import br.com.horizon.ui.BaseFragment;
 public class AboutFragment extends BaseFragment {
     private FragmentAboutTheAppBinding viewBinder;
     private View.OnClickListener rateOnClick;
+    private MainActivity mainActivity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mainActivity = (MainActivity) requireActivity();
     }
 
     @Nullable
@@ -41,7 +44,7 @@ public class AboutFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        mainActivity.setActionBarTitle(getString(R.string.about_title));
         rateOnClick = v -> redirectsToBrowserIfUrlIsValid();
         viewBinder.setRateButtonOnClick(rateOnClick);
     }

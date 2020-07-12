@@ -161,12 +161,10 @@
     <fragment
         android:id="@+id/aboutFragment"
         android:name="br.com.horizon.ui.about.AboutFragment"
-        android:label="@string/about_the_app"
         tools:layout="@layout/fragment_about_the_app" />
     <fragment
         android:id="@+id/FAQFragment"
         android:name="br.com.horizon.ui.faq.FAQFragment"
-        android:label="@string/faq"
         tools:layout="@layout/fragment_faq" />
 
 </navigation>

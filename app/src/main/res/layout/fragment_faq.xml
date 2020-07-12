@@ -36,7 +36,7 @@
                 android:layout_marginEnd="20dp"
                 android:text="@string/answer_one"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tv_question_one"
                 app:layout_constraintTop_toBottomOf="@+id/tv_question_one" />
@@ -64,7 +64,7 @@
                 android:layout_marginEnd="20dp"
                 android:text="@string/answer_two"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tv_question_one"
                 app:layout_constraintTop_toBottomOf="@id/textView6" />
@@ -92,7 +92,7 @@
                 android:layout_marginEnd="20dp"
                 android:text="@string/answer_three"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tv_question_one"
                 app:layout_constraintTop_toBottomOf="@id/textView8" />
@@ -120,7 +120,7 @@
                 android:layout_marginEnd="20dp"
                 android:text="@string/answer_four"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tv_question_one"
                 app:layout_constraintTop_toBottomOf="@+id/textView10" />
@@ -146,7 +146,7 @@
                 android:layout_marginEnd="20dp"
                 android:text="@string/answer_five"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tv_question_one"
                 app:layout_constraintTop_toBottomOf="@+id/textView12" />

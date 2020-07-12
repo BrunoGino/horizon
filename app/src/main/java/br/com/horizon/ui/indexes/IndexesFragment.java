@@ -102,9 +102,7 @@ public class IndexesFragment extends BaseFragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == R.id.action_indexes_refresh) {
-            indexesChart.notifyDataSetChanged();
-            indexesChart.animateXY(3000, 3000);
-            indexesChart.invalidate();
+            updateChartWithIndexes();
         }
         return super.onOptionsItemSelected(item);
     }

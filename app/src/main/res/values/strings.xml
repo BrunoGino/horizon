@@ -131,9 +131,11 @@
         O app foi criado com o objetivo de ser um buscador rápido, objetivo e simples de diversos títulos de renda fixa disponíveis no mercado brasileiro.\n
         \n Este projeto também visa dar continuidade nos projetos anteriores de Iniciação Científicas também orientados pelo professor, todos com foco no mercado financeiro.
     </string>
-    <string name="faq">F.A.Q</string>
+    <string name="faq_home"><u>F.A.Q</u></string>
+    <string name="faq_title">F.A.Q</string>
     <string name="tax_indexes">Índices de juros</string>
-    <string name="about">Sobre o app</string>
+    <string name="about_home"><u>Sobre o app</u></string>
+    <string name="about_title">Sobre o app</string>
     <string name="select_a_type_of_security">Selecione um tipo de título</string>
     <string name="see_tax_indexes">Ver índices de juros</string>
     <string name="about_the_app">Sobre o app</string>
