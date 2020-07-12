@@ -3,5 +3,6 @@
     <item
         android:id="@+id/action_indexes_refresh"
         android:title="@string/indexes_refresh"
-        app:showAsAction="never" />
+        app:showAsAction="always"
+        android:icon="@drawable/ic_refresh_black_24dp"/>
 </menu>
