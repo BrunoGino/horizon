@@ -1,6 +1,7 @@
 package br.com.horizon.ui.securities.recyclerview;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import br.com.horizon.databinding.SecurityItemBinding;
 import br.com.horizon.model.Security;
@@ -26,8 +28,6 @@ import lombok.Getter;
 public class SecurityAdapter extends ListAdapter<Security, SecurityAdapter.ViewHolder> {
     private final OnItemClickListener onItemClickListener;
     private final Context context;
-    @Getter
-    private final List<Security> securities = new ArrayList<>();
     private final NumberFormat percentageFormatter;
     private SecurityItemBinding binder;
     private NumberFormat currencyFormatter;
@@ -40,7 +40,6 @@ public class SecurityAdapter extends ListAdapter<Security, SecurityAdapter.ViewH
         this.percentageFormatter = NumberFormat.getPercentInstance();
         this.percentageFormatter.setMaximumFractionDigits(2);
     }
-
 
     @NonNull
     @Override
@@ -55,8 +54,8 @@ public class SecurityAdapter extends ListAdapter<Security, SecurityAdapter.ViewH
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Security item = getItem(position);
-        holder.link(item);
+        Log.d("ADAPTERPOSITION", "onBindViewHolder: " + position);
+        holder.link(getItem(position));
     }
 
     @Override
@@ -71,13 +70,7 @@ public class SecurityAdapter extends ListAdapter<Security, SecurityAdapter.ViewH
         holder.markAsDestroyed();
     }
 
-    @Override
-    public long getItemId(int position) {
-        return getCurrentList().get(position).hashCode();
-    }
-
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, LifecycleOwner {
-        private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
         private Security security;
         private final LifecycleRegistry registry = new LifecycleRegistry(this);
 
@@ -85,6 +78,7 @@ public class SecurityAdapter extends ListAdapter<Security, SecurityAdapter.ViewH
             super(binding.getRoot());
             registry.setCurrentState(Lifecycle.State.INITIALIZED);
             binder.setItemClick(this);
+            final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
             binder.setDateFormat(dateFormat);
         }
 
@@ -103,7 +97,8 @@ public class SecurityAdapter extends ListAdapter<Security, SecurityAdapter.ViewH
 
         void link(Security security) {
             this.security = security;
-            binder.setSecurity(new ObservableSecurity(security));
+            ObservableSecurity observableSecurity = new ObservableSecurity(security);
+            binder.setSecurity(observableSecurity);
         }
 
         @NonNull

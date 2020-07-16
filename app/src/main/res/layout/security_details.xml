@@ -448,6 +448,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_min_inv_value" />
 
+                <TextView
+                    android:id="@+id/security_details_days"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/days"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/detail_screen_subtitle_value"
+                    app:layout_constraintStart_toEndOf="@+id/security_detail_expiry_date_value"
+                    app:layout_constraintTop_toBottomOf="@+id/security_detail_expiry_date"
+                    tools:text="dias" />
                 <View
                     android:id="@+id/security_detail_tax_fgc_divider"
                     android:layout_width="0dp"
@@ -463,25 +474,36 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/security_detail_simulate_value"
+                    style="@style/Theme.MaterialComponents"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:hint="@string/simulate_value"
+                    android:scrollbarThumbHorizontal="@color/white"
+                    app:prefixTextColor="@color/white"
+                    android:scrollbarThumbVertical="@color/white"
+                    app:boxBackgroundColor="@color/graphInterest"
+                    app:boxStrokeColor="@color/graphInterestLiq"
                     app:boxStrokeErrorColor="@color/error"
+                    app:endIconTint="@color/graphInterest"
                     app:errorIconTint="@color/error"
                     app:errorTextColor="@color/error"
                     app:hintTextColor="@color/white"
                     app:layout_constraintStart_toStartOf="@+id/security_detail_simulate"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_simulate"
-                    app:prefixText="@string/currency_symbol">
+                    app:prefixText="@string/currency_symbol"
+                    app:startIconTint="@color/graphInterest">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/security_detail_simulate_value_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:backgroundTint="@color/colorPrimary"
                         android:inputType="number"
+                        android:textCursorDrawable="@color/graphInterest"
                         android:maxLength="10"
                         android:text="@={Converter.convertDoubleToString(simulateValue)}"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/detail_screen_subtitle_value" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -490,6 +512,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:textColor="@color/white"
                     android:text="@string/income_annually"
                     app:layout_constraintStart_toStartOf="@+id/security_detail_fgc_value"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_min_inv_divider" />

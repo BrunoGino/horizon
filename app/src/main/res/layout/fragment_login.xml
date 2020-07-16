@@ -110,12 +110,13 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txtPassword"
+                style="@style/Theme.MaterialComponents"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:ems="10"
                 android:inputType="textPassword"
-                android:textColor="#E8EAF6"
+                app:boxBackgroundColor="@color/white"
                 app:boxStrokeColor="@color/graphInterestLiq"
                 app:boxStrokeErrorColor="@color/error"
                 app:counterOverflowTextColor="@color/error"
@@ -133,6 +134,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@color/colorPrimary"
                     android:hint="@string/password"
                     android:inputType="textPassword"
                     android:textColor="@color/white"
@@ -141,6 +143,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txtEmail"
+                style="@style/Theme.MaterialComponents"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -149,7 +152,7 @@
                 android:ems="10"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
-                android:textColor="@color/white"
+
                 app:boxStrokeColor="@color/graphInterestLiq"
                 app:boxStrokeErrorColor="@color/error"
                 app:counterOverflowTextColor="@color/error"
@@ -166,6 +169,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@color/colorPrimary"
                     android:inputType="textEmailAddress"
                     android:textColor="@color/white"
                     android:textSize="18sp" />

@@ -39,6 +39,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/item_list_card_body"
+            app:cardBackgroundColor="@color/colorPrimaryLight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"

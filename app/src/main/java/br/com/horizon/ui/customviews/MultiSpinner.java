@@ -39,15 +39,14 @@ public class MultiSpinner extends androidx.appcompat.widget.AppCompatSpinner imp
         super(context);
 
         adapter = new ArrayAdapter(context,
-                android.R.layout.simple_spinner_item);
+                R.layout.spinner_item);
         super.setAdapter(adapter);
     }
 
     public MultiSpinner(Context context, AttributeSet attrs) {
         super(context, attrs);
-
         adapter = new ArrayAdapter(context,
-                android.R.layout.simple_spinner_item);
+                R.layout.spinner_item);
         super.setAdapter(adapter);
     }
 

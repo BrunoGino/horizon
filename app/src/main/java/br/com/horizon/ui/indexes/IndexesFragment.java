@@ -1,6 +1,7 @@
 package br.com.horizon.ui.indexes;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -103,6 +104,8 @@ public class IndexesFragment extends BaseFragment {
         int itemId = item.getItemId();
         if (itemId == R.id.action_indexes_refresh) {
             updateChartWithIndexes();
+            if (indexesChart.getData() != null)
+                Log.d("DATASETCOUNT", "onOptionsItemSelected: " + indexesChart.getData().getDataSetCount());
         }
         return super.onOptionsItemSelected(item);
     }

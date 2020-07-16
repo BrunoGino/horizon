@@ -2,18 +2,12 @@ package br.com.horizon.ui.databinding;
 
 import androidx.lifecycle.MutableLiveData;
 
-import java.util.Date;
-
 import br.com.horizon.model.Security;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @NoArgsConstructor
 public class ObservableSecurity {
-    @Getter
-    @Setter
-    private Security security;
     @Getter
     private final MutableLiveData<String> titleName = new MutableLiveData<>();
     @Getter
@@ -90,5 +84,25 @@ public class ObservableSecurity {
                 .totalTime(totalTime.getValue())
                 .url(url.getValue())
                 .build();
+    }
+
+    @Override
+    public String toString() {
+        return "ObservableSecurity{" +
+                ", titleName=" + titleName.getValue() +
+                ", interest=" + interest.getValue() +
+                ", interestType=" + interestType.getValue() +
+                ", emitter=" + emitter.getValue() +
+                ", endingDate=" + endingDate.getValue() +
+                ", fgc=" + fgc.getValue() +
+                ", ir=" + ir.getValue() +
+                ", liquidity=" + liquidity.getValue() +
+                ", publisher=" + publisher.getValue() +
+                ", titleType=" + titleType.getValue() +
+                ", titleValue=" + titleValue.getValue() +
+                ", totalTime=" + totalTime.getValue() +
+                ", url=" + url.getValue() +
+                ", totalIrTaxPercentage=" + totalIrTaxPercentage.getValue() +
+                '}';
     }
 }

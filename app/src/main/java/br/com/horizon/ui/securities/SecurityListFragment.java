@@ -87,7 +87,8 @@ public class SecurityListFragment extends BaseFragment {
 
         Spinner orderSecuritiesSpinner = securityListBinding.orderSecuritiesSpinner;
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(securityListBinding.getRoot().getContext(),
-                R.array.order_by_options, R.layout.support_simple_spinner_dropdown_item);
+                R.array.order_by_options, R.layout.spinner_item);
+        adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown);
         orderSecuritiesSpinner.setAdapter(adapter);
         orderSecuritiesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -174,9 +175,8 @@ public class SecurityListFragment extends BaseFragment {
 
     private void updateViewWithObtainedData(List<Security> listData) {
         securityListBinding.listFragmentIfNoValues.setText(getString(R.string.loading_securities));
-        if (listData != null && !listData.isEmpty()) {
+        if (listData != null) {
             securityAdapter.submitList(listData);
-            Log.d("ADAPTERDOSTITULOS", "updateViewWithObtainedData: " + securityAdapter.getCurrentList().toString());
             securityListBinding.listFragmentIfNoValues.setVisibility(View.GONE);
         } else {
             securityListBinding.listFragmentIfNoValues.setText(getString(R.string.no_item_found));

@@ -8,6 +8,8 @@
         <item name="colorPrimary">@color/white</item>
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="colorSurface">@color/colorPrimary</item>
+        <item name="boxBackgroundColor">@color/graphInterest</item>
+        <item name="colorControlNormal">@color/graphInterestLiq</item>
         <item name="colorOnSurface">@color/white</item>
         <item name="textColorAlertDialogListItem">@color/white</item>
         <item name="android:textColor">@color/white</item>
@@ -16,4 +18,6 @@
         <item name="buttonBarPositiveButtonStyle">@style/Widget.App.Button</item>
         <item name="buttonBarNeutralButtonStyle">@style/Widget.App.Button</item>
     </style>
+
+
 </resources>

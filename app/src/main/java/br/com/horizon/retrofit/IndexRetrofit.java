@@ -5,7 +5,7 @@ import lombok.Getter;
 import retrofit2.Retrofit;
 
 public class IndexRetrofit {
-    private static final String BASE_URL = "https://indexes-br.herokuapp.com";
+    private static final String BASE_URL = "https://indexes-br-backup.herokuapp.com";
     @Getter
     private final IndexService indexService;
 

@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 class RetrofitFactory {
 
-    Retrofit getNewInstanceForURL(String baseUrl) {
+    Retrofit getNewInstanceForURL(final String baseUrl) {
         OkHttpClient okHttpClient = getRestClient();
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
