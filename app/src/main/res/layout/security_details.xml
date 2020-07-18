@@ -459,6 +459,7 @@
                     app:layout_constraintStart_toEndOf="@+id/security_detail_expiry_date_value"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_expiry_date"
                     tools:text="dias" />
+
                 <View
                     android:id="@+id/security_detail_tax_fgc_divider"
                     android:layout_width="0dp"
@@ -480,7 +481,6 @@
                     android:layout_marginTop="5dp"
                     android:hint="@string/simulate_value"
                     android:scrollbarThumbHorizontal="@color/white"
-                    app:prefixTextColor="@color/white"
                     android:scrollbarThumbVertical="@color/white"
                     app:boxBackgroundColor="@color/graphInterest"
                     app:boxStrokeColor="@color/graphInterestLiq"
@@ -492,6 +492,7 @@
                     app:layout_constraintStart_toStartOf="@+id/security_detail_simulate"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_simulate"
                     app:prefixText="@string/currency_symbol"
+                    app:prefixTextColor="@color/white"
                     app:startIconTint="@color/graphInterest">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -500,11 +501,11 @@
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/colorPrimary"
                         android:inputType="number"
-                        android:textCursorDrawable="@color/graphInterest"
-                        android:maxLength="10"
+                        android:maxLength="9"
                         android:text="@={Converter.convertDoubleToString(simulateValue)}"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/detail_screen_subtitle_value" />
+                        android:textCursorDrawable="@color/graphInterest"
+                        android:textSize="14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -512,8 +513,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:textColor="@color/white"
                     android:text="@string/income_annually"
+                    android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="@+id/security_detail_fgc_value"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_min_inv_divider" />
 
@@ -522,8 +523,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:maxLines="2"
                     android:textColor="@color/white"
                     android:textSize="@dimen/detail_screen_subtitle_value"
+                    app:layout_constraintBottom_toBottomOf="@+id/security_detail_simulate_value"
                     app:layout_constraintEnd_toEndOf="@+id/security_detail_annual_gross_income_value"
                     app:layout_constraintTop_toBottomOf="@+id/security_detail_annual_gross_income_value"
                     tools:text="R$5500,00" />
@@ -533,6 +536,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
+                    android:maxLines="2"
                     android:textColor="@color/white"
                     android:textSize="@dimen/detail_screen_subtitle_value"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -543,23 +547,29 @@
                     android:id="@+id/security_detail_annual_gross_income"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     android:layout_marginEnd="5dp"
                     android:text="@string/gross_income"
                     android:textColor="@android:color/secondary_text_dark"
                     android:textSize="@dimen/detail_screen_subtitle"
                     app:layout_constraintBottom_toBottomOf="@+id/security_detail_annual_gross_income_value"
-                    app:layout_constraintEnd_toStartOf="@+id/security_detail_annual_gross_income_value" />
+                    app:layout_constraintEnd_toStartOf="@+id/security_detail_annual_gross_income_value"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toEndOf="@+id/security_detail_simulate_value" />
 
                 <TextView
                     android:id="@+id/security_detail_annual_liquid_income"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     android:layout_marginEnd="5dp"
                     android:text="@string/liquid_income"
                     android:textColor="@android:color/secondary_text_dark"
                     android:textSize="@dimen/detail_screen_subtitle"
                     app:layout_constraintBottom_toBottomOf="@+id/security_detail_annual_liquid_income_value"
-                    app:layout_constraintEnd_toStartOf="@+id/security_detail_annual_liquid_income_value" />
+                    app:layout_constraintEnd_toStartOf="@+id/security_detail_annual_liquid_income_value"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toEndOf="@+id/security_detail_simulate_value" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 

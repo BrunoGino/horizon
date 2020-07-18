@@ -1,7 +1,11 @@
 package br.com.horizon.ui.converter;
 
+import android.annotation.SuppressLint;
+
 import androidx.databinding.InverseMethod;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,7 +14,8 @@ import java.util.Objects;
 
 public class Converter {
 
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy", Locale.getDefault());
+    @SuppressLint("ConstantLocale")
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy", Locale.getDefault());
 
     @InverseMethod("convertIntegerToString")
     public static Integer convertStringToInteger(String value) {
@@ -32,7 +37,12 @@ public class Converter {
 
     @InverseMethod("convertDoubleToString")
     public static Double convertStringToDouble(String value) {
-        return Double.parseDouble(Objects.requireNonNull(value));
+        try {
+            return Objects.requireNonNull(NumberFormat.getInstance().parse(value)).doubleValue();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0.0;
     }
 
     @InverseMethod("convertBooleanToString")
@@ -41,7 +51,7 @@ public class Converter {
     }
 
     public static String convertDoubleToString(Double value) {
-        return String.valueOf(value);
+        return String.format(Locale.getDefault(), "%.2f", value);
     }
 
     public static String convertBooleanToString(Boolean value) {

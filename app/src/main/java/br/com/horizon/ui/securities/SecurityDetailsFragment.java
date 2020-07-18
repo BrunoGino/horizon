@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -54,7 +55,6 @@ public class SecurityDetailsFragment extends BaseFragment {
     private NavController navController;
     private ObservableSecurity observableSecurity;
     private SecurityDetailsViewModel securityDetailsViewModel;
-    private FirebaseAuth firebaseAuth;
     private int graphTextColor;
     private int taxColor;
     private int grossIncomeColor;
@@ -73,9 +73,7 @@ public class SecurityDetailsFragment extends BaseFragment {
         currencyFormatter = NumberFormat.getCurrencyInstance();
         percentageFormatter = NumberFormat.getPercentInstance();
         percentageFormatter.setMaximumFractionDigits(2);
-
         chartLeftAxisFormatter = new LeftAxisFormatter();
-        firebaseAuth = FirebaseAuth.getInstance();
     }
 
     @Nullable
@@ -86,6 +84,7 @@ public class SecurityDetailsFragment extends BaseFragment {
         simulateValue = new MutableLiveData<>();
         setupChart(rootView);
         securityId = SecurityDetailsFragmentArgs.fromBundle(requireArguments()).getSecurityId();
+
         securityDetailsViewModel.getLiveDataById(securityId).observe(getViewLifecycleOwner(), securityResource -> {
             if (securityResource.getData() != null) {
                 Security security = securityResource.getData();
@@ -105,7 +104,6 @@ public class SecurityDetailsFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         MainActivity.getAppStateViewModel()
                 .setComponents(new VisualComponents(true, false));
-
         navController = Navigation.findNavController(view);
         handleOnBackPressed();
     }
@@ -120,7 +118,6 @@ public class SecurityDetailsFragment extends BaseFragment {
         Snackbar.make(root, R.string.fetch_error, Snackbar.LENGTH_LONG).show();
     }
 
-
     private void handleOnBackPressed() {
         OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
             @Override
@@ -134,11 +131,11 @@ public class SecurityDetailsFragment extends BaseFragment {
     }
 
     private void updateChartWithSimulateValue(Double minValue) {
-        simulateValue.observe(getViewLifecycleOwner(), aDouble -> {
-            Double simulateValue = this.simulateValue.getValue();
-            if (simulateValue >= minValue) {
+        simulateValue.observe(getViewLifecycleOwner(), simulateDouble -> {
+            Log.d("SIMULATEVALUE", String.valueOf(simulateDouble));
+            if (simulateDouble >= minValue) {
                 applyAnnualIncomeValues(observableSecurity.toSecurity());
-                updateChartDataWithSimulateValue(chart);
+                updateChartDataWithSimulateValue(simulateDouble);
             } else {
                 setErrorEditTextWhenSimulateValueIsLessThan(minValue);
             }
@@ -215,13 +212,13 @@ public class SecurityDetailsFragment extends BaseFragment {
                 + " " + currencyFormatter.format(minInvValue));
     }
 
-    private void updateChartDataWithSimulateValue(BarChart chart) {
-        updateChartDataSet(observableSecurity.toSecurity(), chart);
+    private void updateChartDataWithSimulateValue(Double simulateDouble) {
+        updateChartDataSet(observableSecurity.toSecurity(), simulateDouble);
         dataBinder.securityDetailSimulateValue.setErrorEnabled(false);
     }
 
-    private void updateChartDataSet(Security security, BarChart chart) {
-        BarDataSet barDataSet = new BarDataSet(addDataValues(security), "");
+    private void updateChartDataSet(Security security, Double simulateDouble) {
+        BarDataSet barDataSet = new BarDataSet(addDataValues(security, simulateDouble), "");
         barDataSet.setGradientColors(setupBarColors());
         barDataSet.setValueTextColor(graphTextColor);
         barDataSet.setValueTextSize(16f);
@@ -288,12 +285,12 @@ public class SecurityDetailsFragment extends BaseFragment {
         return gradientColors;
     }
 
-    private List<BarEntry> addDataValues(Security security) {
+    private List<BarEntry> addDataValues(Security security, Double simulateDouble) {
         List<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(0, security.getTotalTax(simulateValue.getValue())));
-        entries.add(new BarEntry(1, security.getTotalGrossIncome(simulateValue.getValue())));
-        entries.add(new BarEntry(2, security.getTotalLiquidIncome(simulateValue.getValue())));
-        entries.add(new BarEntry(3, security.getLiquidIncomeTotalAmount(simulateValue.getValue())));
+        entries.add(new BarEntry(0, security.getTotalTax(simulateDouble)));
+        entries.add(new BarEntry(1, security.getTotalGrossIncome(simulateDouble)));
+        entries.add(new BarEntry(2, security.getTotalLiquidIncome(simulateDouble)));
+        entries.add(new BarEntry(3, security.getLiquidIncomeTotalAmount(simulateDouble)));
         return entries;
     }
 
